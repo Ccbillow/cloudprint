@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <!-- 设置使用注解的类所在的jar包 -->
+    <context:component-scan base-package="cn.cqupt.controller"/>
+
+    <!-- 开启注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <!-- 处理静态资源文件 -->
+    <mvc:resources location="/resources/" mapping="/resources/**" />
+
+    <!-- 配置html视图 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 配置文件上传解析器 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上面配置是固定的，下面是配置上传文件的最大大小 -->
+        <property name="maxUploadSize" value="1000000"/>
+    </bean>
+
+    <!-- 全局异常配置 start -->
+    <!--<bean id="exceptionResolver"-->
+          <!--class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>     &lt;!&ndash; 配置异常 &ndash;&gt;-->
+                <!--<prop key="java.lang.Exception">error</prop>-->
+                <!--<prop key="java.lang.Throwable">error</prop>-->
+                <!--<prop key="cn.cqupt.util.CPException">error</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+</beans>
