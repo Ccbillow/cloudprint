@@ -44,7 +44,7 @@ public class PrintFileWebContriller {
     @ResponseBody
     public String uploadFile(String number, String status, String isColorful, String isDelete,
                              @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request) {
-        logger.info("PrintFileWebContriller uploadFile ");
+        logger.info("PrintFileWebContriller uploadFile begin ");
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
         String path;
@@ -60,14 +60,13 @@ public class PrintFileWebContriller {
         //把文件存入阿里云，得到路径
         logger.info("开始将文件存入阿里云");
         try {
-            path = CPHelps.uploadFileToOSS("18580741650"//loginUser.getMobile()
-                    , file);
+            path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
             logger.info("文件存入阿里云结束 path : " + path);
             pf.setPath(path);
         } catch (IOException e) {
             result.put("status", 1);
             result.put("message", "将文件存入阿里云出错");
-            logger.error("将文件存入阿里云出错  出错信息：{}", e);
+            logger.error("PrintFileWebContriller uploadFile 将文件存入阿里云出错  出错信息 e:{}", e);
             return JSON.toJSONString(result);
         }
 
@@ -83,7 +82,7 @@ public class PrintFileWebContriller {
         } else {
             result.put("status", 1);
             result.put("message", "暂不支持文件类型");
-            logger.error("暂不支持文件类型");
+            logger.error("PrintFileWebContriller uploadFile 暂不支持文件类型");
             return JSON.toJSONString(result);
         }
         pf.setFilename(filename);
@@ -123,6 +122,7 @@ public class PrintFileWebContriller {
             pf.setStatus(1);
         }
         logger.info("PrintFileWebContriller uploadFile start... file:{}", pf);
+
         result = printFileService.addPrintFile(pf, loginUser);
         return JSON.toJSONString(result);
     }
@@ -251,13 +251,6 @@ public class PrintFileWebContriller {
         logger.info("UserController print start... code:{}, state:{} ", code, state);
 
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = (User) req.getSession().getAttribute("loginUser");
-        if (loginUser == null) {
-            result.put("status", 1);
-            result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller deleteFile user is not logining");
-            return JSON.toJSONString(result);
-        }
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         String content;
@@ -266,11 +259,11 @@ public class PrintFileWebContriller {
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
                 result.put("message", "微信扫码，Code无效错误");
-                logger.error("UserController print code is wrong");
+                logger.error("UserController print weixin code is wrong");
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
                 WeChatResponse wc = JacksonUtil.deSerialize(content, WeChatResponse.class);
-                result = printFileService.print(loginUser.getId(), wc.getOpenid(), state);
+                result = printFileService.print(wc.getOpenid(), state);
             }
         } catch (IOException e) {
             result.put("status", 1);

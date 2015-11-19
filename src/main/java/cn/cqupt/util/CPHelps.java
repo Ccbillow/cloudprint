@@ -95,14 +95,14 @@ public class CPHelps {
     /**
      * 上传文件到oss，返回objectkey，通过这个可以进行登录客户端下载
      *
-     * @param phone
+     * @param weixin
      * @param file
      * @return
      * @throws IOException
      */
-    public static String uploadFileToOSS(String phone, CommonsMultipartFile file) throws IOException {
+    public static String uploadFileToOSS(String weixin, CommonsMultipartFile file) throws IOException {
         //生成Object路径，文件夹phone区分，文件名
-        String objectKey = phone + "/" + file.getOriginalFilename();
+        String objectKey = weixin + "/" + file.getOriginalFilename();
 //        OSSClient client = OSSUtils.getOSSClient();
         OSSClient client = OSSUtils.getOSSClient();
         //把Bucket设置成所有人可读

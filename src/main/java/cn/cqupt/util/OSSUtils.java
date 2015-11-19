@@ -88,17 +88,11 @@ public class OSSUtils {
     public static void deleteObject(OSSClient client, String objectKey) {
         client.deleteObject(CPConstant.BUCKET_NAME, objectKey);
 
-        // 构造ListObjectsRequest请求
-        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(CPConstant.BUCKET_NAME);
-
-        // 递归列出指定用户（目录根据phone区别）目录下的所有文件
-        listObjectsRequest.setPrefix(objectKey.substring(0, 11));
-
-        ObjectListing listing = client.listObjects(listObjectsRequest);
-
-        //如果该用户没有文件，则将这个文件夹删除
-        if (listing.getObjectSummaries().size() <= 1) {
-            client.deleteObject(CPConstant.BUCKET_NAME, objectKey.substring(0, 12));
+        //删除目录
+        String[] split = objectKey.split("/");
+        String directory = split[0];
+        if (client.listObjects(CPConstant.BUCKET_NAME, directory).getObjectSummaries().size() <= 0) {
+            client.deleteObject(CPConstant.BUCKET_NAME, directory);
         }
     }
 

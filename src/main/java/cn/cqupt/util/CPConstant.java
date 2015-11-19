@@ -1,8 +1,5 @@
 package cn.cqupt.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 /**
  * 云打印用到的一些常量
  */

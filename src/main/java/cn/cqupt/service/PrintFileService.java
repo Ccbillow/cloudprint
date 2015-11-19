@@ -22,6 +22,6 @@ public interface PrintFileService {
 
     void timingDelete();
 
-    HashMap<String, Object> print(int uid, String openid, String printerId);
+    HashMap<String, Object> print(String openid, String printerId);
 
 }

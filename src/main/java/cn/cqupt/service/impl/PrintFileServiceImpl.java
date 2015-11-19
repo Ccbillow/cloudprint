@@ -66,7 +66,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
                     result.put("status", 1);
                     result.put("message", "不能重复添加文件");
-                    logger.error("PrintFileServiceImpl addPrintFile file is double");
+                    logger.error("PrintFileServiceImpl addPrintFile file is not allowed to repeated");
                     return result;
                 }
             }
@@ -80,7 +80,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         }
         result.put("status", 0);
         result.put("message", "添加文件成功");
-        logger.info("PrintFileServiceImpl addPrintFile success");
+        logger.info("PrintFileServiceImpl addPrintFile success, The file:{}", file);
         return result;
     }
 
@@ -105,6 +105,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         }
 
         try {
+            logger.info("PrintFileService deletePrintFile delete from aliyun file:{}", printFile.getPath().substring(CPConstant.OSS_URL.length()));
             //需要从阿里云上删除文件
             OSSUtils.deleteObject(OSSUtils.getOSSClient(), printFile.getPath().substring(CPConstant.OSS_URL.length()));
 
@@ -134,14 +135,15 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     public HashMap<String, Object> updatePrintFile(int pid, int number, String isColorful) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("PrintFileService updatePrintFile pid:{}, number:{} ", pid, number);
+        logger.info("PrintFileService updatePrintFile start pid:{}, number:{}, isColorful:{} ", pid, number, isColorful);
 
         try {
             PrintFile tempFile = printFileDao.loadPrintFile(pid);
             tempFile.setNumber(number);
             tempFile.setIsColorful(Integer.parseInt(isColorful));
+            logger.info("PrintFileService updatePrintFile file:{}", tempFile);
             printFileDao.updatePrintFile(tempFile);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "更新文件失败，详情请看日志");
             logger.error("PrintFileServiceImpl updatePrintFile fail e:{} ", e);
@@ -162,14 +164,14 @@ public class PrintFileServiceImpl implements PrintFileService {
         result.put("file", tempFile);
         result.put("status", 0);
         result.put("message", "加载文件成功");
-        logger.info("PrintFileServiceImpl loadPrintFile success");
+        logger.info("PrintFileServiceImpl loadPrintFile success, file:{}", tempFile);
         return result;
     }
 
     public HashMap<String, Object> findPrintFiles(int uid, int pageNow, int status) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService findAllPrintFile uid:{} ", uid);
+        logger.info("PrintFileService findAllPrintFile uid:{}, pageNow:{}, status:{}", uid, pageNow, status);
 
         int pageNum = 0;//总页数
         List<PrintFile> files = null;
@@ -193,7 +195,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         result.put("message", "查找文件成功");
         result.put("totalPage", pageNum);  //总页数
         result.put("nextPageNum", pageNow + 1); //下一页
-        logger.info("PrintFileServiceImpl findAllPrintFile success");
+        logger.info("PrintFileServiceImpl findAllPrintFile success, files:{}, pageNum:{}, nextPageNum:{}", files, pageNum, pageNow + 1);
         return result;
     }
 
@@ -228,6 +230,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.updatePrintFile(temp);
             }
         }
+        logger.info("PrintFileServiceImpl timingDelete delete pidsPrinted success!!!");
 
         //2.3.删除超过3天的待打印，已上传文件
         param2.put("overdueTime", DateUtils.getNowTime());   //超过了三天
@@ -247,6 +250,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.deletePrintFile(pidsBy3Days.get(i));
             }
         }
+        logger.info("PrintFileServiceImpl timingDelete delete pidsBy3Days success!!!");
 
         //4.保存三天后删除已打印中文件，不删数据库，不删除关联，将path变为空
         param3.put("overdueTime", DateUtils.getNowTime());  //超过了三天
@@ -265,39 +269,43 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.updatePrintFile(temp);
             }
         }
+        logger.info("PrintFileServiceImpl timingDelete delete pidsBy3DaysPrinted success!!!");
 
         logger.info("PrintFileService timingDelete end... " + DateUtils.getNowTime() + " and it cost " + (System.currentTimeMillis() - start));
     }
 
-    public HashMap<String, Object> print(int uid, String openid, String printerId) {
+    public HashMap<String, Object> print(String openid, String printerId) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService print uid:{}, openid:{}, printerId:{} ", uid, openid, printerId);
+        logger.info("PrintFileService print openid:{}, printerId:{} ", openid, printerId);
 
-        User tuser = userDao.loadUserById(uid);
+        User tuser = userDao.loadUserByOpenId(openid);
         //如果此用户没有绑定，或者微信号不相等，则打印错误
-        if ("0".equalsIgnoreCase(tuser.getIsBinding()) || !tuser.getWeixin().equalsIgnoreCase(openid)) {
+        if (tuser == null) {
             result.put("status", 1);
-            result.put("message", "文件打印失败，微信号错误，请用正确的微信号扫描!!!");
-            logger.error("PrintFileServiceImpl print error");
+            result.put("message", "文件打印失败，此微信没有绑定，请用正确的微信号扫描");
+            logger.error("PrintFileServiceImpl print error, openId is wrong");
             return result;
         }
 
-        //如果微信号相等，则验证通，通过uid查找到所有待打印文件
-        params.put("uid", uid);
+        //如果绑定，通过uid查找到所有待打印文件
+        params.put("uid", tuser.getId());
         params.put("status", "0");
         params.put("rows", 0);
         List<PrintFile> files = printFileDao.findPrintFiles(params);
-        if (files == null) {
+        if (files.size() <= 0) {
             result.put("status", 1);
             result.put("message", "没有待打印文件，请确认");
-            logger.error("PrintFileServiceImpl printfiles is null");
+            logger.error("PrintFileServiceImpl printfiles There are no files being ready to printed");
             return result;
         }
 
         //TODO 对文件依次，调用客户端进行打印操作
         for (int i = 0; i < files.size(); i++) {
             PrintFile file = files.get(i);
+            logger.info("PrintFileServiceImpl printfiles The file is ready to printed, file:{}", file);
+
+
         }
 
         result.put("status", 0);
