@@ -1,5 +1,8 @@
 package cn.cqupt.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * 云打印用到的一些常量
  */
@@ -62,7 +65,8 @@ public class CPConstant {
     /**
      * 跳转页面
      */
-    public static final String REDIRECT_URL = "http%3a%2f%2f114.215.143.80:3000%2fyztest.html";
+    public static final String BINDING_REDIRECT_URL = "http://114.215.143.80:8080/cloudprint/user/bindingWeChat";
+
     /**
      * 二维码中Image路径
      */

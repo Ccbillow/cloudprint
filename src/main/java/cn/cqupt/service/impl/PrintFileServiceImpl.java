@@ -278,7 +278,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         //如果此用户没有绑定，或者微信号不相等，则打印错误
         if ("0".equalsIgnoreCase(tuser.getIsBinding()) || !tuser.getWeixin().equalsIgnoreCase(openid)) {
             result.put("status", 1);
-            result.put("message", "文件打印错误，微信号错误，请用正确的微信号扫描!!!");
+            result.put("message", "文件打印失败，微信号错误，请用正确的微信号扫描!!!");
             logger.error("PrintFileServiceImpl print error");
             return result;
         }

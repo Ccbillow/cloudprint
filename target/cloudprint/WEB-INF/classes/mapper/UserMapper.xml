@@ -12,6 +12,10 @@
         select * from t_user where mobile=#{mobile}
     </select>
 
+    <select id="loadUserByOpenId" parameterType="String" resultType="User">
+        select * from t_user where weixin=#{weixin}
+    </select>
+
     <select id="loadUserById" parameterType="Integer" resultType="User">
         select * from t_user where id=#{id}
     </select>

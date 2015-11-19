@@ -148,33 +148,34 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    public HashMap<String, Object> bindingWeChat(String openid, String state) {
+    public HashMap<String, Object> bindingWeChat(String openid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl bindingWeChat openid: " + openid + " state " + state);
+        logger.info("UserServiceImpl bindingWeChat openid:{} ", openid);
 
         try {
-            User temp = userDao.loadUserByMobile(state);
-            //TODO 如果已经绑定，则绑定失败，此版本只允许绑定一次
-            if ("1".equalsIgnoreCase(temp.getIsBinding())) {
-                result.put("status", 1);
-                result.put("message", "绑定微信失败，此用户已经绑定");
-                logger.error("UserServiceImpl bindingWeChat fail, the user is already bindinged");
-                return result;
-                //如果没有绑定，则为这个用户添加微信号，并设置为已绑定
-            } else if ("0".equalsIgnoreCase(temp.getIsBinding())) {
-                temp.setWeixin(openid);
-                temp.setIsBinding("1");
-                userDao.updateUser(temp);
+            User temp = userDao.loadUserByOpenId(openid);
+            if (temp == null) {
+                User user = new User();
+                user.setWeixin(openid);
+                user.setIsBinding("1");
+                //默认昵称为微信号
+                user.setNickname(openid);
+                userDao.addUser(user);
+                result.put("message", "此微信未绑定，已经添加用户，并自动登录");
+                result.put("loginUser", user);
+                logger.info("UserServiceImpl bindingWeChat success！！！");
+            } else {
+                result.put("message", "此微信已绑定，自动登录");
+                result.put("loginUser", temp);
+                logger.info("UserServiceImpl bindingWeChat login！！！");
             }
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "绑定微信操作失败，请查看日志");
-            logger.error("UserServiceImpl bindingWeChat error : {}", e);
+            logger.error("UserServiceImpl bindingWeChat error:{}", e);
             return result;
         }
         result.put("status", 0);
-        result.put("message", "微信绑定成功");
-        logger.info("UserServiceImpl bindingWeChat success");
         return result;
     }
 }

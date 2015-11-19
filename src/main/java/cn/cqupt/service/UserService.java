@@ -19,6 +19,6 @@ public interface UserService {
 
     HashMap<String, Object> refundPassword(String mobile, String password);
 
-    HashMap<String, Object> bindingWeChat(String openid, String state);
+    HashMap<String, Object> bindingWeChat(String openid);
 
 }

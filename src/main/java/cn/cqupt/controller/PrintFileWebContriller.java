@@ -3,7 +3,7 @@ package cn.cqupt.controller;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.PrintType;
 import cn.cqupt.model.User;
-import cn.cqupt.model.WeChat;
+import cn.cqupt.model.WeChatResponse;
 import cn.cqupt.service.PrintFileService;
 import cn.cqupt.util.*;
 import com.alibaba.fastjson.JSON;
@@ -269,18 +269,18 @@ public class PrintFileWebContriller {
                 logger.error("UserController print code is wrong");
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
-                WeChat wc = JacksonUtil.deSerialize(content, WeChat.class);
+                WeChatResponse wc = JacksonUtil.deSerialize(content, WeChatResponse.class);
                 result = printFileService.print(loginUser.getId(), wc.getOpenid(), state);
             }
         } catch (IOException e) {
             result.put("status", 1);
             result.put("message", "访问" + accessTokenURL + "出错");
-            logger.error("UserController print accessTokenURL error:{}", e);
+            logger.error("PrintFileWebContriller print accessTokenURL error:{}", e);
             return JSON.toJSONString(result);
         } catch (Exception ie) {
             result.put("status", 1);
             result.put("message", "打印失败，详情请查看日志");
-            logger.error("UserController print error:{}", ie);
+            logger.error("PrintFileWebContriller print error:{}", ie);
             return JSON.toJSONString(result);
         }
         return JSON.toJSONString(result);

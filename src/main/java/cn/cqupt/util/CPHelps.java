@@ -10,6 +10,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -115,15 +116,14 @@ public class CPHelps {
     /**
      * 得到微信绑定的url生成二维码图片
      *
-     * @param mobile
      * @return
      */
-    public static String getBingdingURL(String mobile) {
+    public static String getBingdingURL() throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         sb.append(CPConstant.WEIXIN_BINDING_URL).append("?appid=")
                 .append(CPConstant.APP_ID).append("&redirect_uri=")
-                .append(CPConstant.REDIRECT_URL).append("&response_type=code&scope=snsapi_base&state=")
-                .append(mobile).append("#wechat_redirect");
+                .append(URLEncoder.encode(CPConstant.BINDING_REDIRECT_URL, "UTF-8"))
+                .append("&response_type=code&scope=snsapi_base#wechat_redirect");
         return sb.toString();
     }
 

@@ -1,7 +1,7 @@
 package cn.cqupt.controller;
 
 import cn.cqupt.model.User;
-import cn.cqupt.model.WeChat;
+import cn.cqupt.model.WeChatResponse;
 import cn.cqupt.service.UserService;
 import cn.cqupt.util.CPHelps;
 import cn.cqupt.util.JacksonUtil;
@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
@@ -43,18 +44,17 @@ public class UserWebController {
     @RequestMapping(value = "/getUserMessage", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getUserMessage(HttpServletRequest req) {
-        logger.info("UserController getUserMessage ");
+        logger.info("UserWebController getUserMessage");
 
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) req.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("UserController user is not logining ");
+            logger.error("UserWebController user do not login");
             return JSON.toJSONString(result);
         }
 
-        loginUser.setPassword("");
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
@@ -64,14 +64,14 @@ public class UserWebController {
     @RequestMapping(value = "/getValidateCode", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getValidateCode(String mobile, HttpServletRequest req) {
-        logger.info("UserController getValidateCode mobile:{}", mobile);
+        logger.info("UserWebController getValidateCode mobile:{}", mobile);
 
         HashMap<String, Object> result = userService.sendSMS(mobile);
 
         String validateCode = (String) result.get("validateCode");
         req.getSession().setAttribute("validateCode", validateCode);
         result.remove("validateCode");
-        logger.info("UserController getValidateCode saving valiteCode to session " + validateCode);
+        logger.info("UserWebController getValidateCode saving valiteCode to session " + validateCode);
         return JSON.toJSONString(result);
     }
 
@@ -81,19 +81,19 @@ public class UserWebController {
     public String registerUser(String mobile, String password, String nickname, String VCode,
                                HttpServletRequest req) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserController registerUser mobile:{}, password:{}, nickname:{}, VCode:{}", mobile, password, nickname, VCode);
+        logger.info("UserWebController registerUser mobile:{}, password:{}, nickname:{}, VCode:{}", mobile, password, nickname, VCode);
         String validateCode = (String) req.getSession().getAttribute("validateCode");
         if (Strings.isNullOrEmpty(validateCode) || !validateCode.equalsIgnoreCase(VCode)) {
             result.put("status", 1);
             result.put("message", "验证码输入有误");
-            logger.error("registerUser fail : validateCode is wrong");
+            logger.error("UserWebController registerUser fail : validateCode is wrong");
             return JSON.toJSONString(result);
         }
 
         if (Strings.isNullOrEmpty(mobile) || Strings.isNullOrEmpty(password)) {
             result.put("status", 1);
             result.put("message", "手机号或者密码不能为空");
-            logger.error("registerUser fail : mobile or password is empty!!");
+            logger.error("UserWebController registerUser fail : mobile or password is empty!!");
             return JSON.toJSONString(result);
         }
         User user = new User();
@@ -109,10 +109,10 @@ public class UserWebController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/m", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String login(String mobile, String password, HttpServletRequest req) {
-        logger.info("UserController login mobile:{}, password:{}", mobile, password);
+        logger.info("UserWebController login mobile:{}, password:{}", mobile, password);
 
         HashMap<String, Object> result = userService.login(mobile, password);
         if (result.containsKey("loginUser")) {
@@ -131,19 +131,19 @@ public class UserWebController {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "注销失败");
-            logger.error("logout error:{}", e);
+            logger.error("UserWebController logout error:{}", e);
             return JSON.toJSONString(result);
         }
         result.put("status", 0);
         result.put("message", "注销成功");
-        logger.info("logout success");
+        logger.info("UserWebController logout success");
         return JSON.toJSONString(result);
     }
 
     @RequestMapping(value = "/update/{uid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String update(@PathVariable String id, String password, String nickname, HttpServletRequest req) {
-        logger.info("UserController update id:{}, password:{}, nickname:{}", id, password, nickname);
+        logger.info("UserWebController update id:{}, password:{}, nickname:{}", id, password, nickname);
 
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) req.getSession().getAttribute("loginUser");
@@ -152,7 +152,7 @@ public class UserWebController {
         } else {
             result.put("status", 1);
             result.put("message", "登陆用户和被修改用户不一致");
-            logger.error("update fail : loginUser is wrong");
+            logger.error("UserWebController update fail : 登陆用户和被修改用户不一致");
             return JSON.toJSONString(result);
         }
         return JSON.toJSONString(result);
@@ -161,14 +161,14 @@ public class UserWebController {
     @RequestMapping(value = "/refundPassword", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String updatePassword(String password, String VCode, String mobile, HttpServletRequest req) {
-        logger.info("UserController refundPassword  VCode:{}, mobile:{} ", VCode, mobile);
+        logger.info("UserWebController refundPassword  VCode:{}, mobile:{} ", VCode, mobile);
         HashMap<String, Object> result = Maps.newHashMap();
 
         String validateCode = (String) req.getSession().getAttribute("validateCode");
         if (Strings.isNullOrEmpty(validateCode) || !validateCode.equalsIgnoreCase(VCode)) {
             result.put("status", 1);
             result.put("message", "验证码输入有误");
-            logger.error("registerUser fail : validateCode is wrong");
+            logger.error("UserWebController updatePassword fail : validateCode is wrong");
             return JSON.toJSONString(result);
         }
         if (!Strings.isNullOrEmpty(mobile)) {
@@ -178,14 +178,14 @@ public class UserWebController {
     }
 
     @RequestMapping(value = "/getQRCode")
-    public void getQRCode(String mobile, HttpServletResponse response) {
-        logger.info("UserController getQRCode mobile : {} ", mobile);
-
-        String bindingURL = CPHelps.getBingdingURL(mobile);
-        logger.info("UserController getQRCode binding url : " + bindingURL);
+    public void getQRCode(HttpServletResponse response) {
         InputStream is = null;
+        String bindingURL;
+        BufferedImage image;
         try {
-            BufferedImage image = QRCodeUtil.createImage(bindingURL, null, true);
+            bindingURL = CPHelps.getBingdingURL();
+            logger.info("UserWebController getQRCode binding url : " + bindingURL);
+            image = QRCodeUtil.createImage(bindingURL, null, true);
 
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -194,11 +194,11 @@ public class UserWebController {
             byte[] b = new byte[is.available()];
             is.read(b);
             out.write(b);
-            logger.info("UserController getQRCode image writing success");
+            logger.info("UserWebController getQRCode image writing success");
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("UserController getQRCode error : {}", e);
+            logger.error("UserWebController getQRCode error : {}", e);
         } finally {
             if (is != null) {
                 try {
@@ -212,32 +212,18 @@ public class UserWebController {
 
     /**
      * 页面扫码，绑定微信账号
-     * 此时state为用户电话号码
      *
      * @param code  通过code得到access_token,通过access_token得到用户openid
-     * @param state 电话号码
      * @param req
      * @return
      */
     @RequestMapping(value = "/bindingWeChat", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String bindingWeChat(String code, String state, HttpServletRequest req) {
-        logger.info("UserController bindingWeChat start... code:{}, state:{} ", code, state);
+    public String bindingWeChat(String code, HttpServletRequest req) {
+        logger.info("UserWebController bindingWeChat start... code:{}", code);
 
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = (User) req.getSession().getAttribute("loginUser");
-        if (loginUser == null) {
-            result.put("status", 1);
-            result.put("message", "请登录后操作");
-            logger.error("UserController bindingWeChat user is not logining");
-            return JSON.toJSONString(result);
-        }
-        if (!loginUser.getMobile().equalsIgnoreCase(state)) {
-            result.put("status", 1);
-            result.put("message", "手机号码和登录用户不一致");
-            logger.error("UserController bindingWeChat mobile is not the same as loginUser");
-            return JSON.toJSONString(result);
-        }
+        HttpSession session = req.getSession();
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         String content;
@@ -245,22 +231,25 @@ public class UserWebController {
             content = CPHelps.HttpGet(accessTokenURL);
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
-                result.put("message", "绑定微信，Code无效错误");
-                logger.error("UserController bindingWeChat code is wrong");
+                result.put("message", "绑定微信失败，Code无效错误");
+                logger.error("UserWebController bindingWeChat code is wrong e:{}", content);
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
-                WeChat wc = JacksonUtil.deSerialize(content, WeChat.class);
-                result = userService.bindingWeChat(wc.getOpenid(), state);
+                WeChatResponse wc = JacksonUtil.deSerialize(content, WeChatResponse.class);
+                result = userService.bindingWeChat(wc.getOpenid());
+                //放入session
+                User user = (User) result.get("loginUser");
+                session.setAttribute("loginUser", user);
             }
         } catch (IOException e) {
             result.put("status", 1);
-            result.put("message", "访问" + accessTokenURL + "出错");
-            logger.error("UserController bindingWeChat accessTokenURL error:{}", e);
+            result.put("message", "绑定微信失败，访问" + accessTokenURL + "出错");
+            logger.error("UserWebController bindingWeChat accessTokenURL error:{}", e);
             return JSON.toJSONString(result);
         } catch (Exception ie) {
             result.put("status", 1);
-            result.put("message", "绑定微信失败");
-            logger.error("UserController bindingWeChat error:{}", ie);
+            result.put("message", "绑定微信失败，详情请查看日志");
+            logger.error("UserWebController bindingWeChat error:{}", ie);
             return JSON.toJSONString(result);
         }
         return JSON.toJSONString(result);

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by fubingdao on 14/11/29.
  */
 public class JacksonUtil {
-    private static Logger logger = Logger.getLogger(JacksonUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -61,9 +61,9 @@ public class JacksonUtil {
             return null;
         }
     }
-    
-	public static Map<?,?> jsonToMap(String json) throws IOException {
+
+    public static Map<?, ?> jsonToMap(String json) throws IOException {
         return mapper.readValue(json, HashMap.class);
     }
-    
+
 }
