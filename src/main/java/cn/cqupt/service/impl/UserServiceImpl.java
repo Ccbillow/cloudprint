@@ -6,7 +6,8 @@ import cn.cqupt.service.UserService;
 import cn.cqupt.util.CPHelps;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private UserDao userDao;
 
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
         } catch (IOException e) {
             logger.error("发送验证码失败 e:{}", e);
             map.put("status", 1);
-            map.put("message", "添加的用户已经存在");
+            map.put("message", "发送验证码失败");
             return map;
 //            throw new CPException("发送验证码失败");
         }
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
 //            throw new CPException("添加的用户已经存在");
             result.put("status", 1);
             result.put("message", "添加的用户已经存在");
-            logger.info("registerUser fail : mobile has already existed");
+            logger.error("registerUser fail : mobile has already existed");
             return result;
         }
         userDao.addUser(user);
@@ -78,12 +79,12 @@ public class UserServiceImpl implements UserService {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "用户不存在");
-            logger.info("UserServiceImpl login fail : user does not exist");
+            logger.error("UserServiceImpl login fail : user does not exist");
             return result;
         } else if (!password.equalsIgnoreCase(loginUser.getPassword())) {
             result.put("status", 1);
             result.put("message", "密码错误");
-            logger.info("UserServiceImpl login fail : password is wrong");
+            logger.error("UserServiceImpl login fail : password is wrong");
             return result;
         }
         loginUser.setPassword("");
@@ -129,7 +130,7 @@ public class UserServiceImpl implements UserService {
             if (temp == null) {
                 result.put("status", 1);
                 result.put("message", "重置密码失败，此用户不存在");
-                logger.info("UserServiceImpl refundPassword fail, mobile is not exist");
+                logger.error("UserServiceImpl refundPassword fail, mobile is not exist");
                 return result;
             }
             //密码重置为password
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "重置密码操作失败，请查看日志");
-            logger.info("UserServiceImpl refundPassword errpr : {}", e);
+            logger.error("UserServiceImpl refundPassword errpr : {}", e);
             return result;
         }
         result.put("status", 0);
@@ -157,7 +158,7 @@ public class UserServiceImpl implements UserService {
             if ("1".equalsIgnoreCase(temp.getIsBinding())) {
                 result.put("status", 1);
                 result.put("message", "绑定微信失败，此用户已经绑定");
-                logger.info("UserServiceImpl bindingWeChat fail, the user is already bindinged");
+                logger.error("UserServiceImpl bindingWeChat fail, the user is already bindinged");
                 return result;
                 //如果没有绑定，则为这个用户添加微信号，并设置为已绑定
             } else if ("0".equalsIgnoreCase(temp.getIsBinding())) {
@@ -168,7 +169,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "绑定微信操作失败，请查看日志");
-            logger.info("UserServiceImpl bindingWeChat error : {}", e);
+            logger.error("UserServiceImpl bindingWeChat error : {}", e);
             return result;
         }
         result.put("status", 0);

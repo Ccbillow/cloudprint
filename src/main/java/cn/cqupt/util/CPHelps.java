@@ -1,6 +1,5 @@
 package cn.cqupt.util;
 
-import cn.cqupt.model.WeChat;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -9,7 +8,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -22,6 +22,7 @@ public class CPHelps {
 
     /**
      * 生成4位验证码
+     *
      * @return
      */
     public static String getValidateCode() {
@@ -30,10 +31,10 @@ public class CPHelps {
     }
 
     /**
-        功能:		web.cr6868.com HTTP接口 发送短信
-
-        说明:		http://web.cr6868.com/asmx/smsservice.aspx?name=登录名&pwd=接口密码&mobile=手机号码&content=内容&sign=签名&stime=发送时间&type=pt&extno=自定义扩展码
-    */
+     * 功能:		web.cr6868.com HTTP接口 发送短信
+     * <p/>
+     * 说明:		http://web.cr6868.com/asmx/smsservice.aspx?name=登录名&pwd=接口密码&mobile=手机号码&content=内容&sign=签名&stime=发送时间&type=pt&extno=自定义扩展码
+     */
     public static String sendSMS(String mobile, String SMSCode) throws IOException {
         StringBuffer sb = new StringBuffer();
         sb.append(CPConstant.SMS_URL).append("name=").append(CPConstant.SMS_USERNAME)
@@ -92,6 +93,7 @@ public class CPHelps {
 
     /**
      * 上传文件到oss，返回objectkey，通过这个可以进行登录客户端下载
+     *
      * @param phone
      * @param file
      * @return
@@ -112,6 +114,7 @@ public class CPHelps {
 
     /**
      * 得到微信绑定的url生成二维码图片
+     *
      * @param mobile
      * @return
      */
@@ -126,6 +129,7 @@ public class CPHelps {
 
     /**
      * 得到微信AccessToken的url
+     *
      * @param code
      * @return
      */

@@ -10,7 +10,8 @@ import cn.cqupt.util.DateUtils;
 import cn.cqupt.util.OSSUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ import java.util.Map;
 @Service("printFileService")
 public class PrintFileServiceImpl implements PrintFileService {
 
-    private static Logger logger = Logger.getLogger(PrintFileServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PrintFileServiceImpl.class);
 
     private PrintFileDao printFileDao;
     private UserDao userDao;
@@ -42,7 +43,7 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> addPrintFile(PrintFile file, User loginUser) {
         HashMap<String, Object> result = Maps.newHashMap();
         Map<String, Integer> params = Maps.newHashMap();
-        logger.info("PrintFileService addPrintFile : " + file.getSha1());
+        logger.info("PrintFileService addPrintFile:{} ", file.getSha1());
 
         try {
             params.put("uid", loginUser.getId());
@@ -65,7 +66,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
                     result.put("status", 1);
                     result.put("message", "不能重复添加文件");
-                    logger.info("PrintFileServiceImpl addPrintFile success");
+                    logger.error("PrintFileServiceImpl addPrintFile file is double");
                     return result;
                 }
             }
@@ -74,7 +75,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "添加文件失败，详情请查看日志");
-            logger.info("PrintFileServiceImpl addPrintFile fail : {} ", e);
+            logger.error("PrintFileServiceImpl addPrintFile fail : {} ", e);
             return result;
         }
         result.put("status", 0);
@@ -93,7 +94,7 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> deletePrintFile(int uid, int pid) {
         HashMap<String, Object> result = Maps.newHashMap();
         Map<String, Integer> params = Maps.newHashMap();
-        logger.info("PrintFileService deletePrintFile : " + uid + " " + pid);
+        logger.info("PrintFileService deletePrintFile uid:{}, pid:{} ", uid, pid);
 
         PrintFile printFile = printFileDao.loadPrintFile(pid);
         if (printFile == null) {
@@ -121,10 +122,9 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "删除文件失败，详情请看日志");
-            logger.info("PrintFileServiceImpl deletePrintFile fail e：{} ", e);
+            logger.error("PrintFileServiceImpl deletePrintFile fail e:{} ", e);
             return result;
         }
-
 
         result.put("status", 0);
         result.put("message", "删除文件成功");
@@ -134,7 +134,7 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     public HashMap<String, Object> updatePrintFile(int pid, int number, String isColorful) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("PrintFileService updatePrintFile : " + pid + " " + number);
+        logger.info("PrintFileService updatePrintFile pid:{}, number:{} ", pid, number);
 
         try {
             PrintFile tempFile = printFileDao.loadPrintFile(pid);
@@ -144,7 +144,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (NumberFormatException e) {
             result.put("status", 1);
             result.put("message", "更新文件失败，详情请看日志");
-            logger.info("PrintFileServiceImpl updatePrintFile fail e：{} ", e);
+            logger.error("PrintFileServiceImpl updatePrintFile fail e:{} ", e);
             return result;
         }
         result.put("status", 0);
@@ -155,7 +155,7 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     public HashMap<String, Object> loadPrintFile(int pid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("PrintFileService loadPrintFile : " + pid);
+        logger.info("PrintFileService loadPrintFile pid:{} ", pid);
 
         PrintFile tempFile = printFileDao.loadPrintFile(pid);
 
@@ -169,7 +169,7 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> findPrintFiles(int uid, int pageNow, int status) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService findAllPrintFile : " + uid);
+        logger.info("PrintFileService findAllPrintFile uid:{} ", uid);
 
         int pageNum = 0;//总页数
         List<PrintFile> files = null;
@@ -185,7 +185,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "查找文件失败，详情请查看日志");
-            logger.info("PrintFileServiceImpl findPrintFiles fail e:{} ", e);
+            logger.error("PrintFileServiceImpl findPrintFiles fail e:{} ", e);
         }
 
         result.put("status", 0);
@@ -215,7 +215,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         param1.put("status", 2);        //已打印
         param1.put("isDelete", 0);      //打印完立即删除
         List<Integer> pidsPrinted = printFileDao.findPidsPrinted(param1);
-        logger.info("PrintFileServiceImpl timingDelete pidsPrinted " + pidsPrinted);
+        logger.info("PrintFileServiceImpl timingDelete pidsPrinted:{} ", pidsPrinted);
         if (pidsPrinted.size() > 0) {
             for (int i = 0; i < pidsPrinted.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsPrinted.get(i));
@@ -234,7 +234,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         param2.put("status1", "0");  //已上传
         param2.put("status2", "1");  //待打印
         List<Integer> pidsBy3Days = printFileDao.findPidsBy3Days(param2);
-        logger.info("PrintFileServiceImpl timingDelete pidsBy3Days " + pidsBy3Days);
+        logger.info("PrintFileServiceImpl timingDelete pidsBy3Days:{} ", pidsBy3Days);
         if (pidsBy3Days.size() > 0) {
             for (int i = 0; i < pidsBy3Days.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsBy3Days.get(i));
@@ -253,7 +253,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         param3.put("status", "2");  //已打印
         param2.put("isDelete", "1");  //打印完保存三天
         List<Integer> pidsBy3DaysPrinted = printFileDao.findPidsBy3DaysPrinted(param3);
-        logger.info("PrintFileServiceImpl timingDelete pidsBy3DaysPrinted " + pidsBy3DaysPrinted);
+        logger.info("PrintFileServiceImpl timingDelete pidsBy3DaysPrinted:{} ", pidsBy3DaysPrinted);
         if (pidsBy3DaysPrinted.size() > 0) {
             for (int i = 0; i < pidsBy3DaysPrinted.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsBy3DaysPrinted.get(i));
@@ -272,14 +272,14 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> print(int uid, String openid, String printerId) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService print uid : " + uid + " openid : " + openid + " printerId : " + printerId);
+        logger.info("PrintFileService print uid:{}, openid:{}, printerId:{} ", uid, openid, printerId);
 
         User tuser = userDao.loadUserById(uid);
         //如果此用户没有绑定，或者微信号不相等，则打印错误
         if ("0".equalsIgnoreCase(tuser.getIsBinding()) || !tuser.getWeixin().equalsIgnoreCase(openid)) {
             result.put("status", 1);
             result.put("message", "文件打印错误，微信号错误，请用正确的微信号扫描!!!");
-            logger.info("PrintFileServiceImpl print error");
+            logger.error("PrintFileServiceImpl print error");
             return result;
         }
 
@@ -291,7 +291,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         if (files == null) {
             result.put("status", 1);
             result.put("message", "没有待打印文件，请确认");
-            logger.info("PrintFileServiceImpl printfiles is null");
+            logger.error("PrintFileServiceImpl printfiles is null");
             return result;
         }
 

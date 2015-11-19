@@ -5,12 +5,12 @@ import cn.cqupt.model.PrintType;
 import cn.cqupt.model.User;
 import cn.cqupt.model.WeChat;
 import cn.cqupt.service.PrintFileService;
-import cn.cqupt.service.UserService;
 import cn.cqupt.util.*;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,15 +31,9 @@ import java.util.HashMap;
 @RequestMapping("/printFile")
 public class PrintFileWebContriller {
 
-    private static Logger logger = Logger.getLogger(PrintFileWebContriller.class);
+    private static final Logger logger = LoggerFactory.getLogger(PrintFileWebContriller.class);
 
-    private UserService userService;
     private PrintFileService printFileService;
-
-    @Resource(name = "userService")
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Resource(name = "printFileService")
     public void setPrintFileService(PrintFileService printFileService) {
@@ -50,17 +44,13 @@ public class PrintFileWebContriller {
     @ResponseBody
     public String uploadFile(String number, String status, String isColorful, String isDelete,
                              @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request) {
-
+        logger.info("PrintFileWebContriller uploadFile ");
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
         String path;
         String type;
 
-        User loginUser = new User();
-        loginUser.setId(1);
-        loginUser.setMobile("18580741650");
-        loginUser.setPassword("123333");
-        // (User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
@@ -110,28 +100,29 @@ public class PrintFileWebContriller {
         pf.setOverdueTime(DateUtils.unixTimestampToDate(new Date().getTime() + CPConstant.THREE_DAYS));
 
         //默认打印完立即删除，不勾选
-        if (Strings.isNullOrEmpty(isDelete) || "0".equalsIgnoreCase(isDelete)) {
+        if (Strings.isNullOrEmpty(isDelete)) {
             pf.setIsDelete(0);
             //打印完保存三天
-        } else if ("1".equalsIgnoreCase(isDelete)) {
+        } else if ("on".equalsIgnoreCase(isDelete)) {
             pf.setIsDelete(1);
         }
 
         //默认不彩印，不勾选
-        if (Strings.isNullOrEmpty(isColorful) || "0".equalsIgnoreCase(isColorful)) {
+        if (Strings.isNullOrEmpty(isColorful)) {
             pf.setIsColorful(0);
-        } else if ("1".equalsIgnoreCase(isColorful)) {
+        } else if ("on".equalsIgnoreCase(isColorful)) {
             //勾选彩印， 则彩印
             pf.setIsColorful(1);
         }
 
         //默认不勾选，放入待打印
-        if (Strings.isNullOrEmpty(status) || "0".equalsIgnoreCase(status)) {
+        if (Strings.isNullOrEmpty(status)) {
             pf.setStatus(0);
             //如果勾选了，则仅上传不打印
-        } else if ("1".equalsIgnoreCase(status)) {
+        } else if ("on".equalsIgnoreCase(status)) {
             pf.setStatus(1);
         }
+        logger.info("PrintFileWebContriller uploadFile start... file:{}", pf);
         result = printFileService.addPrintFile(pf, loginUser);
         return JSON.toJSONString(result);
     }
@@ -139,15 +130,13 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/delete/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String deleteFile(@PathVariable String pid, HttpServletRequest request) {
+        logger.info("PrintFileWebContriller deleteFile pid:{} ", pid);
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = new User();
-        loginUser.setId(1);
-        loginUser.setMobile("18580741650");
-        loginUser.setPassword("123333");
-        //(User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile user is not logining");
             return JSON.toJSONString(result);
         }
 
@@ -159,20 +148,20 @@ public class PrintFileWebContriller {
     @ResponseBody
     public String updateFile(@PathVariable String pid, String number, String isColorful,
                              HttpServletRequest request) {
+        logger.error("PrintFileWebContriller updateFile user pid:{}, number:{}, isColorful:{}", pid, number, isColorful);
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = new User();
-        loginUser.setId(1);
-        loginUser.setMobile("18580741650");
-        loginUser.setPassword("123333");
-        // (User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile user is not logining");
             return JSON.toJSONString(result);
         }
-
+        //空就是不彩印
         if (Strings.isNullOrEmpty(isColorful)) {
             isColorful = "0";
+        } else if ("on".equalsIgnoreCase(isColorful)) {
+            isColorful = "1";
         }
         if (Strings.isNullOrEmpty(number) || Integer.parseInt(number) <= 0) {
             result.put("status", 1);
@@ -186,15 +175,13 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/load/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String previewFile(@PathVariable String pid, HttpServletRequest request) {
+        logger.info("PrintFileWebContriller previewFile pid:{}", pid);
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = new User();
-        loginUser.setId(1);
-        loginUser.setMobile("18580741650");
-        loginUser.setPassword("123333");
-        // (User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile user is not logining");
             return JSON.toJSONString(result);
         }
 
@@ -205,15 +192,13 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/findByStatus", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String findFilesByStatus(String pageNow, String status, HttpServletRequest request) {
+        logger.info("PrintFileWebContriller findFilesByStatus pageNow:{}, status:{}", pageNow, status);
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = new User();
-        loginUser.setId(1);
-        loginUser.setMobile("18580741650");
-        loginUser.setPassword("123333");
-        // (User) request.getSession().getAttribute("loginUser");
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile user is not logining");
             return JSON.toJSONString(result);
         }
         result = printFileService.findPrintFiles(loginUser.getId(),
@@ -263,13 +248,14 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/print", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String print(String code, String state, HttpServletRequest req) {
-        logger.info("UserController print start... code : " + code + " state : " + state);
+        logger.info("UserController print start... code:{}, state:{} ", code, state);
 
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) req.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile user is not logining");
             return JSON.toJSONString(result);
         }
 
