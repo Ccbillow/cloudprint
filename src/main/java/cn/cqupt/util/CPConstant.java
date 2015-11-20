@@ -1,5 +1,7 @@
 package cn.cqupt.util;
 
+import java.util.ArrayList;
+
 /**
  * 云打印用到的一些常量
  */
@@ -62,7 +64,7 @@ public class CPConstant {
     /**
      * 跳转页面
      */
-    public static final String BINDING_REDIRECT_URL = "http://114.215.143.80:8080/cloudprint/user/bindingWeChat";
+    public static final String BINDING_REDIRECT_URL = "http://cquptprint.cn/cloudprint/user/bindingWeChat";
 
     /**
      * 二维码中Image路径
@@ -73,6 +75,5 @@ public class CPConstant {
      * 微信通过code获取access_token
      */
     public static final String WEIXIN_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
-
 
 }

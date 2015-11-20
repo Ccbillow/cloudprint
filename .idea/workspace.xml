@@ -2,87 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba462e14-3dc8-462c-b56f-142dafcbf758" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint.war" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/BrowseController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/UserWebController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/dao/PrintFileDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/dao/UserDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/PrintFile.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/PrintType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/User.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/WeChat.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/WeChatResponse.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/PrintFileService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/UserService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/UserServiceImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/test/Test.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/test/TestOSS.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/BufferedImageLuminanceSource.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/CPConstant.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/CPException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/CPHelps.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/DateUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/EncoderHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/JacksonUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/OSSUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/util/QRCodeUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/jdbc.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/logback.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/mapper/PrintFileMapper.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/mapper/UserMapper.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/mybatis-config.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/spring-mybatis.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/spring.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/jsp/uploadFile.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/aliyun-openservices-1.0.10.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/aopalliance-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/aspectjweaver-1.8.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/commons-codec-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/commons-fileupload-1.2.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/commons-io-2.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/commons-logging-1.1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/core-3.2.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/druid-1.0.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/fastjson-1.1.37.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/guava-18.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/httpclient-4.3.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/httpcore-4.3.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jackson-annotations-2.4.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jackson-core-2.4.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jackson-core-asl-1.9.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jackson-databind-2.4.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jackson-mapper-asl-1.9.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jdom-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/jstl-1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/logback-access-1.1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/logback-classic-1.1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/logback-core-1.1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/mybatis-3.2.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/mybatis-spring-1.2.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/mysql-connector-java-5.1.22.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/slf4j-api-1.7.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-aop-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-beans-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-context-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-core-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-expression-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-jdbc-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-test-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-tx-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-web-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/lib/spring-webmvc-3.2.8.RELEASE.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/spring-mvc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/cloudprint/index.jsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/util/CPConstant.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/util/CPConstant.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/util/CPHelps.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/util/CPHelps.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/UserServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/UserServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/UserWebController.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/UserWebController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/util/OSSUtils.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/util/OSSUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/PrintFileService.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/PrintFileService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cloudprint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -122,11 +49,53 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="UserWebController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="186" column="83" selection-start-line="186" selection-start-column="83" selection-end-line="186" selection-end-column="83" />
+              <folding>
+                <element signature="docComment;class#UserWebController#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="WeChatResponse.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/model/WeChatResponse.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CPConstant.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7401392">
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArrayList.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="149" column="11" selection-start-line="149" selection-start-column="11" selection-end-line="149" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="152" column="46" selection-start-line="152" selection-start-column="46" selection-end-line="152" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -154,11 +123,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OSSUtils.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OSSUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/OSSUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24200913">
-              <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="82" column="23" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -181,8 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/aaa/Student.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/aaa/Father.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/model/ValidateForm.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/model/ValidateType.java" />
@@ -226,12 +193,14 @@
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPHelps.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/model/WeChatResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/OSSUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/test/Test111.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/spring-mybatis.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
       </list>
     </option>
   </component>
@@ -412,36 +381,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mapper" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudprint" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cloudprint" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cqupt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -660,23 +599,9 @@
       <recent name="$PROJECT_DIR$/src/main/webapp" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OSSUtils">
+  <component name="RunManager" selected="Application.CPConstant">
     <configuration default="false" name="CPHelps" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.cqupt.util.CPHelps" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="cloudprint" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cn.cqupt.util.test" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -719,6 +644,20 @@
     </configuration>
     <configuration default="false" name="OSSUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.cqupt.util.OSSUtils" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="cloudprint" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Test111" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.cqupt.test.Test111" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -967,18 +906,18 @@
       <item index="0" class="java.lang.String" itemvalue="Application.GetSMS" />
       <item index="1" class="java.lang.String" itemvalue="Tomcat Server.cloudprint" />
       <item index="2" class="java.lang.String" itemvalue="Application.CPHelps" />
-      <item index="3" class="java.lang.String" itemvalue="Application.test" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Test2" />
-      <item index="5" class="java.lang.String" itemvalue="Application.CPConstant" />
-      <item index="6" class="java.lang.String" itemvalue="Application.OSSUtils" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Test2" />
+      <item index="4" class="java.lang.String" itemvalue="Application.CPConstant" />
+      <item index="5" class="java.lang.String" itemvalue="Application.OSSUtils" />
+      <item index="6" class="java.lang.String" itemvalue="Application.Test111" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.OSSUtils" />
-        <item index="1" class="java.lang.String" itemvalue="Application.CPHelps" />
-        <item index="2" class="java.lang.String" itemvalue="Application.CPConstant" />
-        <item index="3" class="java.lang.String" itemvalue="Application.Test2" />
-        <item index="4" class="java.lang.String" itemvalue="Application.test" />
+        <item index="0" class="java.lang.String" itemvalue="Application.CPConstant" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Test111" />
+        <item index="2" class="java.lang.String" itemvalue="Application.OSSUtils" />
+        <item index="3" class="java.lang.String" itemvalue="Application.CPHelps" />
+        <item index="4" class="java.lang.String" itemvalue="Application.Test2" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
@@ -1011,10 +950,10 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1623431" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329927" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24937238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24937238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1038,7 +977,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4452555" sideWeight="0.50710106" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1623431" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1623431" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24937238" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1053,7 +992,7 @@
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="141" y="123" width="1039" height="577" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329927" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24937238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1224,20 +1163,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar!/org/apache/commons/fileupload/disk/DiskFileItem.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1727749">
-          <caret line="38" column="27" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar!/org/apache/commons/fileupload/FileItem.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41884816">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/test/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1302,14 +1227,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42969984">
           <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip!/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="654" column="13" selection-start-line="654" selection-start-column="13" selection-end-line="654" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1435,14 +1352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22273782">
@@ -1487,14 +1396,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18561485">
           <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6287703">
-          <caret line="152" column="46" selection-start-line="152" selection-start-column="46" selection-end-line="152" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1566,11 +1467,11 @@
         <state vertical-scroll-proportion="0.38964993">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding>
-            <marker date="1447916958000" expanded="true" signature="-1:-1" placeholder="insert into ..." />
-            <marker date="1447916958000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-            <marker date="1447916958000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-            <marker date="1447916958000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-            <marker date="1447916958000" expanded="true" signature="-1:-1" placeholder="update t_use..." />
+            <marker date="1447936821000" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1447936821000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
+            <marker date="1447936821000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
+            <marker date="1447936821000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
+            <marker date="1447936821000" expanded="true" signature="-1:-1" placeholder="update t_use..." />
           </folding>
         </state>
       </provider>
@@ -1583,24 +1484,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#UserWebController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70776254">
-          <caret line="72" column="29" selection-start-line="72" selection-start-column="29" selection-end-line="72" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -1608,6 +1491,40 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51141554">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPHelps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="112" column="46" selection-start-line="112" selection-start-column="46" selection-end-line="112" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/OSSUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="23" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="282" column="34" selection-start-line="282" selection-start-column="34" selection-end-line="282" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1633,36 +1550,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51141554">
-          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="282" column="34" selection-start-line="282" selection-start-column="34" selection-end-line="282" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPHelps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="112" column="46" selection-start-line="112" selection-start-column="46" selection-end-line="112" selection-end-column="46" />
+          <caret line="186" column="83" selection-start-line="186" selection-start-column="83" selection-end-line="186" selection-end-column="83" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#UserWebController#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/OSSUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24200913">
-          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="152" column="46" selection-start-line="152" selection-start-column="46" selection-end-line="152" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spring-mybatis.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5940594">
+          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+          <folding>
+            <element signature="n#value#0;n#property#0;n#bean#0;n#beans#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip!/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.02435312">
+          <caret line="654" column="13" selection-start-line="654" selection-start-column="13" selection-end-line="654" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="149" column="11" selection-start-line="149" selection-start-column="11" selection-end-line="149" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7401392">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding />
         </state>
       </provider>
