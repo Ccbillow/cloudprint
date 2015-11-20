@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.cqupt.dao.UserDao">
+
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user(mobile, password, nickname, isbinding, weixin)
+          values (#{mobile}, #{password}, #{nickname}, #{isBinding}, #{weixin});
+    </insert>
+
+    <select id="loadUserByMobile" parameterType="String" resultType="User">
+        select * from t_user where mobile=#{mobile}
+    </select>
+
+    <select id="loadUserByOpenId" parameterType="String" resultType="User">
+        select * from t_user where weixin=#{weixin}
+    </select>
+
+    <select id="loadUserById" parameterType="Integer" resultType="User">
+        select * from t_user where id=#{id}
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        update t_user set
+          password=#{password}, nickname=#{nickname},isbinding=#{isBinding}, weixin=#{weixin}
+          where id=#{id}
+    </update>
+
+</mapper>

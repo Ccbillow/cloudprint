@@ -47,12 +47,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!--<error-page>-->
-        <!--&lt;!&ndash; 未捕获的异常处理 &ndash;&gt;-->
-        <!--<error-code>404</error-code>-->
-        <!--<location>/WEB-INF/jsp/error.jsp</location>-->
-    <!--</error-page>-->
-
     <welcome-file-list>
         <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
