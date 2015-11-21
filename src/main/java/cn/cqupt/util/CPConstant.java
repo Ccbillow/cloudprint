@@ -76,4 +76,7 @@ public class CPConstant {
      */
     public static final String WEIXIN_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
 
+    //每页默认显示10个文件
+    public static final Integer OFFSET = 10;
+
 }

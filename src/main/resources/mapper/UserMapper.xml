@@ -8,6 +8,12 @@
           values (#{mobile}, #{password}, #{nickname}, #{isBinding}, #{weixin});
     </insert>
 
+    <update id="updateUser" parameterType="User">
+        update t_user set
+          password=#{password}, nickname=#{nickname},isbinding=#{isBinding}, weixin=#{weixin}
+          where id=#{id}
+    </update>
+
     <select id="loadUserByMobile" parameterType="String" resultType="User">
         select * from t_user where mobile=#{mobile}
     </select>
@@ -16,14 +22,8 @@
         select * from t_user where weixin=#{weixin}
     </select>
 
-    <select id="loadUserById" parameterType="Integer" resultType="User">
+    <select id="loadUserById" parameterType="int" resultType="User">
         select * from t_user where id=#{id}
     </select>
-
-    <update id="updateUser" parameterType="User">
-        update t_user set
-          password=#{password}, nickname=#{nickname},isbinding=#{isBinding}, weixin=#{weixin}
-          where id=#{id}
-    </update>
 
 </mapper>

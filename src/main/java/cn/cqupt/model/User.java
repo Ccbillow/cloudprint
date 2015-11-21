@@ -59,5 +59,17 @@ public class User {
     public void setWeixin(String weixin) {
         this.weixin = weixin;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", mobile='" + mobile + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", isBinding='" + isBinding + '\'' +
+                ", weixin='" + weixin + '\'' +
+                '}';
+    }
 }
 

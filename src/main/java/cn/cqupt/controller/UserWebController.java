@@ -44,7 +44,7 @@ public class UserWebController {
     @RequestMapping(value = "/getUserMessage", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getUserMessage(HttpServletRequest req) {
-        logger.info("UserWebController getUserMessage");
+        logger.info("UserWebController getUserMessage start...");
 
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) req.getSession().getAttribute("loginUser");
@@ -58,6 +58,7 @@ public class UserWebController {
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
+        logger.info("UserWebController getUserMessage success!!!, result:{}", result);
         return JSON.toJSONString(result);
     }
 
@@ -226,9 +227,11 @@ public class UserWebController {
         HttpSession session = req.getSession();
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
+        logger.info("UserWebController bindingWeChat getAccessTokenURL:{}", accessTokenURL);
         String content;
         try {
             content = CPHelps.HttpGet(accessTokenURL);
+            logger.info("UserWebController bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
                 result.put("message", "绑定微信失败，Code无效错误");

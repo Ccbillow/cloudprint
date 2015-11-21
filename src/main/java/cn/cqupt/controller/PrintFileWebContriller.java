@@ -44,7 +44,7 @@ public class PrintFileWebContriller {
     @ResponseBody
     public String uploadFile(String number, String status, String isColorful, String isDelete,
                              @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request) {
-        logger.info("PrintFileWebContriller uploadFile begin ");
+        logger.info("PrintFileWebContriller uploadFile begin... number:{}, states:{}, isColorful:{}, isDelete:{}", number, status, isColorful, isDelete);
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
         String path;
@@ -58,15 +58,15 @@ public class PrintFileWebContriller {
         }
 
         //把文件存入阿里云，得到路径
-        logger.info("开始将文件存入阿里云");
+        logger.info("PrintFileWebContriller uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
         try {
             path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
-            logger.info("文件存入阿里云结束 path : " + path);
+            logger.info("PrintFileWebContriller uploadFile, 文件存入阿里云结束 path:{}", path);
             pf.setPath(path);
         } catch (IOException e) {
             result.put("status", 1);
             result.put("message", "将文件存入阿里云出错");
-            logger.error("PrintFileWebContriller uploadFile 将文件存入阿里云出错  出错信息 e:{}", e);
+            logger.error("PrintFileWebContriller uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
             return JSON.toJSONString(result);
         }
 
@@ -82,7 +82,7 @@ public class PrintFileWebContriller {
         } else {
             result.put("status", 1);
             result.put("message", "暂不支持文件类型");
-            logger.error("PrintFileWebContriller uploadFile 暂不支持文件类型");
+            logger.error("PrintFileWebContriller uploadFile, 暂不支持文件类型");
             return JSON.toJSONString(result);
         }
         pf.setFilename(filename);
@@ -121,8 +121,8 @@ public class PrintFileWebContriller {
         } else if ("on".equalsIgnoreCase(status)) {
             pf.setStatus(1);
         }
-        logger.info("PrintFileWebContriller uploadFile start... file:{}", pf);
 
+        logger.info("PrintFileWebContriller uploadFile the file:{}", pf);
         result = printFileService.addPrintFile(pf, loginUser);
         return JSON.toJSONString(result);
     }
@@ -148,7 +148,7 @@ public class PrintFileWebContriller {
     @ResponseBody
     public String updateFile(@PathVariable String pid, String number, String isColorful,
                              HttpServletRequest request) {
-        logger.error("PrintFileWebContriller updateFile user pid:{}, number:{}, isColorful:{}", pid, number, isColorful);
+        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}", pid, number, isColorful);
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
@@ -175,7 +175,7 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/load/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String previewFile(@PathVariable String pid, HttpServletRequest request) {
-        logger.info("PrintFileWebContriller previewFile pid:{}", pid);
+        logger.info("PrintFileWebContriller load file, pid:{}", pid);
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
@@ -209,6 +209,7 @@ public class PrintFileWebContriller {
     @RequestMapping(value = "/timingDelete", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String timingDelete() {
+        logger.info("PrintFileWebContriller timingDelete start......");
         while (true) {
             try {
 
@@ -221,15 +222,15 @@ public class PrintFileWebContriller {
                     }
                 }).start();
 
-                //每隔30分钟扫描一次
-                Thread.sleep(CPConstant.INTERVAL_DAY);
+                //每隔60分钟扫描一次
+                Thread.sleep(CPConstant.INTERVAL_DAY*2);
             } catch (Exception e) {
-                logger.error("TimingDeleteTask exception:{}", e);
+                logger.error("PrintFileWebContriller TimingDeleteTask exception:{}", e);
 
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e1) {
-                    logger.error("TimingDeleteTask Interrupted exception:{}", e);
+                    logger.error("PrintFileWebContriller TimingDeleteTask Interrupted exception:{}", e);
                     e1.printStackTrace();
                 }
             }
@@ -242,20 +243,21 @@ public class PrintFileWebContriller {
      *
      * @param code  通过code得到access_token,通过access_token得到用户openid
      * @param state 打印机ip
-     * @param req
      * @return
      */
     @RequestMapping(value = "/print", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String print(String code, String state, HttpServletRequest req) {
-        logger.info("UserController print start... code:{}, state:{} ", code, state);
+    public String print(String code, String state) {
+        logger.info("PrintFileWebContriller print start... code:{}, state:{} ", code, state);
 
         HashMap<String, Object> result = Maps.newHashMap();
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
+        logger.info("PrintFileWebContriller bindingWeChat getAccessTokenURL:{}", accessTokenURL);
         String content;
         try {
             content = CPHelps.HttpGet(accessTokenURL);
+            logger.info("UserWebController bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
                 result.put("message", "微信扫码，Code无效错误");

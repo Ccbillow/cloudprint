@@ -39,11 +39,11 @@
     </update>
 
     <!--根据id查找文件-->
-    <select id="loadPrintFile" parameterType="int" resultType="PrintFile">
+    <select id="loadPrintFile" resultType="PrintFile">
         select * from t_printfile where id=#{pid}
     </select>
     <!--根据sha1查找文件，确保一个文件只有一个-->
-    <select id="loadPrintFileBySHA1" parameterType="String" resultType="PrintFile">
+    <select id="loadPrintFileBySHA1" resultType="PrintFile">
         select * from t_printfile where sha1=#{sha1}
     </select>
 

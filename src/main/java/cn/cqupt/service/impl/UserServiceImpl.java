@@ -54,11 +54,10 @@ public class UserServiceImpl implements UserService {
 
     public HashMap<String, Object> addUser(User user) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl addUser" + user.toString());
+        /*logger.info("UserServiceImpl addUser" + user.toString());
 
         User temp = userDao.loadUserByMobile(user.getMobile());
         if (temp != null) {
-//            throw new CPException("添加的用户已经存在");
             result.put("status", 1);
             result.put("message", "添加的用户已经存在");
             logger.error("registerUser fail : mobile has already existed");
@@ -67,13 +66,13 @@ public class UserServiceImpl implements UserService {
         userDao.addUser(user);
         result.put("status", 0);
         result.put("message", "添加用户成功");
-        logger.info("UserServiceImpl registerUser success");
+        logger.info("UserServiceImpl registerUser success");*/
         return result;
     }
 
     public HashMap<String, Object> login(String mobile, String password) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl login" + mobile + " " + password);
+       /* logger.info("UserServiceImpl login" + mobile + " " + password);
 
         User loginUser = userDao.loadUserByMobile(mobile);
         if (loginUser == null) {
@@ -91,7 +90,7 @@ public class UserServiceImpl implements UserService {
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "登陆成功");
-        logger.info("UserServiceImpl login success");
+        logger.info("UserServiceImpl login success");*/
         return result;
     }
 
@@ -117,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
         result.put("status", 0);
         result.put("message", "更新用户成功");
-        logger.info("UserServiceImpl updateUser success");
+        logger.info("UserServiceImpl updateUser success!!! result:{}", result);
         return result;
     }
 
@@ -125,7 +124,7 @@ public class UserServiceImpl implements UserService {
         HashMap<String, Object> result = Maps.newHashMap();
         logger.info("UserServiceImpl refundPassword mobile: " + mobile);
 
-        try {
+        /*try {
             User temp = userDao.loadUserByMobile(mobile);
             if (temp == null) {
                 result.put("status", 1);
@@ -144,13 +143,13 @@ public class UserServiceImpl implements UserService {
         }
         result.put("status", 0);
         result.put("message", "重置密码成功");
-        logger.info("UserServiceImpl refundPassword success");
+        logger.info("UserServiceImpl refundPassword success!!!, result:{}", result);*/
         return result;
     }
 
     public HashMap<String, Object> bindingWeChat(String openid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl bindingWeChat openid:{} ", openid);
+        logger.info("UserServiceImpl bindingWeChat start... the openid:{} ", openid);
 
         try {
             User temp = userDao.loadUserByOpenId(openid);
@@ -163,11 +162,11 @@ public class UserServiceImpl implements UserService {
                 userDao.addUser(user);
                 result.put("message", "此微信未绑定，已经添加用户，并自动登录");
                 result.put("loginUser", user);
-                logger.info("UserServiceImpl bindingWeChat success！！！");
+                logger.info("UserServiceImpl bindingWeChat the openId is not binding, and it is binding now");
             } else {
                 result.put("message", "此微信已绑定，自动登录");
                 result.put("loginUser", temp);
-                logger.info("UserServiceImpl bindingWeChat login！！！");
+                logger.info("UserServiceImpl bindingWeChat the openId has already bindinged, and it is logining now！");
             }
         } catch (Exception e) {
             result.put("status", 1);
@@ -176,6 +175,7 @@ public class UserServiceImpl implements UserService {
             return result;
         }
         result.put("status", 0);
+        logger.info("UserServiceImpl bindingWeChat is success!!! result:{}", result);
         return result;
     }
 }

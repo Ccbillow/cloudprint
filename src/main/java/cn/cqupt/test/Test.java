@@ -2,6 +2,8 @@ package cn.cqupt.test;
 
 import cn.cqupt.dao.PrintFileDao;
 import cn.cqupt.dao.UserDao;
+import cn.cqupt.model.PrintFile;
+import cn.cqupt.model.User;
 import cn.cqupt.service.PrintFileService;
 import com.google.common.collect.Maps;
 import org.springframework.context.ApplicationContext;
@@ -67,11 +69,17 @@ public class Test {
 //        System.out.println(DateUtils.getNowTime());
 
 //        printService.timingDelete();
-        HashMap<String, Object> param = Maps.newHashMap();
-        param.put("overdueTime", "2015-11-01 00:00:00");
-        param.put("status1", "1");  //已上传
-        param.put("status2", "0");  //待打印
-        List<Integer> pidsBy3Days = printFileDao.findPidsBy3Days(param);
-        System.out.println(pidsBy3Days);
+//        HashMap<String, Object> param = Maps.newHashMap();
+//        param.put("overdueTime", "2015-11-01 00:00:00");
+//        param.put("status1", "1");  //已上传
+//        param.put("status2", "0");  //待打印
+//        List<Integer> pidsBy3Days = printFileDao.findPidsBy3Days(param);
+//        System.out.println(pidsBy3Days);
+
+        User user = new User();
+        user.setMobile("123123");
+        User user1 = userDao.loadUserByMobile(user);
+        System.out.println(user1.toString());
+
     }
 }

@@ -11,7 +11,7 @@ public interface UserDao {
 
     User loadUserById(int id);
 
-    User loadUserByMobile(String mobile);
+    User loadUserByMobile(User user);
 
     User loadUserByOpenId(String weixin);
 
