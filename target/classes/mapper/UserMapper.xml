@@ -14,23 +14,15 @@
           where id=#{id}
     </update>
 
-    <select id="loadUserByMobile" parameterType="User" resultType="User">
-        select * from t_user
-        <where>
-            <if test="mobile != null">
-            and mobile = #{mobile}
-            </if>
-            <if test="weixin != null">
-                and weixin = #{weixin}
-            </if>
-        </where>
+    <select id="loadUserByMobile" parameterType="String" resultType="User">
+        select * from t_user where mobile=#{mobile}
     </select>
 
     <select id="loadUserByOpenId" parameterType="String" resultType="User">
         select * from t_user where weixin=#{weixin}
     </select>
 
-    <select id="loadUserById" resultType="User">
+    <select id="loadUserById" parameterType="int" resultType="User">
         select * from t_user where id=#{id}
     </select>
 

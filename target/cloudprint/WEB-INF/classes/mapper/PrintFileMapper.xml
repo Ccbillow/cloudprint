@@ -39,11 +39,11 @@
     </update>
 
     <!--根据id查找文件-->
-    <select id="loadPrintFile" parameterType="int" resultType="PrintFile">
+    <select id="loadPrintFile" resultType="PrintFile">
         select * from t_printfile where id=#{pid}
     </select>
     <!--根据sha1查找文件，确保一个文件只有一个-->
-    <select id="loadPrintFileBySHA1" parameterType="String" resultType="PrintFile">
+    <select id="loadPrintFileBySHA1" resultType="PrintFile">
         select * from t_printfile where sha1=#{sha1}
     </select>
 
@@ -56,9 +56,6 @@
         select u_id from t_user_printfile where p_id=#{pid}
     </select>
 
-    <!--<resultMap id="allFilesMap" type="Print" autoMapping="true">-->
-        <!-- -->
-    <!--</resultMap>-->
 
     <select id="findPrintFiles" parameterType="java.util.Map" resultType="PrintFile">
         select t1.*
@@ -68,7 +65,7 @@
           where t2.u_id = #{uid}
           and t1.status=#{status}
           ORDER BY t1.overduetime desc
-		  limit #{rows},10;
+		  limit #{rows},#{offset};
     </select>
     <select id="findPrintFilesCount" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*)
@@ -79,13 +76,14 @@
           and t1.status=#{status};
     </select>
 
+
+    <!-- 定时删除任务-->
     <!--找到已打印且立即删除的文件ids-->
     <select id="findPidsPrinted" parameterType="java.util.Map" resultType="int">
         select id from t_printfile where status=#{status}
           and isdelete=#{isDelete}
           and path &lt;&gt; ''
     </select>
-
     <!--找到三天后待打印，已上传文件ids-->
     <select id="findPidsBy3Days" parameterType="java.util.Map" resultType="int">
         select id from t_printfile
@@ -93,7 +91,6 @@
           and status=#{status1} or status=#{status2}
           and path &lt;&gt; ''
     </select>
-
     <!--找到三天后已打印文件ids-->
     <select id="findPidsBy3DaysPrinted" parameterType="java.util.Map" resultType="int">
         select id from t_printfile
