@@ -1,7 +1,8 @@
 package cn.cqupt.controller;
 
 import cn.cqupt.model.User;
-import cn.cqupt.model.WeChatResponse;
+import cn.cqupt.model.response.WeChatAccessTokenRes;
+import cn.cqupt.model.response.WeChatUserInfoRes;
 import cn.cqupt.service.UserService;
 import cn.cqupt.util.CPHelps;
 import cn.cqupt.util.JacksonUtil;
@@ -19,14 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Created by Cbillow on 15/10/27.
@@ -245,6 +244,9 @@ public class UserWebController {
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         logger.info("UserWebController bindingWeChat getAccessTokenURL:{}", accessTokenURL);
         String content;
+        String userinfo;
+        String wxUserInfoUrl;
+        WeChatUserInfoRes res = null;
         try {
             content = CPHelps.HttpGet(accessTokenURL);
             logger.info("UserWebController bindingWeChat accessTokenURL return content:{}", content);
@@ -254,8 +256,22 @@ public class UserWebController {
                 logger.error("UserWebController bindingWeChat code is wrong e:{}", content);
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
-                WeChatResponse wc = JacksonUtil.deSerialize(content, WeChatResponse.class);
-                result = userService.bindingWeChat(wc.getOpenid());
+                WeChatAccessTokenRes wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
+
+                /**
+                 * 根据openid获取微信用户信息
+                 */
+                wxUserInfoUrl = CPHelps.getWXUserInfoUrl(wc.getOpenid(), wc.getAccess_token());
+                userinfo = CPHelps.HttpGet(wxUserInfoUrl);
+                if (userinfo.contains("errcode") && userinfo.contentEquals("errmsg")) {
+                    result.put("status", 1);
+                    result.put("message", "微信登陆失败，获取用户信息失败");
+                    logger.error("UserWebController bindingWeChat code is wrong e:{}", userinfo);
+                    return JSON.toJSONString(result);
+                } else if (userinfo.contains("nickname")) {
+                    res = JacksonUtil.deSerialize(userinfo, WeChatUserInfoRes.class);
+                }
+                result = userService.bindingWeChat(wc.getOpenid(), res.getNickname());
                 //放入session
                 User user = (User) result.get("loginUser");
                 application.setAttribute("loginUser", user);

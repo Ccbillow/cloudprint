@@ -253,6 +253,10 @@ body {
   display: inline-block;
   width: 190px;
 }
+.warn {
+  color: red;
+  font-weight: 400;
+}
 .upload {
   position: absolute;
   left: 50%;

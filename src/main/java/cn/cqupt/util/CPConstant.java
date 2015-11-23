@@ -76,6 +76,11 @@ public class CPConstant {
      */
     public static final String WEIXIN_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
 
+    /**
+     * 微信得到用户信息url
+     */
+    public static final String WEIXIN_USERINFO_URL = "https://api.weixin.qq.com/sns/userinfo";
+
     //每页默认显示10个文件
     public static final Integer OFFSET = 10;
 

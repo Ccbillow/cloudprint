@@ -126,27 +126,42 @@ define(function(require, exports, module){
     function init() {
         var $uname = $("#user-name").on('click', showLogin).html('登陆');
 
+        /**
+         * @param {id, status, message}
+         * @type {Function}
+         */
+        var addReady = window.addReady = function(data) {
+            if(data.status && data.status == 0) {
+                // 上传文件成功
+                $("#" + data.id + " .right span").html("上传成功");
+            }else{
+                // 文件上传失败
+                $("#" + data.id + " .right span").addClass('warn').html("上传失败，" + data.message);
+            }
+        }
+
         function tryGetInfo() {
             mdlUser.getInfo().done(function(data) {
-                if(data && data.islogin == 0) {
+                if(data && data.status == 0) {
                     var ws = $("#wechat-status");
                     ws.html('正在登陆..')
                     setTimeout(function() {
                         hideLogin();
-                        $uname.html(data.username);
+                        $uname.html(data.loginUser.nickname);
                         ws.html('');
                     }, 100)
 
+                    events();
+                    fileBind();
                 }else{
                     showLogin();
+                    setTimeout(tryGetInfo, 3000)
                 }
             });
-            setTimeout(tryGetInfo, 3000)
+
         }
 
         tryGetInfo()
-        events();
-        //showReady();
     }
 
     // 显示待打印窗口
@@ -179,6 +194,16 @@ define(function(require, exports, module){
     }
 
     function events() {
+        $bottom.on('click', '.del', function() {
+            var $this = $(this),
+                id = $this.data('uid');
+
+            $this.siblings('span').html('<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/>');
+            mdlFile.del(id).done(function(data) {
+                $this.parents('li').fadeOut();
+            })
+        });
+
         $(".menu-list", ".top").hover(function() {
             $(this).find('.menu').addClass('show');
         },function() {
@@ -207,7 +232,7 @@ define(function(require, exports, module){
 
         $("#upload-btn-ok").on('click', function() {
             var $upBox = $("#upload-box"),
-                number = parseInt($upBox.find("[name='number']").val());console.log($upBox),
+                number = parseInt($upBox.find("[name='number']").val());
                 filename = '';
 
             if((filename = $upBox.find('[name="file"]').val()) == "") return alert('请选择上传的文件');
@@ -215,6 +240,14 @@ define(function(require, exports, module){
                 alert('上传的文件不是标准的word/excel文件，请确认');
             }
             $upBox.submit()
+
+            showReady();
+            $mask.hide();
+            $upload.hide();
+            // 正在准备打印列表
+            $bottom.find("ul").append(filsReady({
+                filename: filename.substring(filename.lastIndexOf("\\") + 1)
+            }));
             //.submit()
         })
 
@@ -252,7 +285,7 @@ define(function(require, exports, module){
         })*/
 
         //userBind();
-        fileBind();
+
     }
 
 
@@ -384,6 +417,36 @@ define(function(require, exports, module){
 
          })
     }*/
+
+
+    function filsReady (data) {
+        function template(data) {
+            return '<li> \
+                <div class="pull-left">\
+                    <i class="fa fa-file-o"></i>\
+                    <span>'+data.filename+'</span>\
+                </div>\
+                <div class="pull-right right">\
+                    <span>上传中<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/></span>\
+                    <a href="#" class="del">\
+                    <i class="fa fa-times" ></i>\
+                    </a>\
+                </div>\
+                </li>';
+        };
+        var html = '';
+        if($.isArray(data)) {
+            $.each(data, function(key, val) {
+                html += template(val)
+            })
+        }else{
+            html += template(data)
+        }
+
+        return html;
+    }
+
+
     function fileBind() {
         var waiting = '<div class="loading"><img src="./resources/imgs/5-121204193R7.gif" alt="loading"/></div>',
             nofiles = '<div class="content-text nofile"><i class="fa fa-commenting-o"></i>暂无文件</div>';
@@ -391,8 +454,8 @@ define(function(require, exports, module){
         /**
          * 得到文件列表的html代码
          */
-        function getContentFiles(files, status) {
-            if(!files || status === undefined) return;
+        function getContentFiles(files, status) {console.log(files)
+            if(!files || status === undefined || files.length == 0) return nofiles;
             var html = '', index = 0;
 
             $.each(files, function(key, value) {
@@ -444,9 +507,9 @@ define(function(require, exports, module){
          * done 完成之后的回掉
          */
         function load(params) {
-
             mdlFile.load(params.status, params.page).done(function(data) {
-                if(!$.isPlainObject(data) || !data.files || !data.totalPage) return;
+                console.log(data)
+                if(!$.isPlainObject(data)) return;
                 if(data.status == 1) {
                     /*if(data.message == '请登录后操作'){
                         showLogin()
@@ -456,7 +519,7 @@ define(function(require, exports, module){
                 }else{
                     params.$loadTo.html(params.compilder(data.files, params.status));
                     //todo
-                    !!params.loadMore && params.loadMore(data.totalPage, status);
+                    !!params.loadMore && params.loadMore(data, status);
                 }
             });
         }
@@ -491,7 +554,7 @@ define(function(require, exports, module){
             }
 
             loader(status, 1, function(data) {
-                $("#pages").createPage({
+                data.totalPage && $("#pages").createPage({
                     pageCount: data.totalPage,
                     current: 2,
                     backFn:function(page){
@@ -527,7 +590,20 @@ define(function(require, exports, module){
 
 
 
-
+        // 加载bottom栏目
+        // 默认加载两次 todo...
+        load({
+            status: 0,
+            page: 1,
+            $loadTo: $('#bottom ul'),
+            loadMore: undefined,
+            compilder: filsReady,
+            fail: function(data, params) {
+                if(data.message == '请登录后操作'){
+                    showLogin()
+                }
+            }
+        });
     }
 
     module.exports = {

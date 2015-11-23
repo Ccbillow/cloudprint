@@ -32,7 +32,7 @@ define(function(require, exports, module) {
     File.load = function(status, page) {
         return $.get(loadUrl, {
             status: status,
-            pageNow: page
+            pageNow: page - 1
         })
     }
 })

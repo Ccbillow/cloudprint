@@ -123,7 +123,7 @@ public class CPHelps {
         sb.append(CPConstant.WEIXIN_BINDING_URL).append("?appid=")
                 .append(CPConstant.APP_ID).append("&redirect_uri=")
                 .append(URLEncoder.encode(CPConstant.BINDING_REDIRECT_URL, "UTF-8"))
-                .append("&response_type=code&scope=snsapi_base#wechat_redirect");
+                .append("&response_type=code&scope=snsapi_userinfo#wechat_redirect");
         return sb.toString();
     }
 
@@ -140,6 +140,14 @@ public class CPHelps {
                 .append("&secret=").append(CPConstant.APP_SECRET)
                 .append("&code=").append(code).append("&grant_type=authorization_code");
 
+        return sb.toString();
+    }
+
+    public static String getWXUserInfoUrl(String openId, String accessToken) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(CPConstant.WEIXIN_USERINFO_URL)
+                .append("?access_token=").append(accessToken)
+                .append("&openid=").append(openId).append("&lang=zh_CN");
         return sb.toString();
     }
 

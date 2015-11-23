@@ -76,10 +76,10 @@ public class Test {
 //        List<Integer> pidsBy3Days = printFileDao.findPidsBy3Days(param);
 //        System.out.println(pidsBy3Days);
 
-        User user = new User();
-        user.setMobile("123123");
-        User user1 = userDao.loadUserByMobile(user);
-        System.out.println(user1.toString());
+//        User user = new User();
+//        user.setMobile("123123");
+//        User user1 = userDao.loadUserByMobile(user);
+//        System.out.println(user1.toString());
 
     }
 }

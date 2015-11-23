@@ -3,12 +3,13 @@ package cn.cqupt.controller;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.PrintType;
 import cn.cqupt.model.User;
-import cn.cqupt.model.WeChatResponse;
+import cn.cqupt.model.response.WeChatAccessTokenRes;
 import cn.cqupt.service.PrintFileService;
 import cn.cqupt.util.*;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -40,22 +43,21 @@ public class PrintFileWebContriller {
         this.printFileService = printFileService;
     }
 
-    @RequestMapping(value = "/upload", produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public String uploadFile(String number, String status, String isColorful, String isDelete,
-                             @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request) {
+    @RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
+    public void uploadFile(String number, String status, String isColorful, String isDelete,
+                             @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         logger.info("PrintFileWebContriller uploadFile begin... number:{}, states:{}, isColorful:{}, isDelete:{}", number, status, isColorful, isDelete);
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
         String path;
-        String type;
+        String type = "";
 
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
             logger.error("PrintFileWebContriller uploadFile fail, user is not logining");
-            return JSON.toJSONString(result);
+            returnScript(result, response);
         }
 
         //把文件存入阿里云，得到路径
@@ -68,7 +70,7 @@ public class PrintFileWebContriller {
             result.put("status", 1);
             result.put("message", "将文件存入阿里云出错");
             logger.error("PrintFileWebContriller uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
-            return JSON.toJSONString(result);
+            returnScript(result, response);
         }
 
         /**
@@ -84,7 +86,7 @@ public class PrintFileWebContriller {
             result.put("status", 1);
             result.put("message", "暂不支持文件类型");
             logger.error("PrintFileWebContriller uploadFile, 暂不支持文件类型");
-            return JSON.toJSONString(result);
+            returnScript(result, response);
         }
         pf.setFilename(filename);
         //判断类型为pdf还是word
@@ -125,7 +127,19 @@ public class PrintFileWebContriller {
 
         logger.info("PrintFileWebContriller uploadFile the file:{}", pf);
         result = printFileService.addPrintFile(pf, loginUser);
-        return JSON.toJSONString(result);
+        returnScript(result, response);
+    }
+
+    private void returnScript(HashMap<String, Object> result, HttpServletResponse response){
+        response.setContentType("text/html;charset=UTF-8");
+        try {
+            PrintWriter out = response.getWriter();
+            out.println("<script language='javascript'>");
+            out.println("top.addReady(\"" + JSON.toJSONString(result) + "\")");
+            out.println("</script>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/delete/{pid}", produces = "application/json;charset=UTF-8")
@@ -265,7 +279,7 @@ public class PrintFileWebContriller {
                 logger.error("UserController print weixin code is wrong");
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
-                WeChatResponse wc = JacksonUtil.deSerialize(content, WeChatResponse.class);
+                WeChatAccessTokenRes wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
                 result = printFileService.print(wc.getOpenid(), state);
             }
         } catch (IOException e) {

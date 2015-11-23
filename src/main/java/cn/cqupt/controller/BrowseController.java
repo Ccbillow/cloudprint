@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BrowseController {
     @RequestMapping(value="/index")
     public String toIndex() {
-        return "index";
+        return "cloudprint";
     }
 }

@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    public HashMap<String, Object> bindingWeChat(String openid) {
+    public HashMap<String, Object> bindingWeChat(String openid, String nickname) {
         HashMap<String, Object> result = Maps.newHashMap();
         logger.info("UserServiceImpl bindingWeChat start... the openid:{} ", openid);
 
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
                 user.setWeixin(openid);
                 user.setIsBinding("1");
                 //默认昵称为微信号
-                user.setNickname(openid);
+                user.setNickname(nickname);
                 userDao.addUser(user);
                 result.put("message", "此微信未绑定，已经添加用户，并自动登录");
                 result.put("loginUser", user);
