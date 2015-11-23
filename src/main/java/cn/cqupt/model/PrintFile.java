@@ -1,9 +1,11 @@
 package cn.cqupt.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Cbillow on 15/10/28.
  */
-public class PrintFile {
+public class PrintFile implements Serializable{
 
     private int id;
     private String filename;    //文件名
@@ -97,4 +99,19 @@ public class PrintFile {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "PrintFile{" +
+                "filename='" + filename + '\'' +
+                ", id=" + id +
+                ", type=" + type +
+                ", number=" + number +
+                ", path='" + path + '\'' +
+                ", sha1='" + sha1 + '\'' +
+                ", overdueTime='" + overdueTime + '\'' +
+                ", status=" + status +
+                ", isColorful=" + isColorful +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

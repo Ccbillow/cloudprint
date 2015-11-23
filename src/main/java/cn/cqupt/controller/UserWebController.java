@@ -229,7 +229,7 @@ public class UserWebController {
     /**
      * 页面扫码，绑定微信账号
      *
-     * @param code  通过code得到access_token,通过access_token得到用户openid
+     * @param code 通过code得到access_token,通过access_token得到用户openid
      * @param req
      * @return
      */

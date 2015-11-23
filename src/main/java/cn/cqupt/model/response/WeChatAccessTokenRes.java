@@ -1,9 +1,11 @@
 package cn.cqupt.model.response;
 
+import java.io.Serializable;
+
 /**
  * Created by Cbillow on 15/11/16.
  */
-public class WeChatAccessTokenRes {
+public class WeChatAccessTokenRes implements Serializable {
 
     private String access_token;
     private String expires_in;
@@ -58,5 +60,17 @@ public class WeChatAccessTokenRes {
 
     public void setUnionid(String unionid) {
         this.unionid = unionid;
+    }
+
+    @Override
+    public String toString() {
+        return "WeChatAccessTokenRes{" +
+                "access_token='" + access_token + '\'' +
+                ", expires_in='" + expires_in + '\'' +
+                ", refresh_token='" + refresh_token + '\'' +
+                ", openid='" + openid + '\'' +
+                ", scope='" + scope + '\'' +
+                ", unionid='" + unionid + '\'' +
+                '}';
     }
 }

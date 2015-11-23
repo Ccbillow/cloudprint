@@ -60,19 +60,6 @@ public class PrintFileWebContriller {
             returnScript(result, response);
         }
 
-        //把文件存入阿里云，得到路径
-        logger.info("PrintFileWebContriller uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
-        try {
-            path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
-            logger.info("PrintFileWebContriller uploadFile, 文件存入阿里云结束 path:{}", path);
-            pf.setPath(path);
-        } catch (IOException e) {
-            result.put("status", 1);
-            result.put("message", "将文件存入阿里云出错");
-            logger.error("PrintFileWebContriller uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
-            returnScript(result, response);
-        }
-
         /**
          * 得到文件名，判断其类型
          * 暂时只支持WORD和PDF
@@ -121,11 +108,25 @@ public class PrintFileWebContriller {
         if (Strings.isNullOrEmpty(status)) {
             pf.setStatus(0);
             //如果勾选了，则仅上传不打印
+            //TODO status都是0
         } else if ("on".equalsIgnoreCase(status)) {
             pf.setStatus(1);
         }
 
         logger.info("PrintFileWebContriller uploadFile the file:{}", pf);
+
+        //把文件存入阿里云，得到路径
+        logger.info("PrintFileWebContriller uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
+        try {
+            path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
+            logger.info("PrintFileWebContriller uploadFile, 文件存入阿里云结束 path:{}", path);
+            pf.setPath(path);
+        } catch (IOException e) {
+            result.put("status", 1);
+            result.put("message", "将文件存入阿里云出错");
+            logger.error("PrintFileWebContriller uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
+            returnScript(result, response);
+        }
         result = printFileService.addPrintFile(pf, loginUser);
         returnScript(result, response);
     }
@@ -135,7 +136,8 @@ public class PrintFileWebContriller {
         try {
             PrintWriter out = response.getWriter();
             out.println("<script language='javascript'>");
-            out.println("top.addReady(\"" + JSON.toJSONString(result) + "\")");
+            //TODO
+            out.println("top.addReady(" + JSON.toJSONString(result) + ")");
             out.println("</script>");
         } catch (IOException e) {
             e.printStackTrace();

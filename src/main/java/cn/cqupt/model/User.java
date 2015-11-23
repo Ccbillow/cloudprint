@@ -1,9 +1,11 @@
 package cn.cqupt.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Cbillow on 15/10/27.
  */
-public class User {
+public class User implements Serializable{
 
     private int id;
     private String mobile;

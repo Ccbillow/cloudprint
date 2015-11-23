@@ -1,11 +1,12 @@
 package cn.cqupt.model.response;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Cbillow on 15/11/23.
  */
-public class WeChatUserInfoRes {
+public class WeChatUserInfoRes implements Serializable {
 
     private String openid;
     private String nickname;
@@ -16,21 +17,6 @@ public class WeChatUserInfoRes {
     private String headimgurl;
     private List<String> privilege;
     private String unionid;
-
-    @Override
-    public String toString() {
-        return "WeChatUserInfoRes{" +
-                "city='" + city + '\'' +
-                ", openid='" + openid + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", sex='" + sex + '\'' +
-                ", province='" + province + '\'' +
-                ", country='" + country + '\'' +
-                ", headimgurl='" + headimgurl + '\'' +
-                ", privilege=" + privilege +
-                ", unionid='" + unionid + '\'' +
-                '}';
-    }
 
     public String getCity() {
         return city;
@@ -102,5 +88,20 @@ public class WeChatUserInfoRes {
 
     public void setUnionid(String unionid) {
         this.unionid = unionid;
+    }
+
+    @Override
+    public String toString() {
+        return "WeChatUserInfoRes{" +
+                "city='" + city + '\'' +
+                ", openid='" + openid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", province='" + province + '\'' +
+                ", country='" + country + '\'' +
+                ", headimgurl='" + headimgurl + '\'' +
+                ", privilege=" + privilege +
+                ", unionid='" + unionid + '\'' +
+                '}';
     }
 }
