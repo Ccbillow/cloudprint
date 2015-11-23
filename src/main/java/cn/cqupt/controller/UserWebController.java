@@ -65,7 +65,7 @@ public class UserWebController {
             result.put("status", 0);
             result.put("loginUser", user);
             result.put("message", "用户已经登录，得到用户信息");
-            logger.info("UserWebController getUserMessage success!!!, result:{}", result);
+            logger.info("UserWebController getUserMessage success! get user from session, result:{}", result);
             return JSON.toJSONString(result);
         }
 
@@ -74,7 +74,7 @@ public class UserWebController {
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
-        logger.info("UserWebController getUserMessage success!!!, result:{}", result);
+        logger.info("UserWebController getUserMessage success! get user from application, result:{}", result);
         return JSON.toJSONString(result);
     }
 

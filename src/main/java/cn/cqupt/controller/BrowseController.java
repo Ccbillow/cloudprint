@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class BrowseController {
-    @RequestMapping(value="")
+    @RequestMapping(value="/index")
     public String toIndex() {
         return "index";
     }
