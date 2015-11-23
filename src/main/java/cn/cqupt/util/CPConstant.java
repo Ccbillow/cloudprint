@@ -64,7 +64,7 @@ public class CPConstant {
     /**
      * 跳转页面
      */
-    public static final String BINDING_REDIRECT_URL = "http://cquptprint.cn/cloudprint/user/bindingWeChat";
+    public static final String BINDING_REDIRECT_URL = "http://itoffers.cn/cloudprint/user/bindingWeChat";
 
     /**
      * 二维码中Image路径

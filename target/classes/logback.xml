@@ -4,7 +4,7 @@
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${catalina.base}/logs/cloudprint-%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+            <fileNamePattern>${catalina.base}/logs/cloudprint-%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">

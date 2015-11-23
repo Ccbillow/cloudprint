@@ -54,6 +54,7 @@ public class PrintFileWebContriller {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller uploadFile fail, user is not logining");
             return JSON.toJSONString(result);
         }
 
@@ -136,7 +137,7 @@ public class PrintFileWebContriller {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller deleteFile user is not logining");
+            logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
             return JSON.toJSONString(result);
         }
 
@@ -154,7 +155,7 @@ public class PrintFileWebContriller {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller deleteFile user is not logining");
+            logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
             return JSON.toJSONString(result);
         }
         //空就是不彩印
@@ -181,7 +182,7 @@ public class PrintFileWebContriller {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller deleteFile user is not logining");
+            logger.error("PrintFileWebContriller deleteFile fail,  user is not logining");
             return JSON.toJSONString(result);
         }
 
@@ -198,7 +199,7 @@ public class PrintFileWebContriller {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller deleteFile user is not logining");
+            logger.error("PrintFileWebContriller findFilesByStatus fail, user is not logining");
             return JSON.toJSONString(result);
         }
         result = printFileService.findPrintFiles(loginUser.getId(),

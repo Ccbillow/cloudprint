@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Created by Cbillow on 15/10/27.
@@ -45,16 +48,29 @@ public class UserWebController {
     @ResponseBody
     public String getUserMessage(HttpServletRequest req) {
         logger.info("UserWebController getUserMessage start...");
-
         HashMap<String, Object> result = Maps.newHashMap();
-        User loginUser = (User) req.getSession().getAttribute("loginUser");
+        ServletContext context = req.getServletContext();
+        HttpSession session = req.getSession();
+
+        User loginUser = (User) context.getAttribute("loginUser");
         if (loginUser == null) {
-            result.put("status", 1);
-            result.put("message", "请登录后操作");
-            logger.error("UserWebController user do not login");
+            User user = (User) session.getAttribute("loginUser");
+            if (user == null) {
+                result.put("status", 1);
+                result.put("message", "请登录后操作");
+                logger.error("UserWebController user do not login");
+                return JSON.toJSONString(result);
+            }
+
+            result.put("status", 0);
+            result.put("loginUser", user);
+            result.put("message", "用户已经登录，得到用户信息");
+            logger.info("UserWebController getUserMessage success!!!, result:{}", result);
             return JSON.toJSONString(result);
         }
 
+        context.removeAttribute("loginUser");
+        session.setAttribute("loginUser", loginUser);
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
@@ -224,7 +240,7 @@ public class UserWebController {
         logger.info("UserWebController bindingWeChat start... code:{}", code);
 
         HashMap<String, Object> result = Maps.newHashMap();
-        HttpSession session = req.getSession();
+        ServletContext application = req.getServletContext();
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         logger.info("UserWebController bindingWeChat getAccessTokenURL:{}", accessTokenURL);
@@ -234,7 +250,7 @@ public class UserWebController {
             logger.info("UserWebController bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
-                result.put("message", "绑定微信失败，Code无效错误");
+                result.put("message", "微信登陆失败，无法获取到微信号");
                 logger.error("UserWebController bindingWeChat code is wrong e:{}", content);
                 return JSON.toJSONString(result);
             } else if (content.contains("openid")) {
@@ -242,11 +258,11 @@ public class UserWebController {
                 result = userService.bindingWeChat(wc.getOpenid());
                 //放入session
                 User user = (User) result.get("loginUser");
-                session.setAttribute("loginUser", user);
+                application.setAttribute("loginUser", user);
             }
         } catch (IOException e) {
             result.put("status", 1);
-            result.put("message", "绑定微信失败，访问" + accessTokenURL + "出错");
+            result.put("message", "绑定微信失败，无法获取到微信号");
             logger.error("UserWebController bindingWeChat accessTokenURL error:{}", e);
             return JSON.toJSONString(result);
         } catch (Exception ie) {
