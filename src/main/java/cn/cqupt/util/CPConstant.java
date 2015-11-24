@@ -1,6 +1,10 @@
 package cn.cqupt.util;
 
+import cn.cqupt.model.Client;
+import com.google.common.collect.Maps;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 云打印用到的一些常量
@@ -88,5 +92,10 @@ public class CPConstant {
      * 服务器端口
      */
     public static final int PORT = 4347;
+
+    /**
+     * 缓存Client信息
+     */
+    public static final HashMap<String,Client> clients = Maps.newHashMap();
 
 }
