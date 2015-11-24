@@ -84,6 +84,9 @@ public class CPConstant {
     //每页默认显示10个文件
     public static final Integer OFFSET = 10;
 
+    /**
+     * 服务器端口
+     */
     public static final int PORT = 4347;
 
 }

@@ -10,7 +10,6 @@ public class PrintFile implements Serializable{
     private int id;
     private String filename;    //文件名
     private int type;           //文件类型  0为word,1为pdf
-
     private int number;         //打印张数
     private String path;        //文件所存路径
     private String sha1;
