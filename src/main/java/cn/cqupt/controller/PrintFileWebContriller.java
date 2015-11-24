@@ -242,7 +242,7 @@ public class PrintFileWebContriller {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/timingDelete", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/timingDelete")
     @ResponseBody
     public String timingDelete() {
         logger.info("PrintFileWebContriller timingDelete start......");

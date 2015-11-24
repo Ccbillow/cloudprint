@@ -2,49 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba462e14-3dc8-462c-b56f-142dafcbf758" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/catalina.base_IS_UNDEFINED/logs/cloudprint-2015-11-21_11.log" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/model/PrintFile.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/model/PrintFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/PrintFile.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/PrintFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/PrintFileService.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/PrintFileService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/PrintFileService.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/PrintFileService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/PrintFileServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller$1.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller$1.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/PrintFileWebContriller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/PrintFileWebContriller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/model/User.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/model/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/User.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/dao/UserDao.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/dao/UserDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/dao/UserDao.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/dao/UserDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/UserService.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/UserService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/UserService.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/UserService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/UserServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/service/impl/UserServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/UserServiceImpl.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/service/impl/UserServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/UserWebController.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/controller/UserWebController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/UserWebController.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/controller/UserWebController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/model/response/WeChatAccessTokenRes.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/model/response/WeChatAccessTokenRes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/response/WeChatAccessTokenRes.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/response/WeChatAccessTokenRes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/cn/cqupt/model/response/WeChatUserInfoRes.class" afterPath="$PROJECT_DIR$/target/classes/cn/cqupt/model/response/WeChatUserInfoRes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/response/WeChatUserInfoRes.class" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/cn/cqupt/model/response/WeChatUserInfoRes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint.war" afterPath="$PROJECT_DIR$/target/cloudprint.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/CPServerController.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/task/CPServerTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/model/User.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/model/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/dao/UserDao.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/dao/UserDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/classes/mapper/UserMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/UserService.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/cloudprint.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/cloudprint.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/WEB-INF/jsp/cloudprint.jsp" afterPath="$PROJECT_DIR$/target/cloudprint/WEB-INF/jsp/cloudprint.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/mdl/page.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/mdl/page.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/cloudprint/resources/mdl/page.js" afterPath="$PROJECT_DIR$/target/cloudprint/resources/mdl/page.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cloudprint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,64 +33,41 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="137" column="39" selection-start-line="137" selection-start-column="39" selection-end-line="137" selection-end-column="39" />
+              <caret line="36" column="95" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="95" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrintFileService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java">
+      <file leaf-file-name="CPServerTask.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/task/CPServerTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="177" column="27" selection-start-line="177" selection-start-column="27" selection-end-line="177" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserWebController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="206" column="97" selection-start-line="206" selection-start-column="97" selection-end-line="206" selection-end-column="97" />
+            <state vertical-scroll-proportion="0.75265557">
+              <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
               <folding>
-                <element signature="docComment;class#UserWebController#0" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrintFileServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java">
+      <file leaf-file-name="CPConstant.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+              <caret line="86" column="40" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="page.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/mdl/page.js">
+      <file leaf-file-name="CPServerController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/CPServerController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.73429954">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
               <folding>
-                <marker date="1448356621000" expanded="true" signature="14086:14164" placeholder="..." />
-                <marker date="1448356621000" expanded="true" signature="14260:14415" placeholder="..." />
-                <marker date="1448356621000" expanded="true" signature="15007:15085" placeholder="..." />
-                <marker date="1448356621000" expanded="true" signature="15181:15276" placeholder="..." />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,8 +79,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Jsp File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -162,8 +100,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/test/PrintDemo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/TimingDeleteTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/TimingDeleteService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/task/TimingDeleteTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/OSSHelps.java" />
@@ -198,7 +134,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/resources/mdl/file.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/mdl/user.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/index.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
         <option value="$PROJECT_DIR$/src/main/resources/logback.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java" />
@@ -209,8 +144,13 @@
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/cloudprint.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/task/ServerTask.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/ServerController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/controller/CPServerController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/task/CPServerTask.java" />
       </list>
     </option>
   </component>
@@ -297,8 +237,9 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -494,6 +435,66 @@
               <option name="myItemId" value="cqupt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cloudprint" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cloudprint" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cqupt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cloudprint" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cloudprint" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cqupt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="task" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -655,7 +656,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1032,13 +1032,13 @@
     </configuration>
     <list size="8">
       <item index="0" class="java.lang.String" itemvalue="Application.GetSMS" />
-      <item index="1" class="java.lang.String" itemvalue="Application.CPHelps" />
-      <item index="2" class="java.lang.String" itemvalue="Application.CPConstant" />
-      <item index="3" class="java.lang.String" itemvalue="Application.OSSUtils" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Test111" />
-      <item index="5" class="java.lang.String" itemvalue="Application.Test" />
-      <item index="6" class="java.lang.String" itemvalue="Remote.remote" />
-      <item index="7" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
+      <item index="1" class="java.lang.String" itemvalue="Remote.remote" />
+      <item index="2" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
+      <item index="3" class="java.lang.String" itemvalue="Application.CPHelps" />
+      <item index="4" class="java.lang.String" itemvalue="Application.CPConstant" />
+      <item index="5" class="java.lang.String" itemvalue="Application.OSSUtils" />
+      <item index="6" class="java.lang.String" itemvalue="Application.Test111" />
+      <item index="7" class="java.lang.String" itemvalue="Application.Test" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -1086,30 +1086,30 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270073" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4452555" sideWeight="0.50710106" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1623431" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1623431" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6554744" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35474452" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24853556" sideWeight="0.48095238" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24853556" sideWeight="0.48095238" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24937238" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979115" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24886535" sideWeight="0.5190476" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3620438" sideWeight="0.4928989" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24937238" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3620438" sideWeight="0.4928989" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270073" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="141" y="123" width="1039" height="577" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35474452" sideWeight="0.49540517" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329927" sideWeight="0.49288702" order="1" side_tool="false" content_ui="tabs" />
@@ -1328,22 +1328,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/PrintFileMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/UserWebController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1456,9 +1440,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1474,14 +1455,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="47.862743">
           <caret line="19" column="48" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="62" selection-start-line="66" selection-start-column="62" selection-end-line="66" selection-end-column="73" />
           <folding />
         </state>
       </provider>
@@ -1506,7 +1479,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.6534653">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1514,7 +1486,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23762377">
           <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1536,7 +1507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.81670535">
           <caret line="92" column="55" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1544,7 +1514,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1559,7 +1528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="282" column="5" selection-start-line="282" selection-start-column="5" selection-end-line="282" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1609,8 +1577,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
           <folding>
-            <element signature="e#708#709#0" expanded="true" />
-            <element signature="e#752#753#0" expanded="true" />
+            <element signature="e#708#709#0" expanded="false" />
+            <element signature="e#752#753#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1619,7 +1587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1635,7 +1602,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1643,7 +1609,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="32" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1651,7 +1616,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21917808">
           <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1659,13 +1623,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17047185">
           <caret line="7" column="92" selection-start-line="7" selection-start-column="92" selection-end-line="7" selection-end-column="92" />
-          <folding>
-            <marker date="1448349043000" expanded="true" signature="-1:-1" placeholder="insert into ..." />
-            <marker date="1448349043000" expanded="true" signature="-1:-1" placeholder="update t_use..." />
-            <marker date="1448349043000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-            <marker date="1448349043000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-            <marker date="1448349043000" expanded="true" signature="-1:-1" placeholder="select * fro..t_user..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1673,7 +1631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34761906">
           <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1681,14 +1638,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3652968">
           <caret line="15" column="29" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/cloudprint.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11570248">
+          <caret line="183" column="14" selection-start-line="183" selection-start-column="14" selection-end-line="183" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/mdl/page.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="27" selection-start-line="177" selection-start-column="27" selection-end-line="177" selection-end-column="27" />
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <marker date="1448356621000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1448356621000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1448356621000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1448356621000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -1703,47 +1679,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/UserServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="39" selection-start-line="137" selection-start-column="39" selection-end-line="137" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.36874053">
+          <caret line="177" column="27" selection-start-line="177" selection-start-column="27" selection-end-line="177" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/PrintFileService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.2185129">
           <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/service/impl/PrintFileServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/PrintFileWebContriller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+          <caret line="36" column="95" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="95" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/cloudprint.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/controller/CPServerController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11570248">
-          <caret line="183" column="14" selection-start-line="183" selection-start-column="14" selection-end-line="183" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/mdl/page.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.73429954">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
           <folding>
-            <marker date="1448356621000" expanded="true" signature="14086:14164" placeholder="..." />
-            <marker date="1448356621000" expanded="true" signature="14260:14415" placeholder="..." />
-            <marker date="1448356621000" expanded="true" signature="15007:15085" placeholder="..." />
-            <marker date="1448356621000" expanded="true" signature="15181:15276" placeholder="..." />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/util/CPConstant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="40" selection-start-line="86" selection-start-column="40" selection-end-line="86" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/cqupt/task/CPServerTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75265557">
+          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
