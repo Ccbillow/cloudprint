@@ -13,6 +13,7 @@ public class User implements Serializable{
     private String nickname;    //昵称
     private String isBinding; //此账户是否绑定微信   0为未绑定，1为绑定 默认0
     private String weixin;  //绑定的微信账号
+    private String headimgurl; //微信头像url
 
     public int getId() {
         return id;
@@ -62,10 +63,19 @@ public class User implements Serializable{
         this.weixin = weixin;
     }
 
+    public String getHeadimgurl() {
+        return headimgurl;
+    }
+
+    public void setHeadimgurl(String headimgurl) {
+        this.headimgurl = headimgurl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "headimgurl='" + headimgurl + '\'' +
+                ", id=" + id +
                 ", mobile='" + mobile + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +

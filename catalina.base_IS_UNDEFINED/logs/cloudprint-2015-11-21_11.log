@@ -1,2 +1,0 @@
-2015-11-21 11:24:41,994 ERROR [main] c.a.d.pool.DruidAbstractDataSource [DruidAbstractDataSource.java : 928] maxIdle is deprecated
-2015-11-21 11:24:43,597 INFO [main] c.alibaba.druid.pool.DruidDataSource [DruidDataSource.java : 652] {dataSource-1} inited

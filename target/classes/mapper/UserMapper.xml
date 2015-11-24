@@ -4,8 +4,8 @@
 <mapper namespace="cn.cqupt.dao.UserDao">
 
     <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user(mobile, password, nickname, isbinding, weixin)
-          values (#{mobile}, #{password}, #{nickname}, #{isBinding}, #{weixin});
+        insert into t_user(mobile, password, nickname, isbinding, weixin, headimgurl)
+          values (#{mobile}, #{password}, #{nickname}, #{isBinding}, #{weixin}, #{headimgurl});
     </insert>
 
     <update id="updateUser" parameterType="User">

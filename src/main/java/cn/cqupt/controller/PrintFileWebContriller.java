@@ -44,20 +44,27 @@ public class PrintFileWebContriller {
     }
 
     @RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
-    public void uploadFile(String number, String status, String isColorful, String isDelete,
+    public void uploadFile(String id, String number, String status, String isColorful, String isDelete,
                              @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         logger.info("PrintFileWebContriller uploadFile begin... number:{}, states:{}, isColorful:{}, isDelete:{}", number, status, isColorful, isDelete);
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
+        result.put("id", id);
         String path;
         String type = "";
 
+//        User loginUser = new User();
+//        loginUser.setId(5);
+//        loginUser.setWeixin("oFVKgjkSK8D2LOkFH0OMztYNhS9Y");
+//        loginUser.setNickname("Cbillow__");
+//        loginUser.setIsBinding("1");
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
             logger.error("PrintFileWebContriller uploadFile fail, user is not logining");
             returnScript(result, response);
+            return;
         }
 
         /**
@@ -74,7 +81,9 @@ public class PrintFileWebContriller {
             result.put("message", "暂不支持文件类型");
             logger.error("PrintFileWebContriller uploadFile, 暂不支持文件类型");
             returnScript(result, response);
+            return;
         }
+
         pf.setFilename(filename);
         //判断类型为pdf还是word
         if ("0".equalsIgnoreCase(type)) {
@@ -108,16 +117,15 @@ public class PrintFileWebContriller {
         if (Strings.isNullOrEmpty(status)) {
             pf.setStatus(0);
             //如果勾选了，则仅上传不打印
-            //TODO status都是0
         } else if ("on".equalsIgnoreCase(status)) {
             pf.setStatus(1);
         }
 
         logger.info("PrintFileWebContriller uploadFile the file:{}", pf);
 
-        //把文件存入阿里云，得到路径
-        logger.info("PrintFileWebContriller uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
         try {
+            //把文件存入阿里云，得到路径
+            logger.info("PrintFileWebContriller uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
             path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
             logger.info("PrintFileWebContriller uploadFile, 文件存入阿里云结束 path:{}", path);
             pf.setPath(path);
@@ -128,7 +136,9 @@ public class PrintFileWebContriller {
             returnScript(result, response);
         }
         result = printFileService.addPrintFile(pf, loginUser);
+        result.put("id", id);
         returnScript(result, response);
+        return;
     }
 
     private void returnScript(HashMap<String, Object> result, HttpServletResponse response){
@@ -136,7 +146,6 @@ public class PrintFileWebContriller {
         try {
             PrintWriter out = response.getWriter();
             out.println("<script language='javascript'>");
-            //TODO
             out.println("top.addReady(" + JSON.toJSONString(result) + ")");
             out.println("</script>");
         } catch (IOException e) {
@@ -163,9 +172,9 @@ public class PrintFileWebContriller {
 
     @RequestMapping(value = "/update/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String updateFile(@PathVariable String pid, String number, String isColorful,
+    public String updateFile(@PathVariable String pid, String number, String isColorful, String status,
                              HttpServletRequest request) {
-        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}", pid, number, isColorful);
+        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}, status:{}", pid, number, isColorful, status);
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
@@ -174,18 +183,28 @@ public class PrintFileWebContriller {
             logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
             return JSON.toJSONString(result);
         }
-        //空就是不彩印
-        if (Strings.isNullOrEmpty(isColorful)) {
-            isColorful = "0";
-        } else if ("on".equalsIgnoreCase(isColorful)) {
-            isColorful = "1";
+
+        HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
+        PrintFile file = (PrintFile) map.get("file");
+        logger.error("PrintFileWebContriller updateFile old file:{}", file);
+        if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("0")) {
+            file.setIsColorful(0);
+        } else if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("1")) {
+            file.setIsColorful(1);
         }
-        if (Strings.isNullOrEmpty(number) || Integer.parseInt(number) <= 0) {
-            result.put("status", 1);
-            result.put("message", "打印数量不对，请确认，打印数量在1-100之间");
-            return JSON.toJSONString(result);
+        if (!Strings.isNullOrEmpty(number)) {
+            file.setNumber(Integer.parseInt(number));
         }
-        result = printFileService.updatePrintFile(Integer.parseInt(pid), Integer.parseInt(number), isColorful);
+
+        //默认不勾选，放入待打印
+        if (Strings.isNullOrEmpty(status)) {
+            file.setStatus(0);
+            //如果勾选了，则仅上传不打印
+        } else if ("on".equalsIgnoreCase(status)) {
+            file.setStatus(1);
+        }
+        logger.error("PrintFileWebContriller updateFile new file:{}", file);
+        result = printFileService.updatePrintFile(file);
         return JSON.toJSONString(result);
     }
 

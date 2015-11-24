@@ -3,7 +3,8 @@ define(function(require, exports, module){
     var jQuery = $ = require('jquery'),
         mdlContent = require("content"),
         mdlUser = require('user'),
-        mdlFile = require('file');
+        mdlFile = require('file'),
+        upbox = 0;
 
     var $mask = $("#mask"),
         $upload = $("#upload"),
@@ -131,12 +132,23 @@ define(function(require, exports, module){
          * @type {Function}
          */
         var addReady = window.addReady = function(data) {
-            if(data.status && data.status == 0) {
+            if(!data.id) {
+                console.log("服务器异常");
+            }
+            if(data.status == 0) {
                 // 上传文件成功
-                $("#" + data.id + " .right span").html("上传成功");
+                var $this = $("#" + data.id),
+                    filename = $this.find('span').html();
+
+                $(".content-tab .content-tab-btn").eq(0).trigger("click");
+                /*$this.find(".right span").html("上传成功");
+                $content.append(getContentFiles([{
+                    filename: filename,
+                    id: data.id
+                }], 0))*/
             }else{
                 // 文件上传失败
-                $("#" + data.id + " .right span").addClass('warn').html("上传失败，" + data.message);
+                $("#" + data.id + " .right span").addClass('warn').html("上传失败：" + data.message);
             }
         }
 
@@ -151,6 +163,7 @@ define(function(require, exports, module){
                         ws.html('');
                     }, 100)
 
+                    $("#user").find('img').attr('src', data.loginUser.headimgurl);
                     events();
                     fileBind();
                 }else{
@@ -197,11 +210,16 @@ define(function(require, exports, module){
         $bottom.on('click', '.del', function() {
             var $this = $(this),
                 id = $this.data('uid');
+            console.log(id)
+            if(!id) $this.parents("li").remove();
+            else {
+                $this.siblings('span').html('<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/>');
+                mdlFile.del(id).done(function(data) {
+                    var pid = $this.parents('li').fadeOut().data("pid");
+                    $content.find('[data-pid="'+pid+'"]').fadeOut();
+                })
+            }
 
-            $this.siblings('span').html('<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/>');
-            mdlFile.del(id).done(function(data) {
-                $this.parents('li').fadeOut();
-            })
         });
 
         $(".menu-list", ".top").hover(function() {
@@ -233,30 +251,35 @@ define(function(require, exports, module){
         $("#upload-btn-ok").on('click', function() {
             var $upBox = $("#upload-box"),
                 number = parseInt($upBox.find("[name='number']").val());
-                filename = '';
+            filename = '',
+                uid = 'upbox' + upbox++;
 
             if((filename = $upBox.find('[name="file"]').val()) == "") return alert('请选择上传的文件');
             if(!/^.*\.pdf$/.test(filename) && !/^.*\.doc$/.test(filename) && !/^.*\.docx$/.test(filename) && !/^.*\.xls$/.test(filename)) {
                 alert('上传的文件不是标准的word/excel文件，请确认');
             }
-            $upBox.submit()
+
+            $upBox.find('[type="hidden"]').val(uid).end().submit();
 
             showReady();
             $mask.hide();
             $upload.hide();
             // 正在准备打印列表
             $bottom.find("ul").append(filsReady({
-                filename: filename.substring(filename.lastIndexOf("\\") + 1)
+                filename: filename.substring(filename.lastIndexOf("\\") + 1),
+                uid: uid
             }));
+
+
             //.submit()
         })
 
 
 
         /*$("!body").on("click", function() {
-            $("#login_frame").show();
-            $mask.show();
-        });*/
+         $("#login_frame").show();
+         $mask.show();
+         });*/
 
 
         $("#login_frame").on("click", ".close", function() {
@@ -267,118 +290,25 @@ define(function(require, exports, module){
 
 
         /*$("#to-login,#to-login2").on("click", function() {
-            $login_frame.find(".login").show();
-            $login_frame.find(".reset").hide()
-            $login_frame.find(".sign-up").hide();
-        })
+         $login_frame.find(".login").show();
+         $login_frame.find(".reset").hide()
+         $login_frame.find(".sign-up").hide();
+         })
 
-        $("#to-reg").on("click", function() {
-            $login_frame.find(".login").hide();
-            $login_frame.find(".reset").hide()
-            $login_frame.find(".sign-up").show();
-        })
+         $("#to-reg").on("click", function() {
+         $login_frame.find(".login").hide();
+         $login_frame.find(".reset").hide()
+         $login_frame.find(".sign-up").show();
+         })
 
-        $("#to-password").on("click", function() {
-            $login_frame.find(".login").hide();
-            $login_frame.find(".reset").show()
-            $login_frame.find(".sign-up").hide();
-        })*/
+         $("#to-password").on("click", function() {
+         $login_frame.find(".login").hide();
+         $login_frame.find(".reset").show()
+         $login_frame.find(".sign-up").hide();
+         })*/
 
         //userBind();
-
-    }
-
-
-    /*function userBind() {
-        /!**
-         * 用户注册按钮
-         *!/
-        $("#register").on("click", function() {
-            var reg,
-                message;
-
-            var regForm = $("#register-form");
-
-            regForm.find("input").forEach(function() {
-                var _this = $(this);
-                if(reg = _this.data('reg') && (message = _this.data('info'))) {
-                    if(!new RegExp(reg).test(_this.val())) {
-                        alert(_this.data('info'));
-                        return false;
-                    }
-                }
-            });
-
-            if(regForm.find("[name='re-password']").val() != regForm.find("[name='password']").val()) {
-                return alert('两次密码输入一致');
-            }
-
-            mdlUser.register(
-                regForm.find('[name="mobile"]'),
-                regForm.find('[name="password"]'),
-                regForm.find('[name="VCode"]')
-            ).done(function(data) {
-                if(!data) return;
-                if(data.status == 0) {
-                    window.location.reload();
-                }else{
-                    alert(data.message)
-                }
-            })
-        });
-
-        $("#getCode-find, #getCode-register").on('click', function() {
-            var $this = $(this);
-            $this.addClass('btn-light');
-
-            var curr = total = 60, code = -1;
-            function last($dom, time) {
-                $dom.html(curr + '秒后再试');
-                if(curr-- > 0) {
-                    setTimeout(function(){
-                        last($dom, time);
-                    }, time)
-                }else{
-                    curr = total;
-                    $dom.removeClass('btn-light').data('stop', '0').html('获取验证码')
-                }
-            }
-
-            code = $this.siblings("[name='code']").val();
-
-            if($this.data('stop') != 1 && !!code) {
-                $this = $(this).data('stop', '1');
-                mdlUser.resetPw().getVcode(code).done(function() {
-                    setTimeout(function(){
-                        last($this, 1000);
-                    }, 1000)
-                })
-            }
-        })
-
-        /!**
-         * 使用手机号码登陆
-         *!/
-        $("#login").on("click", function() {
-            var logForm = $("#login-form");
-
-            mdlUser.login(
-                logForm.find("mobile"),
-                logForm.find("password")
-            ).done(function(data) {
-                    if(!data) return;
-                    if(data.status == 0) {
-                        window.location.reload()
-                    }else{
-                        alert(data.message)
-                    }
-                })
-
-        });
-
-
         $("#logout").on("click", function() {
-
             mdlUser
                 .logout()
                 .done(function(data) {
@@ -391,44 +321,149 @@ define(function(require, exports, module){
                 })
 
         });
+    }
 
 
-        /!**
-         * 找回密码
-         *!/
-         $("#reset-get-code").on("click", function() {
-             var $this = $(this),
-                 time = 60,
-                 indexTime = 60;
+    /*function userBind() {
+     /!**
+     * 用户注册按钮
+     *!/
+     $("#register").on("click", function() {
+     var reg,
+     message;
 
-             function last() {
-                 $this.find('.text').html(indexTime + 's后再次获取')
-                 setTimeout(function() {
-                     if(--indexTime >= 0) {last()}
-                     else {indexTime = time; $(this).data('click', 'true')}
-                 }, 1000)
-             }
+     var regForm = $("#register-form");
 
-             if($this.data('click') === 'true') {
-                 mdlUser.resetPw().getVcode().done(function() {
-                     $(this).data('canclick', 'false')
-                 })
-             }
+     regForm.find("input").forEach(function() {
+     var _this = $(this);
+     if(reg = _this.data('reg') && (message = _this.data('info'))) {
+     if(!new RegExp(reg).test(_this.val())) {
+     alert(_this.data('info'));
+     return false;
+     }
+     }
+     });
 
-         })
-    }*/
+     if(regForm.find("[name='re-password']").val() != regForm.find("[name='password']").val()) {
+     return alert('两次密码输入一致');
+     }
+
+     mdlUser.register(
+     regForm.find('[name="mobile"]'),
+     regForm.find('[name="password"]'),
+     regForm.find('[name="VCode"]')
+     ).done(function(data) {
+     if(!data) return;
+     if(data.status == 0) {
+     window.location.reload();
+     }else{
+     alert(data.message)
+     }
+     })
+     });
+
+     $("#getCode-find, #getCode-register").on('click', function() {
+     var $this = $(this);
+     $this.addClass('btn-light');
+
+     var curr = total = 60, code = -1;
+     function last($dom, time) {
+     $dom.html(curr + '秒后再试');
+     if(curr-- > 0) {
+     setTimeout(function(){
+     last($dom, time);
+     }, time)
+     }else{
+     curr = total;
+     $dom.removeClass('btn-light').data('stop', '0').html('获取验证码')
+     }
+     }
+
+     code = $this.siblings("[name='code']").val();
+
+     if($this.data('stop') != 1 && !!code) {
+     $this = $(this).data('stop', '1');
+     mdlUser.resetPw().getVcode(code).done(function() {
+     setTimeout(function(){
+     last($this, 1000);
+     }, 1000)
+     })
+     }
+     })
+
+     /!**
+     * 使用手机号码登陆
+     *!/
+     $("#login").on("click", function() {
+     var logForm = $("#login-form");
+
+     mdlUser.login(
+     logForm.find("mobile"),
+     logForm.find("password")
+     ).done(function(data) {
+     if(!data) return;
+     if(data.status == 0) {
+     window.location.reload()
+     }else{
+     alert(data.message)
+     }
+     })
+
+     });
+
+
+     $("#logout").on("click", function() {
+
+     mdlUser
+     .logout()
+     .done(function(data) {
+     if(!$.isPlainObject(data)) return;
+     if(data.status == 0) {
+     window.location.reload()
+     }else{
+     alert(data.message)
+     }
+     })
+
+     });
+
+
+     /!**
+     * 找回密码
+     *!/
+     $("#reset-get-code").on("click", function() {
+     var $this = $(this),
+     time = 60,
+     indexTime = 60;
+
+     function last() {
+     $this.find('.text').html(indexTime + 's后再次获取')
+     setTimeout(function() {
+     if(--indexTime >= 0) {last()}
+     else {indexTime = time; $(this).data('click', 'true')}
+     }, 1000)
+     }
+
+     if($this.data('click') === 'true') {
+     mdlUser.resetPw().getVcode().done(function() {
+     $(this).data('canclick', 'false')
+     })
+     }
+
+     })
+     }*/
 
 
     function filsReady (data) {
         function template(data) {
-            return '<li> \
+            return '<li id="'+data.uid+'"> \
                 <div class="pull-left">\
                     <i class="fa fa-file-o"></i>\
                     <span>'+data.filename+'</span>\
                 </div>\
                 <div class="pull-right right">\
                     <span>上传中<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/></span>\
-                    <a href="#" class="del">\
+                    <a href="#" class="del" data-uid="'+data.uid+'">\
                     <i class="fa fa-times" ></i>\
                     </a>\
                 </div>\
@@ -446,46 +481,76 @@ define(function(require, exports, module){
         return html;
     }
 
+    // 抽象不够 todo
+    function filsReadyDone (data, html) {
+        function template(data) {
+            return '<li data-pid="'+data.id+'" id="'+data.uid+'"> \
+                <div class="pull-left">\
+                    <i class="fa fa-file-o"></i>\
+                    <span>'+data.filename+'</span>\
+                </div>\
+                <div class="pull-right right">\
+                    <span>上传完成</span>\
+                    <a href="#" class="del" data-uid="'+data.id+'">\
+                    <i class="fa fa-times" ></i>\
+                    </a>\
+                </div>\
+                </li>';
+        };
+        var html = '';
+        if($.isArray(data)) {
+            $.each(data, function(key, val) {
+                html += template(val)
+            })
+        }else{
+            html += template(data)
+        }
 
-    function fileBind() {
-        var waiting = '<div class="loading"><img src="./resources/imgs/5-121204193R7.gif" alt="loading"/></div>',
-            nofiles = '<div class="content-text nofile"><i class="fa fa-commenting-o"></i>暂无文件</div>';
+        return html;
+    }
+    var waiting = '<div class="loading"><img src="./resources/imgs/5-121204193R7.gif" alt="loading"/></div>',
+        nofiles = '<div class="content-text nofile"><i class="fa fa-commenting-o"></i>暂无文件</div>';
+    function getContentFiles(files, status) {
+        if(!files || status === undefined || files.length == 0) return nofiles;
+        var html = '', index = 0;
 
-        /**
-         * 得到文件列表的html代码
-         */
-        function getContentFiles(files, status) {console.log(files)
-            if(!files || status === undefined || files.length == 0) return nofiles;
-            var html = '', index = 0;
-
-            $.each(files, function(key, value) {
-                var str = index ++ % 2 == 0 ? "" : "even";
-                html += '<div class="content-text ' + str + '">\
+        $.each(files, function(key, value) {
+            var str = index ++ % 2 == 0 ? "" : "even";
+            html += '<div data-pid="'+value.id+'" class="content-text ' + str + '">\
                             <i class="fa fa-file-o"></i>\
                             <span>'+value.filename+'</span>\
                             <div class="icons">'+getIcons(status, this.id)+'</div>\
                         </div>';
-            });
+        });
 
-            function getIcons(status, id) {
-                // todo
-                var icons = [
-                    '<a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
+        function getIcons(status, id) {
+            // todo
+            var icons = [
+                '<a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                    '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                    '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     '
-                ];
+            ];
 
-                // todo
-                return icons[status]
-            }
-
-            return html == '' ? nofiles : html
+            // todo
+            return icons[status]
         }
+
+        return html == '' ? nofiles : html
+    }
+
+
+    function fileBind() {
+
+
+        /**
+         * 得到文件列表的html代码
+         */
+
 
         /**
          * 得到正准备打印的列表的html代码
@@ -500,11 +565,11 @@ define(function(require, exports, module){
          * 请求数据，显示ui
          * status 加载文件的状态
          * page 加载页数
-         * loadTo 加载到指定的dom节点
+         * $loadTo 加载到指定的dom节点
          * loadMore 如何分页
          * compiler 数据加工函数
          * fail 加载失败，或者没有文件的毁掉函数
-         * done 完成之后的回掉
+         * done 完成之后的回掉  可以处理分页
          */
         function load(params) {
             mdlFile.load(params.status, params.page).done(function(data) {
@@ -512,14 +577,16 @@ define(function(require, exports, module){
                 if(!$.isPlainObject(data)) return;
                 if(data.status == 1) {
                     /*if(data.message == '请登录后操作'){
-                        showLogin()
-                    }*/
+                     showLogin()
+                     }*/
                     params.fail(data, params);
                     //params.$loadTo.html(nofiles)
                 }else{
-                    params.$loadTo.html(params.compilder(data.files, params.status));
+                    $.each(params.$loadTo, function(key, val) {
+                        params.condition[key] && val.html(params.compilder[key](data.files, params.status));
+                    })
                     //todo
-                    !!params.loadMore && params.loadMore(data, status);
+                    !!params.done && params.done(data, status);
                 }
             });
         }
@@ -535,35 +602,31 @@ define(function(require, exports, module){
                 .data('status');
 
 
+            // 显示等待界面
+            $content.html(waiting);
 
-            function loader(status, page, more) {
-                $content.html(waiting);
-                load({
-                    status: status,
-                    page: page,
-                    $loadTo: $content,
-                    loadMore: !!more?more:undefined,
-                    compilder: getContentFiles,
-                    fail: function(data, params) {
-                        if(data.message == '请登录后操作'){
-                            showLogin()
+            load({
+                status: status,
+                page: 1,
+                condition: [true, status == 0],
+                $loadTo: [$content, $('#bottom ul')],
+                done: function(data) {
+                    data.totalPage && $("#pages").createPage({
+                        pageCount: data.totalPage,
+                        current: 2,
+                        backFn:function(page){
+                            loader(status, page);
                         }
-                        $.content.html(nofiles)
+                    });
+                },
+                compilder: [getContentFiles, filsReadyDone],
+                fail: function(data, params) {
+                    if(data.message == '请登录后操作'){
+                        showLogin()
                     }
-                });
-            }
-
-            loader(status, 1, function(data) {
-                data.totalPage && $("#pages").createPage({
-                    pageCount: data.totalPage,
-                    current: 2,
-                    backFn:function(page){
-                        loader(status, page);
-                    }
-                });
+                    $content.html(nofiles)
+                }
             })
-
-
         });
 
         $(".content-tab .content-tab-btn").eq(0).trigger("click");
@@ -574,12 +637,13 @@ define(function(require, exports, module){
                 if(data.status == 1) {
                     alert(data.message)
                 }else if(data.status == 0){
-                    $this.parents(".content-text").fadeOut()
+                    var dataid = $this.parents(".content-text").fadeOut().data("pid");
+                    $bottom.find('li[data-pid="'+dataid+'"]').fadeOut();
                 }
             })
         }).on('click', '.oper-to-ready', function() {
             var $this = $(this);
-            mdlFile.update($this.data('oid'), 0).done(function(data) {
+            mdlFile.update($this.data('oid'), '').done(function(data) {
                 if(data.status == 1) {
                     alert(data.message)
                 }else if(data.status == 0){
@@ -592,18 +656,6 @@ define(function(require, exports, module){
 
         // 加载bottom栏目
         // 默认加载两次 todo...
-        load({
-            status: 0,
-            page: 1,
-            $loadTo: $('#bottom ul'),
-            loadMore: undefined,
-            compilder: filsReady,
-            fail: function(data, params) {
-                if(data.message == '请登录后操作'){
-                    showLogin()
-                }
-            }
-        });
     }
 
     module.exports = {

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,36 +46,88 @@ public class UserWebController {
 
     @RequestMapping(value = "/getUserMessage", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getUserMessage(HttpServletRequest req) {
+    public String getUserMessage(HttpServletRequest req, HttpServletResponse res) {
         logger.info("UserWebController getUserMessage start...");
         HashMap<String, Object> result = Maps.newHashMap();
         ServletContext context = req.getServletContext();
         HttpSession session = req.getSession();
 
+        /**
+         * 先从cookie里去拿user，如果存在，则不用扫码，直接登录
+         */
+        String openid = getUserCookie(req);
+        User userByOpenid = userService.loadUserByOpenid(openid);
+        if (userByOpenid != null) {
+            /**
+             * 放置cookie，默认三天
+             */
+            session.setAttribute("loginUser", userByOpenid);
+            setUserCookie(userByOpenid.getWeixin(), res);
+
+            result.put("status", 0);
+            result.put("loginUser", userByOpenid);
+            result.put("message", "用户已经登录，得到用户信息");
+            logger.info("UserWebController getUserMessage success! get user from cookie, result:{}", result);
+            return JSON.toJSONString(result);
+        }
+
         User loginUser = (User) context.getAttribute("loginUser");
         if (loginUser == null) {
-            User user = (User) session.getAttribute("loginUser");
-            if (user == null) {
+            User userFromSession = (User) session.getAttribute("loginUser");
+            if (userFromSession == null) {
                 result.put("status", 1);
                 result.put("message", "请登录后操作");
                 logger.error("UserWebController user do not login");
                 return JSON.toJSONString(result);
             }
+            /**
+             * 放置cookie，默认三天
+             */
+            setUserCookie(userFromSession.getWeixin(), res);
 
             result.put("status", 0);
-            result.put("loginUser", user);
+            result.put("loginUser", userFromSession);
             result.put("message", "用户已经登录，得到用户信息");
             logger.info("UserWebController getUserMessage success! get user from session, result:{}", result);
             return JSON.toJSONString(result);
         }
 
+        /**
+         * 将application中loginUser移除，放入到session中
+         * 设置cookie，默认三天
+         */
         context.removeAttribute("loginUser");
         session.setAttribute("loginUser", loginUser);
+        setUserCookie(loginUser.getWeixin(), res);
+
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
         logger.info("UserWebController getUserMessage success! get user from application, result:{}", result);
         return JSON.toJSONString(result);
+    }
+
+    private void setUserCookie(String openid, HttpServletResponse res) {
+        Cookie cookie = new Cookie("openid", openid);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24 * 3);
+        res.addCookie(cookie);
+        logger.info("UserWebController getUserMessage setUserCookie openid:{}", openid);
+    }
+
+    private String getUserCookie(HttpServletRequest req) {
+        String openid="";
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                Cookie temp = cookies[i];
+                if (temp.getName().equalsIgnoreCase("openid")) {
+                    openid = temp.getValue();
+                }
+            }
+        }
+        logger.info("UserWebController getUserMessage getUserCookie openid:{}", openid);
+        return openid;
     }
 
     @RequestMapping(value = "/getValidateCode", produces = "application/json;charset=UTF-8")
@@ -140,10 +193,21 @@ public class UserWebController {
 
     @RequestMapping(value = "/logout", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String logout(HttpServletRequest req) {
+    public String logout(HttpServletRequest req, HttpServletResponse res) {
         HashMap<String, Object> result = Maps.newHashMap();
         try {
-            req.getSession().invalidate();
+            req.getSession().removeAttribute("loginUser");
+            Cookie[] cookies = req.getCookies();
+            for (int i = 0; i < cookies.length; i++) {
+                Cookie cookie = cookies[i];
+                if (cookie.getName().equalsIgnoreCase("openid")) {
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    res.addCookie(cookie);
+                    logger.info("UserWebController logout remove cookie:{}", cookies[i].getName());
+                }
+            }
+
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "注销失败");
@@ -271,7 +335,7 @@ public class UserWebController {
                 } else if (userinfo.contains("nickname")) {
                     res = JacksonUtil.deSerialize(userinfo, WeChatUserInfoRes.class);
                 }
-                result = userService.bindingWeChat(wc.getOpenid(), res.getNickname());
+                result = userService.bindingWeChat(wc.getOpenid(), res.getNickname(), res.getHeadimgurl());
                 //放入session
                 User user = (User) result.get("loginUser");
                 application.setAttribute("loginUser", user);

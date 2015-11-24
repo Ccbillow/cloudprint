@@ -14,7 +14,7 @@ public interface PrintFileService {
 
     HashMap<String, Object> deletePrintFile(int uid, int pid);
 
-    HashMap<String, Object> updatePrintFile(int pid, int number, String isColorfol);
+    HashMap<String, Object> updatePrintFile(PrintFile file);
 
     HashMap<String, Object> loadPrintFile(int pid);
 

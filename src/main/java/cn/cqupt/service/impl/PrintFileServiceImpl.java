@@ -138,16 +138,11 @@ public class PrintFileServiceImpl implements PrintFileService {
         return result;
     }
 
-    public HashMap<String, Object> updatePrintFile(int pid, int number, String isColorful) {
+    public HashMap<String, Object> updatePrintFile(PrintFile file) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("PrintFileService updatePrintFile start pid:{}, number:{}, isColorful:{} ", pid, number, isColorful);
 
         try {
-            PrintFile tempFile = printFileDao.loadPrintFile(pid);
-            tempFile.setNumber(number);
-            tempFile.setIsColorful(Integer.parseInt(isColorful));
-            logger.info("PrintFileService updatePrintFile new file:{}", tempFile);
-            printFileDao.updatePrintFile(tempFile);
+            printFileDao.updatePrintFile(file);
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "更新文件失败，详情请看日志");

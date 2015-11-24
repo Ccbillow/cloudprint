@@ -105,6 +105,7 @@
 
 <div class="upload boundIn" id="upload">
     <form action="/cloudprint/printFile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
+        <input type="hidden" name="id" value=""/>
         <div class="upload-content">
             <div class="upload-content-title">
                 上传待打印文件<span id="closeX">X</span>
@@ -163,7 +164,7 @@
                     <h1 class="title"><label>打印设置:</label></h1>
                     <p><label>打印完成后自动删除:</label><input type="checkbox" checked="checked" name="isDelete"/></p>
                     <p><label>彩色打印:</label><input type="checkbox" name="isColorful"/></p>
-                    <p><label>仅上传，不立即打印:</label><input type="checkbox" name="onlyupload"/></p>
+                    <p><label>仅上传，不立即打印:</label><input type="checkbox" name="status"/></p>
                 </div>
             </div>
         </div>
@@ -187,8 +188,7 @@
         <div class="title menu-list">
             <span class="btn">重邮云打印<i class="ml5 fa fa-angle-down"></i></span>
              <ul id="menu-main" class="menu animate fadeIn">
-                 <li class="active"><a href="###">打印</a></li>
-                 <li><a href="###">历时统计</a></li>
+                 <li><a href="###">使用说明</a></li>
                  <li class="sep"></li>
                  <li><a href="###">版本介绍</a></li>
              </ul>
@@ -198,9 +198,6 @@
             <span class="pull-right btn"><span id="user-name">登陆</span><i class="ml5 fa fa-angle-down"></i></span>
 
             <ul class="menu animate fadeIn" id="menu-user">
-                <li class="active"><a href="###">个人设置</a></li>
-                <li><a href="###">绑定微信</a></li>
-                <li class="sep"></li>
                 <li><a href="###" id="logout">注销</a></li>
             </ul>
         </div>
