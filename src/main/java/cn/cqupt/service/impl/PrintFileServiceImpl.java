@@ -6,6 +6,7 @@ import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
 import cn.cqupt.service.PrintFileService;
 import cn.cqupt.util.CPConstant;
+import cn.cqupt.util.CPHelps;
 import cn.cqupt.util.DateUtils;
 import cn.cqupt.util.OSSUtils;
 import com.google.common.base.Strings;
@@ -277,10 +278,10 @@ public class PrintFileServiceImpl implements PrintFileService {
         logger.info("PrintFileService timingDelete end... " + DateUtils.getNowTime() + " and it cost " + (System.currentTimeMillis() - start));
     }
 
-    public HashMap<String, Object> print(String openid, String printerId) {
+    public HashMap<String, Object> print(String openid, String state) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService print openid:{}, printerId:{} ", openid, printerId);
+        logger.info("PrintFileService print openid:{}, state:{} ", openid, state);
 
         User tuser = userDao.loadUserByOpenId(openid);
         //如果此用户没有绑定，或者微信号不相等，则打印错误
@@ -306,10 +307,13 @@ public class PrintFileServiceImpl implements PrintFileService {
             return result;
         }
 
+        //     考虑要不要一次性将  files数组写过去
         for (int i = 0; i < files.size(); i++) {
             PrintFile file = files.get(i);
             logger.info("PrintFileServiceImpl printfiles The file is ready to printed, file:{}", file);
             //TODO 对文件依次，调用客户端进行打印操作
+            byte[] bytes = CPHelps.parseObjectToByte(file);
+            CPHelps.writeByteToClient(bytes,state);
 
 
         }

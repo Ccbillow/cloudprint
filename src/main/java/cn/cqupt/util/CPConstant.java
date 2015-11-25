@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 云打印用到的一些常量
@@ -96,6 +97,6 @@ public class CPConstant {
     /**
      * 缓存Client信息
      */
-    public static final HashMap<String,Client> clients = Maps.newHashMap();
+    public static final ConcurrentHashMap<String,Client> CLIENTS = new ConcurrentHashMap<String, Client>();
 
 }

@@ -1,5 +1,6 @@
 package cn.cqupt.util;
 
+import cn.cqupt.model.Client;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -8,9 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -170,6 +169,53 @@ public class CPHelps {
             httpgets.abort();
         }
         return str;
+    }
+
+    //将对象序列化
+    public static byte[] parseObjectToByte(Object obj) {
+        byte[] bytes = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            //写入到ByteArrayOutputStream中的
+            oos.writeObject(obj);
+            bytes=new byte[bos.size()];
+            bytes = bos.toByteArray();
+            bos.close();
+            oos.close();
+        } catch (Exception e) {
+            System.out.println("translation" + e.getMessage());
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+    //把对象反序列化
+    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) throws Exception{
+        Class<?> obj = null;
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            obj = (Class<?>) ois.readObject();
+            bis.close();
+            ois.close();
+        } catch (Exception e) {
+            System.out.println("myClient_translation: " + e.getMessage());
+        }
+        return obj;
+    }
+
+    //发送消息给客户端
+    public static boolean writeByteToClient(byte[] bytes,String ip){
+        OutputStream os = CPConstant.CLIENTS.get(ip).getOs();
+        try {
+            os.write(bytes);
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }
