@@ -137,6 +137,7 @@
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/BufferedImageLuminanceSource.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/dao/PrintFileDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/test.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/jdbc.properties" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/Test2.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/util/JacksonUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/cqupt/model/WeChat.java" />

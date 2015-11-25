@@ -1,5 +1,6 @@
 package cn.cqupt.task;
 
+import cn.cqupt.model.Client;
 import cn.cqupt.util.CPConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +10,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by Cbillow on 15/11/24.
  */
 
-public class CPServerTask implements Runnable {
+public class CPServerTask extends Thread {
 
     private static final Logger logger = LoggerFactory.getLogger(CPServerTask.class);
 
@@ -30,7 +34,11 @@ public class CPServerTask implements Runnable {
                 num++;
                 Socket accept = serverSocket.accept();
                 //启动一个新的线程，接管与当前客户端的交互会话
-                new Thread(new ServerThread(accept), "Client " + num).start();
+//                new Thread(new ServerThread(accept), "Client " + num).start();
+
+                Client client = new Client(accept);
+                CPConstant.clients.put(client.getIp(),client);
+
             }
         } catch (Exception e) {
             logger.info("server start error:{}", e);
@@ -44,6 +52,21 @@ public class CPServerTask implements Runnable {
         }
     }
 
+    public void destroyClients(){
+        Client client;
+        HashMap<String,Client> clients = CPConstant.clients;
+        Set<String> ips = clients.keySet();
+        for(String ip:ips){
+            client = clients.get(ip);
+            client.close();
+        }
+    }
+
+
+
+
+
+    /*********下面可能不用**********/
     /**
      * @author JCC
      *         服务器处理客户端会话的线程
