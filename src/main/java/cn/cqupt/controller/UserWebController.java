@@ -326,6 +326,7 @@ public class UserWebController {
                  * 根据openid获取微信用户信息
                  */
                 wxUserInfoUrl = CPHelps.getWXUserInfoUrl(wc.getOpenid(), wc.getAccess_token());
+                logger.info("UserWebController bindingWeChat wxUserInfoUrl return weixin UserInfo:{}", wxUserInfoUrl);
                 userinfo = CPHelps.HttpGet(wxUserInfoUrl);
                 if (userinfo.contains("errcode") && userinfo.contentEquals("errmsg")) {
                     result.put("status", 1);

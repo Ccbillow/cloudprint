@@ -1,12 +1,13 @@
 package cn.cqupt.util;
 
-import cn.cqupt.model.Client;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
@@ -19,6 +20,8 @@ import java.util.Random;
  * 帮助类
  */
 public class CPHelps {
+
+    private static final Logger logger = LoggerFactory.getLogger(CPHelps.class);
 
     /**
      * 生成4位验证码
@@ -179,7 +182,7 @@ public class CPHelps {
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             //写入到ByteArrayOutputStream中的
             oos.writeObject(obj);
-            bytes=new byte[bos.size()];
+            bytes = new byte[bos.size()];
             bytes = bos.toByteArray();
             bos.close();
             oos.close();
@@ -191,7 +194,7 @@ public class CPHelps {
     }
 
     //把对象反序列化
-    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) throws Exception{
+    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) throws Exception {
         Class<?> obj = null;
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -206,7 +209,7 @@ public class CPHelps {
     }
 
     //发送消息给客户端
-    public static boolean writeByteToClient(byte[] bytes,String ip){
+    public static boolean writeByteToClient(byte[] bytes, String ip) {
         OutputStream os = CPConstant.CLIENTS.get(ip).getOs();
         try {
             os.write(bytes);

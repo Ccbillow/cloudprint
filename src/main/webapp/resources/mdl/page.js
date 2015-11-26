@@ -141,6 +141,7 @@ define(function(require, exports, module){
                     filename = $this.find('span').html();
 
                 $(".content-tab .content-tab-btn").eq(0).trigger("click");
+                $this.find(".right span").html("上传成功");
                 /*$this.find(".right span").html("上传成功");
                 $content.append(getContentFiles([{
                     filename: filename,
@@ -210,15 +211,17 @@ define(function(require, exports, module){
         $bottom.on('click', '.del', function() {
             var $this = $(this),
                 id = $this.data('uid');
-            console.log(id)
-            if(!id) $this.parents("li").remove();
+            //console.log(id)
+
+            $this.parents("li").remove();
+            /*if(!id) $this.parents("li").remove();
             else {
                 $this.siblings('span').html('<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/>');
-                mdlFile.del(id).done(function(data) {
+                /!*mdlFile.del(id).done(function(data) {
                     var pid = $this.parents('li').fadeOut().data("pid");
                     $content.find('[data-pid="'+pid+'"]').fadeOut();
-                })
-            }
+                })*!/
+            }*/
 
         });
 
@@ -608,8 +611,8 @@ define(function(require, exports, module){
             load({
                 status: status,
                 page: 1,
-                condition: [true, status == 0],
-                $loadTo: [$content, $('#bottom ul')],
+                condition: [true],
+                $loadTo: [$content],
                 done: function(data) {
                     data.totalPage && $("#pages").createPage({
                         pageCount: data.totalPage,
@@ -619,7 +622,7 @@ define(function(require, exports, module){
                         }
                     });
                 },
-                compilder: [getContentFiles, filsReadyDone],
+                compilder: [getContentFiles],
                 fail: function(data, params) {
                     if(data.message == '请登录后操作'){
                         showLogin()
@@ -631,14 +634,15 @@ define(function(require, exports, module){
 
         $(".content-tab .content-tab-btn").eq(0).trigger("click");
 
-        $("#page-content").on('click', '.oper-del', function() {
+        $content.on('click', '.oper-del', function() {
             var $this = $(this);
             mdlFile.del($this.data('oid')).done(function(data) {
                 if(data.status == 1) {
                     alert(data.message)
                 }else if(data.status == 0){
-                    var dataid = $this.parents(".content-text").fadeOut().data("pid");
-                    $bottom.find('li[data-pid="'+dataid+'"]').fadeOut();
+                    //var dataid =
+                    $this.parents(".content-text").fadeOut()//.data("pid");
+                    //$bottom.find('li[data-pid="'+dataid+'"]').fadeOut();
                 }
             })
         }).on('click', '.oper-to-ready', function() {

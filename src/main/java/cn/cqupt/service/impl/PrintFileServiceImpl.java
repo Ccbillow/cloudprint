@@ -235,6 +235,11 @@ public class PrintFileServiceImpl implements PrintFileService {
             }
         }
         logger.info("PrintFileServiceImpl timingDelete delete pidsPrinted success, the files path is null");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //2.3.删除超过3天的待打印，已上传文件，需要将文件删除
         param2.put("overdueTime", DateUtils.getNowTime());   //超过了三天
@@ -255,6 +260,11 @@ public class PrintFileServiceImpl implements PrintFileService {
             }
         }
         logger.info("PrintFileServiceImpl timingDelete delete pidsBy3Days success, the files is deleted");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //4.保存三天后删除已打印中文件，不删数据库，不删除关联，将path变为空
         param3.put("overdueTime", DateUtils.getNowTime());  //超过了三天
@@ -274,6 +284,11 @@ public class PrintFileServiceImpl implements PrintFileService {
             }
         }
         logger.info("PrintFileServiceImpl timingDelete delete pidsBy3DaysPrinted success! the files path is null");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         logger.info("PrintFileService timingDelete end... " + DateUtils.getNowTime() + " and it cost " + (System.currentTimeMillis() - start));
     }
