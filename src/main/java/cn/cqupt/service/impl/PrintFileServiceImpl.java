@@ -2,6 +2,7 @@ package cn.cqupt.service.impl;
 
 import cn.cqupt.dao.PrintFileDao;
 import cn.cqupt.dao.UserDao;
+import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
 import cn.cqupt.service.PrintFileService;
@@ -326,10 +327,15 @@ public class PrintFileServiceImpl implements PrintFileService {
         for (int i = 0; i < files.size(); i++) {
             PrintFile file = files.get(i);
             logger.info("PrintFileServiceImpl printfiles The file is ready to printed, file:{}", file);
-            //TODO 对文件依次，调用客户端进行打印操作
+            //TODO 新建一个Task，调用客户端进行打印操作
             byte[] bytes = CPHelps.parseObjectToByte(file);
-            CPHelps.writeByteToClient(bytes,state);
-
+            CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
+            if (!toClient.isSuccess()) {
+                result.put("status", 1);
+                result.put("message", toClient.getErrorMsg());
+                logger.error("PrintFileServiceImpl printfiles go to client, e:{}", toClient.getErrorMsg());
+                return result;
+            }
 
         }
 

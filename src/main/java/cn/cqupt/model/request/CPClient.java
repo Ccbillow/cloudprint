@@ -1,4 +1,4 @@
-package cn.cqupt.model;
+package cn.cqupt.model.request;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,14 +8,14 @@ import java.net.Socket;
 /**
  * Created by LiuMian on 2015/11/24.
  */
-public class Client {
+public class CPClient {
 
     private Socket socket;
     private InputStream is;
     private OutputStream os;
     private String ip;
 
-    public Client(Socket socket){
+    public CPClient(Socket socket){
         this.socket = socket;
         try {
             is = socket.getInputStream();

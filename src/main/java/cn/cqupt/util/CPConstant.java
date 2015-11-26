@@ -1,10 +1,7 @@
 package cn.cqupt.util;
 
-import cn.cqupt.model.Client;
-import com.google.common.collect.Maps;
+import cn.cqupt.model.request.CPClient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -97,6 +94,6 @@ public class CPConstant {
     /**
      * 缓存Client信息
      */
-    public static final ConcurrentHashMap<String,Client> CLIENTS = new ConcurrentHashMap<String, Client>();
+    public static final ConcurrentHashMap<String,CPClient> CLIENTS = new ConcurrentHashMap<String, CPClient>();
 
 }

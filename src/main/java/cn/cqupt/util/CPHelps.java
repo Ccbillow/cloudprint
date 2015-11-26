@@ -1,5 +1,6 @@
 package cn.cqupt.util;
 
+import cn.cqupt.model.CommonRes;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -145,6 +146,12 @@ public class CPHelps {
         return sb.toString();
     }
 
+    /**
+     * 得到微信用户信息的URL
+     * @param openId
+     * @param accessToken
+     * @return
+     */
     public static String getWXUserInfoUrl(String openId, String accessToken) {
         StringBuilder sb = new StringBuilder();
         sb.append(CPConstant.WEIXIN_USERINFO_URL)
@@ -153,6 +160,12 @@ public class CPHelps {
         return sb.toString();
     }
 
+    /**
+     * httpget
+     * @param url
+     * @return
+     * @throws IOException
+     */
     public static String HttpGet(String url) throws IOException {
         // 创建HttpClient实例
         HttpClient httpclient = new DefaultHttpClient();
@@ -174,51 +187,100 @@ public class CPHelps {
         return str;
     }
 
-    //将对象序列化
+    /**
+     * 将对象序列化
+     */
     public static byte[] parseObjectToByte(Object obj) {
         byte[] bytes = null;
+        ByteArrayOutputStream bos = null;
+        ObjectOutputStream oos = null;
+
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            bos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(bos);
             //写入到ByteArrayOutputStream中的
             oos.writeObject(obj);
             bytes = new byte[bos.size()];
             bytes = bos.toByteArray();
-            bos.close();
-            oos.close();
         } catch (Exception e) {
-            System.out.println("translation" + e.getMessage());
+            logger.error("printing file parseObjectToByte error:{}", e.getMessage());
             e.printStackTrace();
+        } finally {
+            try {
+                bos.close();
+                oos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        logger.info("printing file parseObjectToByte success");
         return bytes;
     }
 
-    //把对象反序列化
-    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) throws Exception {
+    /**
+     * 把对象反序列化
+     * @param bytes
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
+    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) {
         Class<?> obj = null;
+        ByteArrayInputStream bis = null;
+        ObjectInputStream ois = null;
         try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-            ObjectInputStream ois = new ObjectInputStream(bis);
+            bis = new ByteArrayInputStream(bytes);
+            ois = new ObjectInputStream(bis);
             obj = (Class<?>) ois.readObject();
-            bis.close();
-            ois.close();
         } catch (Exception e) {
-            System.out.println("myClient_translation: " + e.getMessage());
+            logger.error("printing file parseByteToObject error:{}", e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                bis.close();
+                ois.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        logger.info("printing file parseByteToObject success, obj:{}", obj);
         return obj;
     }
 
-    //发送消息给客户端
-    public static boolean writeByteToClient(byte[] bytes, String ip) {
-        OutputStream os = CPConstant.CLIENTS.get(ip).getOs();
+    /**
+     * 发送消息给客户端
+     *
+     * @param bytes
+     * @param ip
+     * @return
+     */
+    public static CommonRes<String> writeByteToClient(byte[] bytes, String ip) {
+        OutputStream os = null;
+        CommonRes<String> response = new CommonRes<String>();
+        response.setSuccess(false);
         try {
+            os = CPConstant.CLIENTS.get(ip).getOs();
+            if (os == null) {
+                logger.error("printing file writeByteToClient the Ip:{} is not connection. can't get OutputStream", ip);
+                response.setErrorMsg("这个Ip没有连接到服务端，请检查");
+                return response;
+            }
+
             os.write(bytes);
-            os.flush();
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            logger.error("printing file writeByteToClient error:{}", e.getMessage());
+            response.setErrorMsg("向客户端写入出错，请查看日志");
+            return response;
+        } finally {
+            try {
+                os.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return true;
+        logger.info("printing file writeByteToClient success, Ip:{}", ip);
+        response.setSuccess(true);
+        return response;
     }
 
 }
