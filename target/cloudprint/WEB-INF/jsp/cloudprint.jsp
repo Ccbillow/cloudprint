@@ -230,8 +230,8 @@
     <div class="bottom wrap" id="bottom">
         <div class="bottom-title">
             <div class="pull-left">
-                <span class="title">正在准备打印列表</span>
-                <span class="sub-title">注意:打印店确认后会打印以下所有文件</span>
+                <span class="title">文件上传列表</span>
+                <span class="sub-title"></span>
             </div>
             <div class="pull-right">
                 <i class="fa fa-angle-up fa-2x" id="print-up"></i>
@@ -239,26 +239,6 @@
 
         </div>
         <ul>
-            <li>
-                <div class="pull-left">
-                    <i class="fa fa-file-o"></i>
-                    <span>2012214890谢鹏程.doc</span>
-                </div>
-                <div class="pull-right right">
-                    <span>上传100%</span>
-                    <i class="fa fa-times"></i>
-                </div>
-            </li>
-            <li class="even">
-                <div class="pull-left">
-                    <i class="fa fa-file-o"></i>
-                    <span>2012214890谢鹏程.doc</span>
-                </div>
-                <div class="pull-right right">
-                    <span>上传100%</span>
-                    <i class="fa fa-times"></i>
-                </div>
-            </li>
         </ul>
     </div>
 </div>

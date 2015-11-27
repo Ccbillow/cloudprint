@@ -96,4 +96,12 @@ public class CPConstant {
      */
     public static final ConcurrentHashMap<String,CPClient> CLIENTS = new ConcurrentHashMap<String, CPClient>();
 
+    /**
+     * 不彩印价格
+     */
+    public static final String NO_COLORFUL_PRICE = "0.2";
+    /**
+     * 彩印价格
+     */
+    public static final String COLORFUL_PRICE = "1";
 }

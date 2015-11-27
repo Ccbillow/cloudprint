@@ -51,13 +51,8 @@ public class PrintFileWebContriller {
         PrintFile pf = new PrintFile();
         result.put("id", id);
         String path;
-        String type = "";
+        String type;
 
-//        User loginUser = new User();
-//        loginUser.setId(5);
-//        loginUser.setWeixin("oFVKgjkSK8D2LOkFH0OMztYNhS9Y");
-//        loginUser.setNickname("Cbillow__");
-//        loginUser.setIsBinding("1");
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
             result.put("status", 1);
@@ -91,7 +86,7 @@ public class PrintFileWebContriller {
         } else if ("1".equalsIgnoreCase(type)) {
             pf.setType(PrintType.PDF.getCode());
         }
-        pf.setNumber(Integer.parseInt(number));
+
         //SHA1生成文件\唯一标识
         pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
         //所有文件保存3天
@@ -116,10 +111,16 @@ public class PrintFileWebContriller {
         //默认不勾选，放入待打印
         if (Strings.isNullOrEmpty(status)) {
             pf.setStatus(0);
-            //如果勾选了，则仅上传不打印
+            //如果勾选了，则仅上传不打印，放入已上传
         } else if ("on".equalsIgnoreCase(status)) {
             pf.setStatus(1);
         }
+
+        /**
+         * 计算打印价格，并设置
+         */
+        pf.setNumber(Integer.parseInt(number));
+        pf.setPrice(CPHelps.calculatePrice(Integer.parseInt(number), Integer.parseInt(isColorful)));
 
         logger.info("PrintFileWebContriller uploadFile the file:{}", pf);
 
@@ -138,7 +139,6 @@ public class PrintFileWebContriller {
         result = printFileService.addPrintFile(pf, loginUser);
         result.put("id", id);
         returnScript(result, response);
-        return;
     }
 
     private void returnScript(HashMap<String, Object> result, HttpServletResponse response){
@@ -172,9 +172,8 @@ public class PrintFileWebContriller {
 
     @RequestMapping(value = "/update/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String updateFile(@PathVariable String pid, String number, String isColorful, String status,
-                             HttpServletRequest request) {
-        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}, status:{}", pid, number, isColorful, status);
+    public String updateFile(@PathVariable String pid, String number, String isColorful, HttpServletRequest request) {
+        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}", pid, number, isColorful);
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser == null) {
@@ -187,14 +186,43 @@ public class PrintFileWebContriller {
         HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
         PrintFile file = (PrintFile) map.get("file");
         logger.error("PrintFileWebContriller updateFile old file:{}", file);
-        if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("0")) {
+
+        /**
+         * 需要修改价格
+         */
+        //默认不彩印，不勾选
+        if (Strings.isNullOrEmpty(isColorful)) {
             file.setIsColorful(0);
-        } else if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("1")) {
+        } else if ("on".equalsIgnoreCase(isColorful)) {
+            //勾选彩印， 则彩印
             file.setIsColorful(1);
         }
         if (!Strings.isNullOrEmpty(number)) {
             file.setNumber(Integer.parseInt(number));
         }
+        file.setPrice(CPHelps.calculatePrice(file.getNumber(), file.getIsColorful()));
+
+        logger.error("PrintFileWebContriller updateFile new file:{}", file);
+        result = printFileService.updatePrintFile(file);
+        return JSON.toJSONString(result);
+    }
+
+    @RequestMapping(value = "/updatestatus/{pid}", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String updateFileStatus(@PathVariable String pid, String status, HttpServletRequest request) {
+        logger.error("PrintFileWebContriller updateFile start... pid:{}, status:{}", pid, status);
+        HashMap<String, Object> result = Maps.newHashMap();
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if (loginUser == null) {
+            result.put("status", 1);
+            result.put("message", "请登录后操作");
+            logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
+            return JSON.toJSONString(result);
+        }
+
+        HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
+        PrintFile file = (PrintFile) map.get("file");
+        logger.error("PrintFileWebContriller updateFile old file:{}", file);
 
         //默认不勾选，放入待打印
         if (Strings.isNullOrEmpty(status)) {
@@ -207,6 +235,49 @@ public class PrintFileWebContriller {
         result = printFileService.updatePrintFile(file);
         return JSON.toJSONString(result);
     }
+
+//    @RequestMapping(value = "/update/{pid}", produces = "application/json;charset=UTF-8")
+//    @ResponseBody
+//    public String updateFile(@PathVariable String pid, String number, String isColorful, String status,
+//                             HttpServletRequest request) {
+//        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}, status:{}", pid, number, isColorful, status);
+//        HashMap<String, Object> result = Maps.newHashMap();
+//        User loginUser = (User) request.getSession().getAttribute("loginUser");
+//        if (loginUser == null) {
+//            result.put("status", 1);
+//            result.put("message", "请登录后操作");
+//            logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
+//            return JSON.toJSONString(result);
+//        }
+//
+//        HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
+//        PrintFile file = (PrintFile) map.get("file");
+//        logger.error("PrintFileWebContriller updateFile old file:{}", file);
+//
+//        /**
+//         * 需要修改价格
+//         */
+//        if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("0")) {
+//            file.setIsColorful(0);
+//        } else if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("1")) {
+//            file.setIsColorful(1);
+//        }
+//        if (!Strings.isNullOrEmpty(number)) {
+//            file.setNumber(Integer.parseInt(number));
+//        }
+//        file.setPrice(CPHelps.calculatePrice(file.getNumber(), file.getIsColorful()));
+//
+//        //默认不勾选，放入待打印
+//        if (Strings.isNullOrEmpty(status)) {
+//            file.setStatus(0);
+//            //如果勾选了，则仅上传不打印
+//        } else if ("on".equalsIgnoreCase(status)) {
+//            file.setStatus(1);
+//        }
+//        logger.error("PrintFileWebContriller updateFile new file:{}", file);
+//        result = printFileService.updatePrintFile(file);
+//        return JSON.toJSONString(result);
+//    }
 
     @RequestMapping(value = "/load/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -225,7 +296,7 @@ public class PrintFileWebContriller {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/findByStatus", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/findbystatus", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String findFilesByStatus(String pageNow, String status, HttpServletRequest request) {
         logger.info("PrintFileWebContriller findFilesByStatus pageNow:{}, status:{}", pageNow, status);
@@ -242,7 +313,7 @@ public class PrintFileWebContriller {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/timingDelete")
+    @RequestMapping(value = "/timingdelete")
     @ResponseBody
     public String timingDelete() {
         logger.info("PrintFileWebContriller timingDelete start......");

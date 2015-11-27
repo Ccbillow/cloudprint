@@ -1,7 +1,9 @@
 package cn.cqupt.service.impl;
 
+import cn.cqupt.dao.AccountDao;
 import cn.cqupt.dao.PrintFileDao;
 import cn.cqupt.dao.UserDao;
+import cn.cqupt.model.Account;
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,7 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     private PrintFileDao printFileDao;
     private UserDao userDao;
+    private AccountDao accountDao;
 
     @Resource(name = "printFileDao")
     public void setPrintFileDao(PrintFileDao printFileDao) {
@@ -42,11 +46,16 @@ public class PrintFileServiceImpl implements PrintFileService {
         this.userDao = userDao;
     }
 
+    @Resource(name = "accountDao")
+    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
     public HashMap<String, Object> addPrintFile(PrintFile file, User loginUser) {
         HashMap<String, Object> result = Maps.newHashMap();
         Map<String, Integer> params = Maps.newHashMap();
 
-        logger.info("PrintFileService addPrintFile the file SHA1:{} ", file.getSha1());
+        logger.info("addPrintFile the file SHA1:{} ", file.getSha1());
         try {
             params.put("uid", loginUser.getId());
             //根据唯一标识查找文件
@@ -57,7 +66,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.addPrintFile(file);
                 PrintFile fileBySHA1 = printFileDao.loadPrintFileBySHA1(file.getSha1());
                 params.put("pid", fileBySHA1.getId());
-                logger.info("PrintFileService addPrintFile the file is not existed, add the file success");
+                logger.info("addPrintFile the file is not existed, add the file success");
                 //如果有，则多个用户同用一个文件
             } else {
                 /**
@@ -69,10 +78,10 @@ public class PrintFileServiceImpl implements PrintFileService {
                 if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
                     result.put("status", 1);
                     result.put("message", "不能重复添加文件");
-                    logger.error("PrintFileServiceImpl addPrintFile, with the same openId, file is not allowed to repeated");
+                    logger.error("addPrintFile, with the same openId, file is not allowed to repeated");
                     return result;
                 }
-                logger.info("PrintFileService addPrintFile the file is existed, only add the Relationship");
+                logger.info("addPrintFile the file is existed, only add the Relationship");
             }
             //向中间表添加关联
             printFileDao.addTUP(params);
@@ -80,12 +89,12 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "添加文件失败，详情请查看日志");
-            logger.error("PrintFileServiceImpl addPrintFile fail : {} ", e);
+            logger.error("addPrintFile fail : {} ", e);
             return result;
         }
         result.put("status", 0);
         result.put("message", "添加文件成功");
-        logger.info("PrintFileServiceImpl addPrintFile success, The file:{}, the result:{}", file, result);
+        logger.info("addPrintFile success, The file:{}, the result:{}", file, result);
         return result;
     }
 
@@ -99,18 +108,18 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> deletePrintFile(int uid, int pid) {
         HashMap<String, Object> result = Maps.newHashMap();
         Map<String, Integer> params = Maps.newHashMap();
-        logger.info("PrintFileService deletePrintFile uid:{}, pid:{} ", uid, pid);
+        logger.info("deletePrintFile uid:{}, pid:{} ", uid, pid);
 
         PrintFile printFile = printFileDao.loadPrintFile(pid);
         if (printFile == null) {
             result.put("status", 1);
             result.put("message", "删除文件失败，您要删除的文件不存在");
-            logger.info("PrintFileServiceImpl deletePrintFile fail file is not existed ");
+            logger.info("deletePrintFile fail file is not existed ");
             return result;
         }
 
         try {
-            logger.info("PrintFileService deletePrintFile delete from aliyun file:{}", printFile.getPath().substring(CPConstant.OSS_URL.length()));
+            logger.info("deletePrintFile delete from aliyun file:{}", printFile.getPath().substring(CPConstant.OSS_URL.length()));
             //需要从阿里云上删除文件
             OSSUtils.deleteObject(OSSUtils.getOSSClient(), printFile.getPath().substring(CPConstant.OSS_URL.length()));
 
@@ -120,23 +129,23 @@ public class PrintFileServiceImpl implements PrintFileService {
             //同一个文件被多人使用，则只删除关联
             if (uids.size() > 1) {
                 printFileDao.deleteTUP(params);
-                logger.info("PrintFileService deletePrintFile uids:{}, the file is used by not one people, only delete the Relationship");
+                logger.info("deletePrintFile uids:{}, the file is used by not one people, only delete the Relationship");
             } else {
                 //当且仅当文件只有一个人，才删除文件
                 printFileDao.deleteTUP(params);
                 printFileDao.deletePrintFile(pid);
-                logger.info("PrintFileService deletePrintFile uids:{}, the file is used by one people, delete file and Relationship");
+                logger.info("deletePrintFile uids:{}, the file is used by one people, delete file and Relationship");
             }
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "删除文件失败，详情请看日志");
-            logger.error("PrintFileServiceImpl deletePrintFile fail e:{} ", e);
+            logger.error("deletePrintFile fail e:{} ", e);
             return result;
         }
 
         result.put("status", 0);
         result.put("message", "删除文件成功");
-        logger.info("PrintFileServiceImpl deletePrintFile success!!! result:{}", result);
+        logger.info("deletePrintFile success!!! result:{}", result);
         return result;
     }
 
@@ -148,32 +157,32 @@ public class PrintFileServiceImpl implements PrintFileService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "更新文件失败，详情请看日志");
-            logger.error("PrintFileServiceImpl updatePrintFile fail e:{} ", e);
+            logger.error("updatePrintFile fail e:{} ", e);
             return result;
         }
         result.put("status", 0);
         result.put("message", "更新文件成功");
-        logger.info("PrintFileServiceImpl updatePrintFile success!!! result:{}", result);
+        logger.info("updatePrintFile success!!! result:{}", result);
         return result;
     }
 
     public HashMap<String, Object> loadPrintFile(int pid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("PrintFileService loadPrintFile pid:{} ", pid);
+        logger.info("loadPrintFile pid:{} ", pid);
 
         PrintFile tempFile = printFileDao.loadPrintFile(pid);
 
         result.put("file", tempFile);
         result.put("status", 0);
         result.put("message", "加载文件成功");
-        logger.info("PrintFileServiceImpl loadPrintFile success, file:{}", tempFile);
+        logger.info("loadPrintFile success, file:{}", tempFile);
         return result;
     }
 
     public HashMap<String, Object> findPrintFiles(int uid, int pageNow, int status) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService findAllPrintFile uid:{}, pageNow:{}, status:{}", uid, pageNow, status);
+        logger.info("findAllPrintFile uid:{}, pageNow:{}, status:{}", uid, pageNow, status);
 
         int pageNum = 0;//总页数
         int offeset = CPConstant.OFFSET;//每页默认显示10条
@@ -188,11 +197,11 @@ public class PrintFileServiceImpl implements PrintFileService {
             params.put("rows", rows);
             params.put("offset", offeset);
             files = printFileDao.findPrintFiles(params);
-            logger.info("PrintFileServiceImpl findPrintFiles the sql of params:{}, pageCount:{}", params, pageCount);
+            logger.info("findPrintFiles the sql of params:{}, pageCount:{}", params, pageCount);
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "查找文件失败，详情请查看日志");
-            logger.error("PrintFileServiceImpl findPrintFiles fail e:{} ", e);
+            logger.error("findPrintFiles fail e:{} ", e);
         }
 
         result.put("status", 0);
@@ -200,7 +209,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         result.put("message", "查找文件成功");
         result.put("totalPage", pageNum);  //总页数
         result.put("nextPageNum", pageNow + 1); //下一页
-        logger.info("PrintFileServiceImpl findPrintFiles success, result:{}", result);
+        logger.info("findPrintFiles success, result:{}", result);
         return result;
     }
 
@@ -216,13 +225,13 @@ public class PrintFileServiceImpl implements PrintFileService {
         HashMap<String, Object> param1 = Maps.newHashMap();
         HashMap<String, Object> param2 = Maps.newHashMap();
         HashMap<String, Object> param3 = Maps.newHashMap();
-        logger.info("PrintFileService timingDelete start..." + DateUtils.getNowTime());
+        logger.info("timingDelete start..." + DateUtils.getNowTime());
 
         //1.删除打印完立即删除的文件，不删数据库，不删除关联，只删除当前关联
         param1.put("status", 2);        //已打印
         param1.put("isDelete", 0);      //打印完立即删除
         List<Integer> pidsPrinted = printFileDao.findPidsPrinted(param1);
-        logger.info("PrintFileServiceImpl timingDelete pidsPrinted:{} ", pidsPrinted);
+        logger.info("timingDelete pidsPrinted:{} ", pidsPrinted);
         if (pidsPrinted.size() > 0) {
             for (int i = 0; i < pidsPrinted.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsPrinted.get(i));
@@ -235,7 +244,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.updatePrintFile(temp);
             }
         }
-        logger.info("PrintFileServiceImpl timingDelete delete pidsPrinted success, the files path is null");
+        logger.info("timingDelete delete pidsPrinted success, the files path is null");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -247,7 +256,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         param2.put("status1", "0");  //已上传
         param2.put("status2", "1");  //待打印
         List<Integer> pidsBy3Days = printFileDao.findPidsBy3Days(param2);
-        logger.info("PrintFileServiceImpl timingDelete pidsBy3Days:{} ", pidsBy3Days);
+        logger.info("timingDelete pidsBy3Days:{} ", pidsBy3Days);
         if (pidsBy3Days.size() > 0) {
             for (int i = 0; i < pidsBy3Days.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsBy3Days.get(i));
@@ -260,7 +269,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.deletePrintFile(pidsBy3Days.get(i));
             }
         }
-        logger.info("PrintFileServiceImpl timingDelete delete pidsBy3Days success, the files is deleted");
+        logger.info("timingDelete delete pidsBy3Days success, the files is deleted");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -272,7 +281,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         param3.put("status", "2");  //已打印
         param2.put("isDelete", "1");  //打印完保存三天
         List<Integer> pidsBy3DaysPrinted = printFileDao.findPidsBy3DaysPrinted(param3);
-        logger.info("PrintFileServiceImpl timingDelete pidsBy3DaysPrinted:{} ", pidsBy3DaysPrinted);
+        logger.info("timingDelete pidsBy3DaysPrinted:{} ", pidsBy3DaysPrinted);
         if (pidsBy3DaysPrinted.size() > 0) {
             for (int i = 0; i < pidsBy3DaysPrinted.size(); i++) {
                 PrintFile temp = printFileDao.loadPrintFile(pidsBy3DaysPrinted.get(i));
@@ -284,67 +293,96 @@ public class PrintFileServiceImpl implements PrintFileService {
                 printFileDao.updatePrintFile(temp);
             }
         }
-        logger.info("PrintFileServiceImpl timingDelete delete pidsBy3DaysPrinted success! the files path is null");
+        logger.info("timingDelete delete pidsBy3DaysPrinted success! the files path is null");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        logger.info("PrintFileService timingDelete end... " + DateUtils.getNowTime() + " and it cost " + (System.currentTimeMillis() - start));
+        logger.info("timingDelete end... " + DateUtils.getNowTime() + " and it cost " + (System.currentTimeMillis() - start));
     }
 
     public HashMap<String, Object> print(String openid, String state) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        logger.info("PrintFileService print openid:{}, state:{} ", openid, state);
+        Account account;
+        logger.info("print openid:{}, state:{} ", openid, state);
 
-        User tuser = userDao.loadUserByOpenId(openid);
-        //如果此用户没有绑定，或者微信号不相等，则打印错误
-        if (tuser == null) {
-            result.put("status", 1);
-            result.put("message", "文件打印失败，此微信没有绑定，请用正确的微信号扫描");
-            logger.error("PrintFileServiceImpl print error, error is : weixin is not bindinged");
-            return result;
-        }
-
-        //如果绑定，通过uid查找到所有待打印文件
-        params.put("uid", tuser.getId());
-        params.put("status", "0");
-        params.put("rows", 0);
-        params.put("offset", 100);
-        logger.info("PrintFileServiceImpl print params:{}", params);
-        List<PrintFile> files = printFileDao.findPrintFiles(params);
-        logger.info("PrintFileServiceImpl print files:{}", files);
-        if (files.size() <= 0) {
-            result.put("status", 1);
-            result.put("message", "没有待打印文件，请确认");
-            logger.error("PrintFileServiceImpl printfiles There are no files being ready to printed");
-            return result;
-        }
-
-        //     考虑要不要一次性将  files数组写过去
-        for (int i = 0; i < files.size(); i++) {
-            PrintFile file = files.get(i);
-            logger.info("PrintFileServiceImpl printfiles The file is ready to printed, file:{}", file);
-            //TODO 新建一个Task，调用客户端进行打印操作
-            byte[] bytes = CPHelps.parseObjectToByte(file);
-            CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
-            if (!toClient.isSuccess()) {
+        try {
+            User tuser = userDao.loadUserByOpenId(openid);
+            //如果此用户没有绑定，或者微信号不相等，则打印错误
+            if (tuser == null) {
                 result.put("status", 1);
-                result.put("message", toClient.getErrorMsg());
-                logger.error("PrintFileServiceImpl printfiles go to client, e:{}", toClient.getErrorMsg());
+                result.put("message", "文件传输失败，此微信没有绑定，请用正确的微信号扫描");
+                logger.error("print error, error is : weixin is not bindinged");
                 return result;
             }
 
+            logger.info(" print checkout the loginUser:{}, isPay:{}", tuser, tuser.getIsPay());
+            if (tuser.getIsPay() == 1) {
+                result.put("status", 1);
+                result.put("message", "用户还没有打印，请支付上一次账单后进行打印");
+                logger.error("print error, user has not paid, please pay the last account");
+                return result;
+            }
+
+            //如果绑定，通过uid查找到所有待打印文件
+            params.put("uid", tuser.getId());
+            params.put("status", "0");
+            params.put("rows", 0);
+            params.put("offset", 100);
+            logger.info("print params:{}", params);
+            List<PrintFile> files = printFileDao.findPrintFiles(params);
+            logger.info("print files:{}", files);
+            if (files.size() <= 0) {
+                result.put("status", 1);
+                result.put("message", "没有待打印文件，请确认");
+                logger.error("printfiles There are no files being ready to printed");
+                return result;
+            }
+
+            /**
+             * 文件查找成功，将用户设置为未支付
+             */
+            tuser.setIsPay(1);
+            userDao.updateUser(tuser);
+            logger.info("printfiles updateUser user:{}", tuser);
+
+            /**
+             * 添加账单
+             */
+            account = new Account();
+            account.setUid(tuser.getId());
+            account.setTotalPrice(CPHelps.calculateTotalPrice(files));
+            account.setDate(DateUtils.getNowTime());
+            account.setPrinterID(state);
+            accountDao.addAccount(account);
+            logger.info("printfiles addAccount account:{}", account);
+
+            //TODO ClientReq，需要将封装的对象序列化传过去
+            byte[] bytes = CPHelps.parseObjectToByte(files);
+            CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
+            logger.info("printfiles The file writeByteToClient success");
+            if (!toClient.isSuccess()) {
+                result.put("status", 1);
+                result.put("message", toClient.getErrorMsg());
+                logger.error("printfiles go to client, e:{}", toClient.getErrorMsg());
+                return result;
+            }
+        } catch (Exception e) {
+            result.put("status", 1);
+            result.put("message", "文件传输失败");
+            logger.error("print error:{}", e);
+            return result;
         }
 
+        result.put("account", account);
         result.put("status", 0);
-        result.put("message", "文件打印成功");
-        logger.info("PrintFileServiceImpl print success!!! result:{}", result);
+        result.put("message", "文件传输成功，请进行支付");
+        logger.info("print success!!! result:{}", result);
         return result;
     }
-
 
 
 }

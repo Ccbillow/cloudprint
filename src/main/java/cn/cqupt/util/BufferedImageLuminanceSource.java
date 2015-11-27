@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * google图片工具类
+ */
 public class BufferedImageLuminanceSource extends LuminanceSource {
     private final BufferedImage image;
     private final int left;

@@ -175,6 +175,7 @@ public class UserServiceImpl implements UserService {
                 user.setIsBinding("1");
                 user.setNickname(nickname);
                 user.setHeadimgurl(headimgurl);
+                user.setIsPay(0);   //默认为 已经支付
                 userDao.addUser(user);
                 result.put("message", "此微信未绑定，已经添加用户，并自动登录");
                 result.put("loginUser", user);

@@ -17,18 +17,22 @@ public class CPServerListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ServletContextListener.class);
 
-    private static CPServerTask serverTask = new CPServerTask();
+    private static CPServerTask serverTask = null;
     private static ExecutorService service;
 
     public void contextInitialized(ServletContextEvent sce) {
         logger.info("CPServerListener startCPServer");
 
-        service = Executors.newFixedThreadPool(1);
-        service.submit(serverTask);
+        if (serverTask == null) {
+            serverTask = new CPServerTask();
+            service = Executors.newFixedThreadPool(1);
+            service.submit(serverTask);
+        }
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-        logger.info("CPServerListener contextDestroyed");
+        logger.info("CPServerListener contextDestroyed, 关闭客户端和服务端");
         serverTask.destroyClients();
+        serverTask.destroyServer();
     }
 }

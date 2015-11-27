@@ -13,7 +13,7 @@ import java.io.*;
 import java.util.List;
 
 /**
- * Created by Cbillow on 15/11/12.
+ * 阿里云OSS工具类
  */
 public class OSSUtils {
 

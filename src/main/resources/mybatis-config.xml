@@ -7,6 +7,7 @@
     <typeAliases>
         <typeAlias alias="User" type="cn.cqupt.model.User"/>
         <typeAlias alias="PrintFile" type="cn.cqupt.model.PrintFile"/>
+        <typeAlias alias="Account" type="cn.cqupt.model.Account"/>
     </typeAliases>
 
     <!-- 映射map -->

@@ -19,6 +19,7 @@ public class CPServerTask implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CPServerTask.class);
     private boolean isCheckHeartbeat;
+    ServerSocket serverSocket = null;
 
     public CPServerTask(){
         isCheckHeartbeat = true;
@@ -29,11 +30,13 @@ public class CPServerTask implements Runnable {
     }
 
     public void run() {
-        ServerSocket serverSocket = null;
-        logger.info("server start.");
+        logger.info("服务器启动.");
 
         try {
-            serverSocket = new ServerSocket(CPConstant.PORT);
+            if (serverSocket == null) {
+                serverSocket = new ServerSocket(CPConstant.PORT);
+            }
+
             while (isCheckHeartbeat) {
                 /**
                  * 使用循环方式一直等待客户端的连接
@@ -55,14 +58,27 @@ public class CPServerTask implements Runnable {
                 new Thread(new CPClientTaskThead(client, this)).start();
             }
         } catch (Exception e) {
-            logger.info("server start error:{}", e);
+            if (e.getMessage().equalsIgnoreCase("Socket closed")) {
+                logger.info("服务器已经关闭，请重新开启服务器");
+                return;
+            }
+            logger.info("服务器出现异常，server is e:{}", e);
         } finally {
             try {
+                logger.info("服务端等待客户端连接出现异常，将服务关闭");
                 serverSocket.close();
-                logger.info("server closed.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void destroyServer() {
+        try {
+            logger.info("服务端关闭连接");
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

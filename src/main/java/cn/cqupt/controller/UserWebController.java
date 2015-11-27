@@ -44,7 +44,7 @@ public class UserWebController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/getUserMessage", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/getusermessage", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getUserMessage(HttpServletRequest req, HttpServletResponse res) {
         logger.info("UserWebController getUserMessage start...");

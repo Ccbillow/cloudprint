@@ -357,6 +357,7 @@ body {
   width: 100%;
 }
 .container .two-dimension {
+  display: none;
   position: absolute;
   right: 0;
   top: 73px;
@@ -409,6 +410,8 @@ body {
   cursor: pointer;
 }
 .container .top .menu li a {
+  display: block;
+  height: 100%;
   font-size: 18px;
   color: #4a4d53;
   line-height: 33px;
@@ -443,10 +446,13 @@ body {
 .container .top .title ul {
   left: 10px;
   top: 57px;
-  background-position: 0 -20px;
+  background-position: 0 -50px;
 }
 .container .top .title #title-up {
   display: none;
+}
+.container .top #menu-user {
+  background-position: 0 -100px;
 }
 .container .top .user {
   float: right;
@@ -608,6 +614,10 @@ body {
 }
 .container .bottom ul li .right i {
   padding-left: 10px;
+}
+.container .bottom ul img {
+  vertical-align: middle;
+  margin-left: 5px;
 }
 .container .bottom ul .even {
   background-color: #fbfbfb;

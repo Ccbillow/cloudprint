@@ -1,6 +1,7 @@
 package cn.cqupt.util;
 
 import cn.cqupt.model.CommonRes;
+import cn.cqupt.model.PrintFile;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,13 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Random;
 
 /**
- * 帮助类
+ * 云打印帮助类
  */
 public class CPHelps {
 
@@ -224,14 +228,14 @@ public class CPHelps {
      * @return
      * @throws Exception
      */
-    public static Class<?> parseByteToObject(byte[] bytes, Class<?> clazz) {
-        Class<?> obj = null;
+    public static <T>T parseByteToObject(byte[] bytes, T clazz) {
+        T obj = null;
         ByteArrayInputStream bis = null;
         ObjectInputStream ois = null;
         try {
             bis = new ByteArrayInputStream(bytes);
             ois = new ObjectInputStream(bis);
-            obj = (Class<?>) ois.readObject();
+            obj = (T) ois.readObject();
         } catch (Exception e) {
             logger.error("printing file parseByteToObject error:{}", e.getMessage());
             e.printStackTrace();
@@ -282,5 +286,44 @@ public class CPHelps {
         response.setSuccess(true);
         return response;
     }
+
+    /**
+     * 计算文件价格
+     * @param num
+     * @param isColorful
+     * @return
+     */
+    public static BigDecimal calculatePrice(int num, int isColorful) {
+        BigDecimal price = null;
+        /**
+         * 0为不彩印
+         * 1为彩印
+         */
+        if (isColorful == 0) {
+            price = new BigDecimal(CPConstant.NO_COLORFUL_PRICE);
+        } else if (isColorful == 1) {
+            price = new BigDecimal(CPConstant.COLORFUL_PRICE);
+        }
+        /**
+         *  计算该文件总价
+         */
+        price = price.multiply(new BigDecimal(num));
+        logger.info("file calculatePrice number:{}, iscolorful:{}, price:{}", num, isColorful, price);
+        return price;
+    }
+
+    /**
+     * 计算文件打印总价
+     * @param files
+     * @return
+     */
+    public static BigDecimal calculateTotalPrice(List<PrintFile> files) {
+        BigDecimal price = new BigDecimal(BigInteger.ZERO);
+        for (int i = 0; i < files.size(); i++) {
+            price = price.add(files.get(i).getPrice());
+        }
+        return price;
+    }
+
 
 }

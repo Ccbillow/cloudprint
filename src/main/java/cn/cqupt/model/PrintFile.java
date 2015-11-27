@@ -1,6 +1,7 @@
 package cn.cqupt.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by Cbillow on 15/10/28.
@@ -17,6 +18,8 @@ public class PrintFile implements Serializable{
     private int status;         //文件状态，0为待打印，1为已上传暂不打印，2为已打印(默认为0)
     private int isColorful;     //彩印   0为否，1为是(默认为0)
     private int isDelete;    //是否打印完立即删除，0为打印完立即删除，1为保存三天（默认打印完立即删除）
+    private BigDecimal price; //此文件打印价格
+
 
     public int getIsColorful() {
         return isColorful;
@@ -98,6 +101,15 @@ public class PrintFile implements Serializable{
         this.status = status;
     }
 
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "PrintFile{" +
@@ -111,6 +123,7 @@ public class PrintFile implements Serializable{
                 ", status=" + status +
                 ", isColorful=" + isColorful +
                 ", isDelete=" + isDelete +
+                ", price=" + price +
                 '}';
     }
 }
