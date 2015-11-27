@@ -32,6 +32,7 @@ public class CPClientTaskThead implements Runnable {
             while(true){
                 byte[] buff = new byte[is.available()];
                 is.read(buff);
+                //TODO 接受并处理来自客户端的信息
             }
         } catch (IOException e) {
             logger.error("client connection is fail, Disconnect the connection from IP:{}, e:{}", client.getIp(), e.getMessage());
