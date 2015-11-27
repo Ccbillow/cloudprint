@@ -236,49 +236,6 @@ public class PrintFileWebContriller {
         return JSON.toJSONString(result);
     }
 
-//    @RequestMapping(value = "/update/{pid}", produces = "application/json;charset=UTF-8")
-//    @ResponseBody
-//    public String updateFile(@PathVariable String pid, String number, String isColorful, String status,
-//                             HttpServletRequest request) {
-//        logger.error("PrintFileWebContriller updateFile start... pid:{}, number:{}, isColorful:{}, status:{}", pid, number, isColorful, status);
-//        HashMap<String, Object> result = Maps.newHashMap();
-//        User loginUser = (User) request.getSession().getAttribute("loginUser");
-//        if (loginUser == null) {
-//            result.put("status", 1);
-//            result.put("message", "请登录后操作");
-//            logger.error("PrintFileWebContriller deleteFile fail, user is not logining");
-//            return JSON.toJSONString(result);
-//        }
-//
-//        HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
-//        PrintFile file = (PrintFile) map.get("file");
-//        logger.error("PrintFileWebContriller updateFile old file:{}", file);
-//
-//        /**
-//         * 需要修改价格
-//         */
-//        if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("0")) {
-//            file.setIsColorful(0);
-//        } else if (!Strings.isNullOrEmpty(isColorful) && isColorful.equalsIgnoreCase("1")) {
-//            file.setIsColorful(1);
-//        }
-//        if (!Strings.isNullOrEmpty(number)) {
-//            file.setNumber(Integer.parseInt(number));
-//        }
-//        file.setPrice(CPHelps.calculatePrice(file.getNumber(), file.getIsColorful()));
-//
-//        //默认不勾选，放入待打印
-//        if (Strings.isNullOrEmpty(status)) {
-//            file.setStatus(0);
-//            //如果勾选了，则仅上传不打印
-//        } else if ("on".equalsIgnoreCase(status)) {
-//            file.setStatus(1);
-//        }
-//        logger.error("PrintFileWebContriller updateFile new file:{}", file);
-//        result = printFileService.updatePrintFile(file);
-//        return JSON.toJSONString(result);
-//    }
-
     @RequestMapping(value = "/load/{pid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String previewFile(@PathVariable String pid, HttpServletRequest request) {
