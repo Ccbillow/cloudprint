@@ -47,7 +47,7 @@ public class UserWebController {
     @RequestMapping(value = "/getusermessage", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getUserMessage(HttpServletRequest req, HttpServletResponse res) {
-        logger.info("UserWebController getUserMessage start...");
+        logger.info("getUserMessage start...");
         HashMap<String, Object> result = Maps.newHashMap();
         ServletContext context = req.getServletContext();
         HttpSession session = req.getSession();
@@ -67,7 +67,7 @@ public class UserWebController {
             result.put("status", 0);
             result.put("loginUser", userByOpenid);
             result.put("message", "用户已经登录，得到用户信息");
-            logger.info("UserWebController getUserMessage success! get user from cookie, result:{}", result);
+            logger.info("getUserMessage success! get user from cookie, result:{}", result);
             return JSON.toJSONString(result);
         }
 
@@ -88,7 +88,7 @@ public class UserWebController {
             result.put("status", 0);
             result.put("loginUser", userFromSession);
             result.put("message", "用户已经登录，得到用户信息");
-            logger.info("UserWebController getUserMessage success! get user from session, result:{}", result);
+            logger.info("getUserMessage success! get user from session, result:{}", result);
             return JSON.toJSONString(result);
         }
 
@@ -103,7 +103,7 @@ public class UserWebController {
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
-        logger.info("UserWebController getUserMessage success! get user from application, result:{}", result);
+        logger.info("getUserMessage success! get user from application, result:{}", result);
         return JSON.toJSONString(result);
     }
 
@@ -112,7 +112,7 @@ public class UserWebController {
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 3);
         res.addCookie(cookie);
-        logger.info("UserWebController getUserMessage setUserCookie openid:{}", openid);
+        logger.info("getUserMessage setUserCookie openid:{}", openid);
     }
 
     private String getUserCookie(HttpServletRequest req) {
@@ -126,21 +126,21 @@ public class UserWebController {
                 }
             }
         }
-        logger.info("UserWebController getUserMessage getUserCookie openid:{}", openid);
+        logger.info("getUserMessage getUserCookie openid:{}", openid);
         return openid;
     }
 
     @RequestMapping(value = "/getValidateCode", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getValidateCode(String mobile, HttpServletRequest req) {
-        logger.info("UserWebController getValidateCode mobile:{}", mobile);
+        logger.info("getValidateCode mobile:{}", mobile);
 
         HashMap<String, Object> result = userService.sendSMS(mobile);
 
         String validateCode = (String) result.get("validateCode");
         req.getSession().setAttribute("validateCode", validateCode);
         result.remove("validateCode");
-        logger.info("UserWebController getValidateCode saving valiteCode to session " + validateCode);
+        logger.info("getValidateCode saving valiteCode to session " + validateCode);
         return JSON.toJSONString(result);
     }
 
@@ -150,7 +150,7 @@ public class UserWebController {
     public String registerUser(String mobile, String password, String nickname, String VCode,
                                HttpServletRequest req) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserWebController registerUser mobile:{}, password:{}, nickname:{}, VCode:{}", mobile, password, nickname, VCode);
+        logger.info("registerUser mobile:{}, password:{}, nickname:{}, VCode:{}", mobile, password, nickname, VCode);
         String validateCode = (String) req.getSession().getAttribute("validateCode");
         if (Strings.isNullOrEmpty(validateCode) || !validateCode.equalsIgnoreCase(VCode)) {
             result.put("status", 1);
@@ -181,7 +181,7 @@ public class UserWebController {
     @RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String login(String mobile, String password, HttpServletRequest req) {
-        logger.info("UserWebController login mobile:{}, password:{}", mobile, password);
+        logger.info("login mobile:{}, password:{}", mobile, password);
 
         HashMap<String, Object> result = userService.login(mobile, password);
         if (result.containsKey("loginUser")) {
@@ -204,7 +204,7 @@ public class UserWebController {
                     cookie.setPath("/");
                     cookie.setMaxAge(0);
                     res.addCookie(cookie);
-                    logger.info("UserWebController logout remove cookie:{}", cookies[i].getName());
+                    logger.info("logout remove cookie:{}", cookies[i].getName());
                 }
             }
 
@@ -216,14 +216,14 @@ public class UserWebController {
         }
         result.put("status", 0);
         result.put("message", "注销成功");
-        logger.info("UserWebController logout success");
+        logger.info("logout success");
         return JSON.toJSONString(result);
     }
 
     @RequestMapping(value = "/update/{uid}", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String update(@PathVariable String id, String password, String nickname, HttpServletRequest req) {
-        logger.info("UserWebController update id:{}, password:{}, nickname:{}", id, password, nickname);
+        logger.info("update id:{}, password:{}, nickname:{}", id, password, nickname);
 
         HashMap<String, Object> result = Maps.newHashMap();
         User loginUser = (User) req.getSession().getAttribute("loginUser");
@@ -241,7 +241,7 @@ public class UserWebController {
     @RequestMapping(value = "/refundPassword", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String updatePassword(String password, String VCode, String mobile, HttpServletRequest req) {
-        logger.info("UserWebController refundPassword  VCode:{}, mobile:{} ", VCode, mobile);
+        logger.info("refundPassword  VCode:{}, mobile:{} ", VCode, mobile);
         HashMap<String, Object> result = Maps.newHashMap();
 
         String validateCode = (String) req.getSession().getAttribute("validateCode");
@@ -264,7 +264,7 @@ public class UserWebController {
         BufferedImage image;
         try {
             bindingURL = CPHelps.getBingdingURL();
-            logger.info("UserWebController getQRCode binding url : " + bindingURL);
+            logger.info("getQRCode binding url : " + bindingURL);
             image = QRCodeUtil.createImage(bindingURL, null, true);
 
             OutputStream out = response.getOutputStream();
@@ -274,7 +274,7 @@ public class UserWebController {
             byte[] b = new byte[is.available()];
             is.read(b);
             out.write(b);
-            logger.info("UserWebController getQRCode image writing success");
+            logger.info("getQRCode image writing success");
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -300,20 +300,20 @@ public class UserWebController {
     @RequestMapping(value = "/bindingWeChat", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String bindingWeChat(String code, HttpServletRequest req) {
-        logger.info("UserWebController bindingWeChat start... code:{}", code);
+        logger.info("bindingWeChat start... code:{}", code);
 
         HashMap<String, Object> result = Maps.newHashMap();
         ServletContext application = req.getServletContext();
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
-        logger.info("UserWebController bindingWeChat getAccessTokenURL:{}", accessTokenURL);
+        logger.info("bindingWeChat getAccessTokenURL:{}", accessTokenURL);
         String content;
         String userinfo;
         String wxUserInfoUrl;
         WeChatUserInfoRes res = null;
         try {
             content = CPHelps.HttpGet(accessTokenURL);
-            logger.info("UserWebController bindingWeChat accessTokenURL return content:{}", content);
+            logger.info("bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
                 result.put("status", 1);
                 result.put("message", "微信登陆失败，无法获取到微信号");
@@ -326,7 +326,7 @@ public class UserWebController {
                  * 根据openid获取微信用户信息
                  */
                 wxUserInfoUrl = CPHelps.getWXUserInfoUrl(wc.getOpenid(), wc.getAccess_token());
-                logger.info("UserWebController bindingWeChat wxUserInfoUrl return weixin UserInfo:{}", wxUserInfoUrl);
+                logger.info("bindingWeChat wxUserInfoUrl return weixin UserInfo:{}", wxUserInfoUrl);
                 userinfo = CPHelps.HttpGet(wxUserInfoUrl);
                 if (userinfo.contains("errcode") && userinfo.contentEquals("errmsg")) {
                     result.put("status", 1);

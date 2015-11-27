@@ -43,7 +43,7 @@ public class AccountWebController {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "请登录后操作");
-            logger.error("PrintFileWebContriller findFilesByStatus fail, user is not logining");
+            logger.error("findFilesByStatus fail, user is not logining");
             return JSON.toJSONString(result);
         }
 

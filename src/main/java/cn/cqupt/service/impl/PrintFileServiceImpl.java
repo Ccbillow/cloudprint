@@ -85,7 +85,7 @@ public class PrintFileServiceImpl implements PrintFileService {
             }
             //向中间表添加关联
             printFileDao.addTUP(params);
-            logger.info("PrintFileService addPrintFile the Relationship:{}", params);
+            logger.info("addPrintFile the Relationship:{}", params);
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "添加文件失败，详情请查看日志");

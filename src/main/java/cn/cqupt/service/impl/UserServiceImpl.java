@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     public HashMap<String, Object> sendSMS(String mobile) {
         HashMap<String, Object> map = Maps.newHashMap();
-        logger.info("UserServiceImpl sendSMS" + mobile);
+        logger.info("sendSMS" + mobile);
 
         //随机生成验证码
         String validateCode = CPHelps.getValidateCode();
@@ -48,13 +48,13 @@ public class UserServiceImpl implements UserService {
         }
         map.put("result", result);
         map.put("validateCode", validateCode);
-        logger.info("UserServiceImpl getValidateCode " + result);
+        logger.info("getValidateCode " + result);
         return map;
     }
 
     public HashMap<String, Object> addUser(User user) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl addUser" + user.toString());
+        logger.info("addUser" + user.toString());
 
         User temp = userDao.loadUserByMobile(user.getMobile());
         if (temp != null) {
@@ -66,37 +66,37 @@ public class UserServiceImpl implements UserService {
         userDao.addUser(user);
         result.put("status", 0);
         result.put("message", "添加用户成功");
-        logger.info("UserServiceImpl registerUser success");
+        logger.info("registerUser success");
         return result;
     }
 
     public HashMap<String, Object> login(String mobile, String password) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl login" + mobile + " " + password);
+        logger.info("login" + mobile + " " + password);
 
         User loginUser = userDao.loadUserByMobile(mobile);
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "用户不存在");
-            logger.error("UserServiceImpl login fail : user does not exist");
+           logger.error("login fail : user does not exist");
             return result;
         } else if (!password.equalsIgnoreCase(loginUser.getPassword())) {
             result.put("status", 1);
             result.put("message", "密码错误");
-            logger.error("UserServiceImpl login fail : password is wrong");
+           logger.error("login fail : password is wrong");
             return result;
         }
         loginUser.setPassword("");
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "登陆成功");
-        logger.info("UserServiceImpl login success");
+        logger.info("login success");
         return result;
     }
 
     public HashMap<String, Object> updateUser(int id, String password, String nickname) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl updateUser id" + id + " password" + password + " nickname" + nickname);
+        logger.info("updateUser id" + id + " password" + password + " nickname" + nickname);
 
         try {
             User temp = userDao.loadUserById(id);
@@ -110,26 +110,26 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "更新用户失败，请查看日志");
-            logger.info("UserServiceImpl updateUser error : {}", e);
+            logger.info("updateUser error : {}", e);
             return result;
         }
 
         result.put("status", 0);
         result.put("message", "更新用户成功");
-        logger.info("UserServiceImpl updateUser success!!! result:{}", result);
+        logger.info("updateUser success!!! result:{}", result);
         return result;
     }
 
     public HashMap<String, Object> refundPassword(String mobile, String password) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl refundPassword mobile: " + mobile);
+        logger.info("refundPassword mobile: " + mobile);
 
         try {
             User temp = userDao.loadUserByMobile(mobile);
             if (temp == null) {
                 result.put("status", 1);
                 result.put("message", "重置密码失败，此用户不存在");
-                logger.error("UserServiceImpl refundPassword fail, mobile is not exist");
+               logger.error("refundPassword fail, mobile is not exist");
                 return result;
             }
             //密码重置为password
@@ -138,34 +138,34 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "重置密码操作失败，请查看日志");
-            logger.error("UserServiceImpl refundPassword errpr : {}", e);
+           logger.error("refundPassword errpr : {}", e);
             return result;
         }
         result.put("status", 0);
         result.put("message", "重置密码成功");
-        logger.info("UserServiceImpl refundPassword success!!!, result:{}", result);
+        logger.info("refundPassword success!!!, result:{}", result);
         return result;
     }
 
     public User loadUserByOpenid(String openid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl loadUserByOpenid openid:{}", openid);
+        logger.info("loadUserByOpenid openid:{}", openid);
 
         User loginUser = userDao.loadUserByOpenId(openid);
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "用户不存在");
-            logger.error("UserServiceImpl loadUserByOpenid fail : user does not exist");
+           logger.error("loadUserByOpenid fail : user does not exist");
             return null;
         }
 
-        logger.info("UserServiceImpl loadUserByOpenid success");
+        logger.info("loadUserByOpenid success");
         return loginUser;
     }
 
     public HashMap<String, Object> bindingWeChat(String openid, String nickname, String headimgurl) {
         HashMap<String, Object> result = Maps.newHashMap();
-        logger.info("UserServiceImpl bindingWeChat start... the openid:{} ", openid);
+        logger.info("bindingWeChat start... the openid:{} ", openid);
 
         try {
             User temp = userDao.loadUserByOpenId(openid);
@@ -179,20 +179,20 @@ public class UserServiceImpl implements UserService {
                 userDao.addUser(user);
                 result.put("message", "此微信未绑定，已经添加用户，并自动登录");
                 result.put("loginUser", user);
-                logger.info("UserServiceImpl bindingWeChat the openId is not binding, and it is binding now");
+                logger.info("bindingWeChat the openId is not binding, and it is binding now");
             } else {
                 result.put("message", "此微信已绑定，自动登录");
                 result.put("loginUser", temp);
-                logger.info("UserServiceImpl bindingWeChat the openId has already bindinged, and it is logining now！");
+                logger.info("bindingWeChat the openId has already bindinged, and it is logining now！");
             }
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "绑定微信操作失败，请查看日志");
-            logger.error("UserServiceImpl bindingWeChat error:{}", e);
+           logger.error("bindingWeChat error:{}", e);
             return result;
         }
         result.put("status", 0);
-        logger.info("UserServiceImpl bindingWeChat is success!!! result:{}", result);
+        logger.info("bindingWeChat is success!!! result:{}", result);
         return result;
     }
 }
