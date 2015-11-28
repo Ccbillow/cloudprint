@@ -1,6 +1,7 @@
 package cn.cqupt.task;
 
 import cn.cqupt.model.request.CPClient;
+import cn.cqupt.util.CPHelps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +31,9 @@ public class CPClientTaskThead implements Runnable {
         int size = -1;
         try {
             while(true){
-                byte[] buff = new byte[is.available()];
+                byte[] buff = new byte[512];
                 is.read(buff);
+
                 //TODO 接受并处理来自客户端的信息
             }
         } catch (IOException e) {

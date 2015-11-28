@@ -228,7 +228,7 @@ public class CPHelps {
      * @return
      * @throws Exception
      */
-    public static <T>T parseByteToObject(byte[] bytes, T clazz) {
+    public static <T>T parseByteToObject(byte[] bytes, Class<T> clazz) {
         T obj = null;
         ByteArrayInputStream bis = null;
         ObjectInputStream ois = null;
