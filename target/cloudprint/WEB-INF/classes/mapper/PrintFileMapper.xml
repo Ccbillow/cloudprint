@@ -5,8 +5,10 @@
 
     <!--添加文件-->
     <insert id="addPrintFile" parameterType="PrintFile" useGeneratedKeys="true" keyProperty="id">
-        insert into t_printfile (filename, type, number, path, sha1, overduetime, status, iscolorful, isdelete)
-            values (#{filename}, #{type}, #{number}, #{path}, #{sha1}, #{overdueTime}, #{status}, #{isColorful}, #{isDelete});
+        insert into t_printfile (filename, type, number, path, sha1,
+            overduetime, status, iscolorful, isdelete, price)
+          values (#{filename}, #{type}, #{number}, #{path}, #{sha1},
+            #{overdueTime}, #{status}, #{isColorful}, #{isDelete}, #{price});
     </insert>
 
     <!--添加文件时需要添加关联-->
@@ -33,8 +35,9 @@
     <!--更新文件-->
     <update id="updatePrintFile" parameterType="PrintFile">
         update t_printfile
-          set number=#{number}, path=#{path}, iscolorful=#{isColorful}, filename=#{filename},
-          type=#{type}, overduetime=#{overdueTime}, status=#{status}, isdelete=#{isDelete}
+          set number=#{number}, path=#{path}, iscolorful=#{isColorful},
+          filename=#{filename},type=#{type}, overduetime=#{overdueTime},
+          status=#{status}, isdelete=#{isDelete}, price=#{price}
           where id=#{id}
     </update>
 

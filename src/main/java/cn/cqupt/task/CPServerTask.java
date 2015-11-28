@@ -118,7 +118,7 @@ public class CPServerTask implements Runnable {
                     try {
                         client.getOs().write("0".getBytes());
                     } catch (IOException e) {
-                        logger.info("客户端断开连接，Disconnect the connection from IP:{}",client.getIp());
+                        logger.info("客户端断开连接，Disconnect the connection from IP:{}, e:{}", client.getIp(), e);
                         destroyClient(client);
                     }
                 }

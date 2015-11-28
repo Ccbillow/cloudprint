@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class ClientReq implements Serializable{
 
+
+
+
     private List<PrintFile> files;
 
     private Account account;

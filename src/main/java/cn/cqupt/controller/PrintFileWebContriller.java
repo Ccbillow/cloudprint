@@ -9,7 +9,6 @@ import cn.cqupt.util.*;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -31,7 +31,7 @@ import java.util.HashMap;
  * Created by Cbillow on 15/10/28.
  */
 @Controller
-@RequestMapping("/printFile")
+@RequestMapping("/printfile")
 public class PrintFileWebContriller {
 
     private static final Logger logger = LoggerFactory.getLogger(PrintFileWebContriller.class);
@@ -45,7 +45,7 @@ public class PrintFileWebContriller {
 
     @RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
     public void uploadFile(String id, String number, String status, String isColorful, String isDelete,
-                             @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+                           @RequestParam("file") CommonsMultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         logger.info("uploadFile begin... number:{}, states:{}, isColorful:{}, isDelete:{}", number, status, isColorful, isDelete);
         HashMap<String, Object> result = Maps.newHashMap();
         PrintFile pf = new PrintFile();
@@ -129,7 +129,7 @@ public class PrintFileWebContriller {
             logger.info("uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
             path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
             logger.info("uploadFile, 文件存入阿里云结束 path:{}", path);
-            pf.setPath(path);
+            pf.setPath(URLEncoder.encode(path, "UTF-8"));
         } catch (IOException e) {
             result.put("status", 1);
             result.put("message", "将文件存入阿里云出错");
@@ -141,7 +141,7 @@ public class PrintFileWebContriller {
         returnScript(result, response);
     }
 
-    private void returnScript(HashMap<String, Object> result, HttpServletResponse response){
+    private void returnScript(HashMap<String, Object> result, HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
         try {
             PrintWriter out = response.getWriter();
@@ -287,7 +287,7 @@ public class PrintFileWebContriller {
                 }).start();
 
                 //每隔60分钟扫描一次
-                Thread.sleep(CPConstant.INTERVAL_DAY*2);
+                Thread.sleep(CPConstant.INTERVAL_DAY * 2);
             } catch (Exception e) {
                 logger.error("TimingDeleteTask exception:{}", e);
 

@@ -6,11 +6,11 @@ define(function(require, exports, module){
     /**
      * �û���¼�ӿ�
      */
-    var loginUrl = '/cloudprint/user/login',
-        regUrl = '/cloudprint/user/register',
-        logoutUrl = '/cloudprint/user/logout',
-        infoUrl = '/cloudprint/user/getUserMessage',
-        codeUrl = '/cloudprint/user/getValidateCode';
+    var loginUrl = '/user/login',
+        regUrl = '/user/register',
+        logoutUrl = '/user/logout',
+        infoUrl = '/user/getusermessage',
+        codeUrl = '/user/getValidateCode';
 
     User.login = function(mobile, password) {
         return $.get(loginUrl)
