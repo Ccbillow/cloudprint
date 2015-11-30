@@ -17,9 +17,9 @@ public class PrintFile implements Serializable{
     private String overdueTime;   //过期时间
     private int status;         //文件状态，0为待打印，1为已上传暂不打印，2为已打印(默认为0)
     private int isColorful;     //彩印   0为否，1为是(默认为0)
-    private int isDelete;    //是否打印完立即删除，0为打印完立即删除，1为保存三天（默认打印完立即删除）
-    private BigDecimal price; //此文件打印价格
-
+    private int isDelete;       //是否打印完立即删除，0为打印完立即删除，1为保存三天（默认打印完立即删除）
+    private String price;       //此文件打印价格
+    private int pages;          //页数
 
     public int getIsColorful() {
         return isColorful;
@@ -101,13 +101,20 @@ public class PrintFile implements Serializable{
         this.status = status;
     }
 
-
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 
     @Override
@@ -123,7 +130,8 @@ public class PrintFile implements Serializable{
                 ", status=" + status +
                 ", isColorful=" + isColorful +
                 ", isDelete=" + isDelete +
-                ", price=" + price +
+                ", price='" + price + '\'' +
+                ", pages=" + pages +
                 '}';
     }
 }

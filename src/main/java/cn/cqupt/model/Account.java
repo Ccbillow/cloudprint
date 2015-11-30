@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class Account implements Serializable{
 
     private int id;
-    private BigDecimal totalPrice;
+    private String totalPrice;
     private int uid;
     private String date;    //生成账单日期
     private String printerID;       //打印机id
@@ -22,11 +22,11 @@ public class Account implements Serializable{
         this.id = id;
     }
 
-    public BigDecimal getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
 

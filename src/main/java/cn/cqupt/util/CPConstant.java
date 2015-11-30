@@ -94,7 +94,7 @@ public class CPConstant {
     /**
      * 缓存Client信息
      */
-    public static final ConcurrentHashMap<String,CPClient> CLIENTS = new ConcurrentHashMap<String, CPClient>();
+    public static final ConcurrentHashMap<String, CPClient> CLIENTS = new ConcurrentHashMap<String, CPClient>();
 
     /**
      * 不彩印价格

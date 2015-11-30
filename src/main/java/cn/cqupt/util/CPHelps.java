@@ -2,6 +2,7 @@ package cn.cqupt.util;
 
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
+import cn.cqupt.model.User;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -110,14 +111,66 @@ public class CPHelps {
     public static String uploadFileToOSS(String weixin, CommonsMultipartFile file) throws IOException {
         //生成Object路径，文件夹phone区分，文件名
         String objectKey = weixin + "/" + file.getOriginalFilename();
-//        OSSClient client = OSSUtils.getOSSClient();
         OSSClient client = OSSUtils.getOSSClient();
+
         //把Bucket设置成所有人可读
         OSSUtils.setBucketPublicReadable(client, CPConstant.BUCKET_NAME);
         //上传文件
         OSSUtils.uploadFile(client, CPConstant.BUCKET_NAME, objectKey, file);
         //返回链接，可以直接用于下载
         return CPConstant.OSS_URL + objectKey;
+    }
+
+    /**
+     * 从oss下载文件
+     * <p/>
+     * 保存在D盘---cloudprint----该用户目录下（可自己修改路径）
+     *
+     * @param pf
+     * @param user
+     */
+    public static void downloadFileFromOSS(PrintFile pf, User user) {
+        String objectKey = user.getWeixin() + "/" + pf.getFilename();
+        OSSClient client = OSSUtils.getOSSClient();
+        OSSUtils.downloadFile(client, CPConstant.BUCKET_NAME, objectKey, "D:/cloudprint/" + user.getNickname() + "/" + pf.getFilename());
+    }
+    /**
+     * 从阿里云上下载文件
+     *
+     * 默认保存在D盘---cloudprint----该用户目录下
+     *
+     * @param pf
+     * @param user
+     */
+    public void fileDownloadFromOSS(PrintFile pf, User user) {
+        HttpClient httpClient = new DefaultHttpClient();
+        File file;
+        InputStream is = null;
+        FileOutputStream fos = null;
+
+        HttpGet get = new HttpGet(pf.getPath());
+        get.setHeader("Content-Type", "application/octet-stream");
+        get.setHeader("Content-Disposition", "attachment;filename=" + pf.getFilename());
+        try {
+            HttpResponse response = httpClient.execute(get);
+            file = new File("D:/cloudprint/" + user.getNickname() + "/"+ pf.getFilename());
+            is = response.getEntity().getContent();
+            fos = new FileOutputStream(file);
+
+            int ch = 0;
+            while ((ch = is.read()) != -1) {
+                fos.write(ch);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -152,6 +205,7 @@ public class CPHelps {
 
     /**
      * 得到微信用户信息的URL
+     *
      * @param openId
      * @param accessToken
      * @return
@@ -166,6 +220,7 @@ public class CPHelps {
 
     /**
      * httpget
+     *
      * @param url
      * @return
      * @throws IOException
@@ -223,12 +278,13 @@ public class CPHelps {
 
     /**
      * 把对象反序列化
+     *
      * @param bytes
      * @param clazz
      * @return
      * @throws Exception
      */
-    public static <T>T parseByteToObject(byte[] bytes, Class<T> clazz) {
+    public static <T> T parseByteToObject(byte[] bytes, Class<T> clazz) {
         T obj = null;
         ByteArrayInputStream bis = null;
         ObjectInputStream ois = null;
@@ -289,11 +345,13 @@ public class CPHelps {
 
     /**
      * 计算文件价格
+     *
      * @param num
      * @param isColorful
      * @return
      */
-    public static BigDecimal calculatePrice(int num, int isColorful) {
+    public static String calculatePrice(int num, int isColorful) {
+//            , int pages) {
         BigDecimal price = null;
         /**
          * 0为不彩印
@@ -309,20 +367,21 @@ public class CPHelps {
          */
         price = price.multiply(new BigDecimal(num));
         logger.info("file calculatePrice number:{}, iscolorful:{}, price:{}", num, isColorful, price);
-        return price;
+        return price.toString();
     }
 
     /**
      * 计算文件打印总价
+     *
      * @param files
      * @return
      */
-    public static BigDecimal calculateTotalPrice(List<PrintFile> files) {
+    public static String calculateTotalPrice(List<PrintFile> files) {
         BigDecimal price = new BigDecimal(BigInteger.ZERO);
-        for (int i = 0; i < files.size(); i++) {
-            price = price.add(files.get(i).getPrice());
+        for (PrintFile file : files) {
+            price = price.add(new BigDecimal(file.getPrice()));
         }
-        return price;
+        return price.toString();
     }
 
 

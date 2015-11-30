@@ -11,9 +11,9 @@
             classpath*:spring-mybatis.xml</param-value>
     </context-param>
 
-    <listener>
+    <!--<listener>
         <listener-class>cn.cqupt.listener.CPServerListener</listener-class>
-    </listener>
+    </listener>-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

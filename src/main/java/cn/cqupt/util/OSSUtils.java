@@ -146,6 +146,8 @@ public class OSSUtils {
             throws OSSException, ClientException, IOException {
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentLength(file.getSize());
+        objectMeta.setContentDisposition("attachment;filename=" + file.getOriginalFilename());
+        objectMeta.setContentType("application/octet-stream");
         //判断上传类型，多的可根据自己需求来判定
 //        if (filename.endsWith("xml")) {
 //            objectMeta.setContentType("text/xml");
@@ -176,4 +178,5 @@ public class OSSUtils {
         client.getObject(new GetObjectRequest(bucketName, Objectkey),
                 new File(filename));
     }
+
 }

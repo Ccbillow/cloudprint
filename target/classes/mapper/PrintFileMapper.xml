@@ -6,9 +6,9 @@
     <!--添加文件-->
     <insert id="addPrintFile" parameterType="PrintFile" useGeneratedKeys="true" keyProperty="id">
         insert into t_printfile (filename, type, number, path, sha1,
-            overduetime, status, iscolorful, isdelete, price)
+            overduetime, status, iscolorful, isdelete, price, pages)
           values (#{filename}, #{type}, #{number}, #{path}, #{sha1},
-            #{overdueTime}, #{status}, #{isColorful}, #{isDelete}, #{price});
+            #{overdueTime}, #{status}, #{isColorful}, #{isDelete}, #{price}, #{pages});
     </insert>
 
     <!--添加文件时需要添加关联-->

@@ -30,7 +30,7 @@ public class CPServerTask implements Runnable {
     }
 
     public void run() {
-        logger.info("服务器启动.");
+        logger.info("服务器启动, 等待客户端连接...");
 
         try {
             if (serverSocket == null) {
@@ -83,12 +83,13 @@ public class CPServerTask implements Runnable {
     }
 
     public void destroyClients(){
-        logger.info("全部客户端连接清空");
+        logger.info("全部客户端连接清空：");
         isCheckHeartbeat = false;
         CPClient client;
         ConcurrentHashMap<String,CPClient> clients = CPConstant.CLIENTS;
         Set<String> ips = clients.keySet();
         for(String ip:ips){
+            logger.info("依次对每个客户端清空，客户端连接清空 IP:{}", ip);
             destroyClient(ip);
         }
 
@@ -111,8 +112,10 @@ public class CPServerTask implements Runnable {
         public void run() {
             while(isCheckHeartbeat){
                 CPClient client;
+                logger.info("开始对客户端做心跳监测，如果连接的客户端没有接收到数据，则将这个连接断开");
                 ConcurrentHashMap<String,CPClient> clients = CPConstant.CLIENTS;
                 Set<String> ips = clients.keySet();
+                logger.info("心跳监测：依次对以下IP进行检测。 IP:{}", ips);
                 for(String ip:ips){
                     client = clients.get(ip);
                     try {

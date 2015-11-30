@@ -104,7 +104,7 @@
 
 
 <div class="upload boundIn" id="upload">
-    <form action="/printFile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
+    <form action="/printfile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
         <input type="hidden" name="id" value=""/>
         <div class="upload-content">
             <div class="upload-content-title">

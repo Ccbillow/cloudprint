@@ -76,7 +76,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 String pidByUid = printFileDao.loadPidByUid(params);
                 if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
                     result.put("status", 1);
-                    result.put("message", "不能重复添加文件");
+                    result.put("message", "文件内容不能相同");
                     logger.error("addPrintFile, with the same openId, file is not allowed to repeated");
                     return result;
                 }
@@ -86,8 +86,9 @@ public class PrintFileServiceImpl implements PrintFileService {
             printFileDao.addTUP(params);
             logger.info("addPrintFile the Relationship:{}", params);
         } catch (Exception e) {
+            OSSUtils.deleteObject(OSSUtils.getOSSClient(), file.getPath().substring(CPConstant.OSS_URL.length()));
             result.put("status", 1);
-            result.put("message", "添加文件失败，详情请查看日志");
+            result.put("message", "添加文件失败");
             logger.error("addPrintFile fail : {} ", e);
             return result;
         }

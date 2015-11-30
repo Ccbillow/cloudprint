@@ -12,4 +12,7 @@
 
     <!-- 扫描文件（自动将servicec层注入） -->
     <context:component-scan base-package="cn.cqupt.service"/>
+
+    <bean id="server" class="cn.cqupt.listener.CPServerListener" scope="singleton"
+          init-method="init"  destroy-method="close"/>
 </beans>

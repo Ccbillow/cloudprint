@@ -62,81 +62,91 @@ public class PrintFileWebContriller {
             return;
         }
 
-        /**
-         * 得到文件名，判断其类型
-         * 暂时只支持WORD和PDF
-         */
-        String filename = file.getOriginalFilename();
-        if (filename.endsWith(".doc") || filename.endsWith(".docx")) {
-            type = "0";
-        } else if (filename.endsWith(".pdf")) {
-            type = "1";
-        } else {
+        try {
+            /**
+             * 得到文件名，判断其类型
+             * 暂时只支持WORD和PDF
+             */
+            String filename = file.getOriginalFilename();
+            if (filename.endsWith(".doc") || filename.endsWith(".docx")) {
+                type = "0";
+            } else if (filename.endsWith(".pdf")) {
+                type = "1";
+            } else {
+                result.put("status", 1);
+                result.put("message", "暂不支持文件类型");
+                logger.error("uploadFile, 暂不支持文件类型");
+                returnScript(result, response);
+                return;
+            }
+
+            pf.setFilename(filename);
+            //判断类型为pdf还是word
+            if ("0".equalsIgnoreCase(type)) {
+                pf.setType(PrintType.WORD.getCode());
+            } else if ("1".equalsIgnoreCase(type)) {
+                pf.setType(PrintType.PDF.getCode());
+            }
+
+            //SHA1生成文件\唯一标识
+            pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
+            //所有文件保存3天
+            pf.setOverdueTime(DateUtils.unixTimestampToDate(new Date().getTime() + CPConstant.THREE_DAYS));
+
+            //默认打印完立即删除，不勾选
+            if (Strings.isNullOrEmpty(isDelete)) {
+                pf.setIsDelete(0);
+                //打印完保存三天
+            } else if ("on".equalsIgnoreCase(isDelete)) {
+                pf.setIsDelete(1);
+            }
+
+            //默认不彩印，不勾选
+            if (Strings.isNullOrEmpty(isColorful)) {
+                pf.setIsColorful(0);
+            } else if ("on".equalsIgnoreCase(isColorful)) {
+                //勾选彩印， 则彩印
+                pf.setIsColorful(1);
+            }
+
+            //默认不勾选，放入待打印
+            if (Strings.isNullOrEmpty(status)) {
+                pf.setStatus(0);
+                //如果勾选了，则仅上传不打印，放入已上传
+            } else if ("on".equalsIgnoreCase(status)) {
+                pf.setStatus(1);
+            }
+
+            /**
+             * 计算打印价格，并设置
+             */
+            pf.setNumber(Integer.parseInt(number));
+            pf.setPrice(CPHelps.calculatePrice(pf.getNumber(), pf.getIsColorful()));
+
+            logger.info("uploadFile the file:{}", pf);
+
+            try {
+                //把文件存入阿里云，得到路径
+                logger.info("uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
+                path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
+                pf.setPath(URLEncoder.encode(path, "UTF-8"));
+                logger.info("uploadFile, 文件存入阿里云结束 path:{}", pf.getPath());
+            } catch (IOException e) {
+                result.put("id", id);
+                result.put("status", 1);
+                result.put("message", "将文件存入阿里云出错");
+                logger.error("uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
+                returnScript(result, response);
+                return;
+            }
+            result = printFileService.addPrintFile(pf, loginUser);
+        } catch (Exception e) {
             result.put("status", 1);
-            result.put("message", "暂不支持文件类型");
-            logger.error("uploadFile, 暂不支持文件类型");
+            result.put("message", "上传文件出错");
+            logger.error("uploadFile, 上传文件出错  出错信息 e:{}", e);
             returnScript(result, response);
             return;
         }
-
-        pf.setFilename(filename);
-        //判断类型为pdf还是word
-        if ("0".equalsIgnoreCase(type)) {
-            pf.setType(PrintType.WORD.getCode());
-        } else if ("1".equalsIgnoreCase(type)) {
-            pf.setType(PrintType.PDF.getCode());
-        }
-
-        //SHA1生成文件\唯一标识
-        pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
-        //所有文件保存3天
-        pf.setOverdueTime(DateUtils.unixTimestampToDate(new Date().getTime() + CPConstant.THREE_DAYS));
-
-        //默认打印完立即删除，不勾选
-        if (Strings.isNullOrEmpty(isDelete)) {
-            pf.setIsDelete(0);
-            //打印完保存三天
-        } else if ("on".equalsIgnoreCase(isDelete)) {
-            pf.setIsDelete(1);
-        }
-
-        //默认不彩印，不勾选
-        if (Strings.isNullOrEmpty(isColorful)) {
-            pf.setIsColorful(0);
-        } else if ("on".equalsIgnoreCase(isColorful)) {
-            //勾选彩印， 则彩印
-            pf.setIsColorful(1);
-        }
-
-        //默认不勾选，放入待打印
-        if (Strings.isNullOrEmpty(status)) {
-            pf.setStatus(0);
-            //如果勾选了，则仅上传不打印，放入已上传
-        } else if ("on".equalsIgnoreCase(status)) {
-            pf.setStatus(1);
-        }
-
-        /**
-         * 计算打印价格，并设置
-         */
-        pf.setNumber(Integer.parseInt(number));
-        pf.setPrice(CPHelps.calculatePrice(Integer.parseInt(number), Integer.parseInt(isColorful)));
-
-        logger.info("uploadFile the file:{}", pf);
-
-        try {
-            //把文件存入阿里云，得到路径
-            logger.info("uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
-            path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
-            logger.info("uploadFile, 文件存入阿里云结束 path:{}", path);
-            pf.setPath(URLEncoder.encode(path, "UTF-8"));
-        } catch (IOException e) {
-            result.put("status", 1);
-            result.put("message", "将文件存入阿里云出错");
-            logger.error("uploadFile, 将文件存入阿里云出错  出错信息 e:{}", e);
-            returnScript(result, response);
-        }
-        result = printFileService.addPrintFile(pf, loginUser);
         result.put("id", id);
         returnScript(result, response);
     }

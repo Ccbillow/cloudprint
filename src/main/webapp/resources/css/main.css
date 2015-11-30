@@ -594,6 +594,8 @@ body {
   color: #b1b1b1;
 }
 .container .bottom ul {
+  height: 280px;
+  overflow: hidden;
   list-style-type: none;
   padding: 0;
   margin: 0;

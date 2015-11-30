@@ -522,19 +522,19 @@ define(function(require, exports, module){
             html += '<div data-pid="'+value.id+'" class="content-text ' + str + '">\
                             <i class="fa fa-file-o"></i>\
                             <span>'+value.filename+'</span>\
-                            <div class="icons">'+getIcons(status, this.id)+'</div>\
+                            <div class="icons">'+getIcons(status, this.id, this.path)+'</div>\
                         </div>';
         });
 
-        function getIcons(status, id) {
+        function getIcons(status, id, path) {
             // todo
             var icons = [
-                '<a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
+                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     '
             ];
@@ -608,43 +608,56 @@ define(function(require, exports, module){
             // 显示等待界面
             $content.html(waiting);
 
-            load({
-                status: status,
-                page: 1,
-                condition: [true],
-                $loadTo: [$content],
-                done: function(data) {
-                    data.totalPage && $("#pages").createPage({
-                        pageCount: data.totalPage,
-                        current: 2,
-                        backFn:function(page){
-                            loader(status, page);
+            function forPages(page, callback) {
+                page = page || 1;
+                load({
+                    status: status,
+                    page: page,
+                    condition: [true],
+                    $loadTo: [$content],
+                    done: function(data) {
+                        if(!!callback) {
+                            data.totalPage && $("#pages").createPage({
+                                pageCount: data.totalPage,
+                                current: data.nextPageNum,
+                                backFn: callback
+                            });
                         }
-                    });
-                },
-                compilder: [getContentFiles],
-                fail: function(data, params) {
-                    if(data.message == '请登录后操作'){
-                        showLogin()
+                    },
+                    compilder: [getContentFiles],
+                    fail: function(data, params) {
+                        if(data.message == '请登录后操作'){
+                            showLogin()
+                        }
+                        $content.html(nofiles)
                     }
-                    $content.html(nofiles)
-                }
-            })
+                })
+            }
+
+
+            forPages(1, function(page){
+                forPages(page);
+            });
+
+
         });
 
         $(".content-tab .content-tab-btn").eq(0).trigger("click");
 
         $content.on('click', '.oper-del', function() {
-            var $this = $(this);
-            mdlFile.del($this.data('oid')).done(function(data) {
-                if(data.status == 1) {
-                    alert(data.message)
-                }else if(data.status == 0){
-                    //var dataid =
-                    $this.parents(".content-text").fadeOut()//.data("pid");
-                    //$bottom.find('li[data-pid="'+dataid+'"]').fadeOut();
-                }
-            })
+            if(confirm("确定删除该文件吗？")) {
+                var $this = $(this);
+                mdlFile.del($this.data('oid')).done(function(data) {
+                    if(data.status == 1) {
+                        alert(data.message)
+                    }else if(data.status == 0){
+                        //var dataid =
+                        $this.parents(".content-text").fadeOut()//.data("pid");
+                        //$bottom.find('li[data-pid="'+dataid+'"]').fadeOut();
+                    }
+                })
+            }
+
         }).on('click', '.oper-to-ready', function() {
             var $this = $(this);
             mdlFile.update($this.data('oid'), '').done(function(data) {
