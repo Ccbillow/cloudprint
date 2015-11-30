@@ -35,14 +35,15 @@
     </bean>
 
     <!-- 全局异常配置 start -->
-    <!--<bean id="exceptionResolver"
+    <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
-            <props>     &lt;!&ndash; 配置异常 &ndash;&gt;
+            <props>     <!-- 配置异常 -->
                 <prop key="java.lang.Exception">error</prop>
                 <prop key="java.lang.Throwable">error</prop>
+                <prop key="cn.cqupt.util.CPException">error</prop>
             </props>
         </property>
-    </bean>-->
+    </bean>
 
 </beans>

@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -310,9 +311,7 @@ public class PrintFileServiceImpl implements PrintFileService {
 
         try {
             User tuser = userDao.loadUserByOpenId(openid);
-            /**
-             * 如果此用户没有绑定，或者微信号不相等，则打印错误
-             */
+            //如果此用户没有绑定，或者微信号不相等，则打印错误
             if (tuser == null) {
                 result.put("status", 1);
                 result.put("message", "文件传输失败，此微信没有绑定，请用正确的微信号扫描");
@@ -328,9 +327,7 @@ public class PrintFileServiceImpl implements PrintFileService {
                 return result;
             }
 
-            /**
-             * 如果绑定，通过uid查找到所有待打印文件
-             */
+            //如果绑定，通过uid查找到所有待打印文件
             params.put("uid", tuser.getId());
             params.put("status", "0");
             params.put("rows", 0);
@@ -363,7 +360,7 @@ public class PrintFileServiceImpl implements PrintFileService {
             accountDao.addAccount(account);
             logger.info("printfiles addAccount account:{}", account);
 
-            //TODO ClientReq，需要将封装的对象序列化传过去，此处需要和客户端对协议
+            //TODO ClientReq，需要将封装的对象序列化传过去
             byte[] bytes = CPHelps.parseObjectToByte(files);
             CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
             logger.info("printfiles The file writeByteToClient success");
