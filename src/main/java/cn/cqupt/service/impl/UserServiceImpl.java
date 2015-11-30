@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
             map.put("status", 1);
             map.put("message", "发送验证码失败");
             return map;
+//            throw new CPException("发送验证码失败");
         }
         map.put("result", result);
         map.put("validateCode", validateCode);
