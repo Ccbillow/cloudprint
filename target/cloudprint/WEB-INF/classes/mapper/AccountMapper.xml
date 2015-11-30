@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.cqupt.dao.AccountDao">
+
+    <insert id="addAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+        insert into t_account (totalprice, uid, date, printerID)
+          values (#{totalprice}, #{uid}, #{date}, #{printerid});
+    </insert>
+
+    <select id="findAccounstByUid" parameterType="int" resultType="Account">
+        select * from t_account where uid=#{uid}
+    </select>
+
+    <delete id="deletePrintFile" parameterType="int">
+        delete from t_account where id=#{id}
+    </delete>
+
+</mapper>
