@@ -78,12 +78,12 @@ public class UserServiceImpl implements UserService {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "用户不存在");
-           logger.error("login fail : user does not exist");
+            logger.error("login fail : user does not exist");
             return result;
         } else if (!password.equalsIgnoreCase(loginUser.getPassword())) {
             result.put("status", 1);
             result.put("message", "密码错误");
-           logger.error("login fail : password is wrong");
+            logger.error("login fail : password is wrong");
             return result;
         }
         loginUser.setPassword("");
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
             if (temp == null) {
                 result.put("status", 1);
                 result.put("message", "重置密码失败，此用户不存在");
-               logger.error("refundPassword fail, mobile is not exist");
+                logger.error("refundPassword fail, mobile is not exist");
                 return result;
             }
             //密码重置为password
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "重置密码操作失败，请查看日志");
-           logger.error("refundPassword errpr : {}", e);
+            logger.error("refundPassword errpr : {}", e);
             return result;
         }
         result.put("status", 0);
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
         if (loginUser == null) {
             result.put("status", 1);
             result.put("message", "用户不存在");
-           logger.error("loadUserByOpenid fail : user does not exist");
+            logger.error("loadUserByOpenid fail : user does not exist");
             return null;
         }
 
@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "绑定微信操作失败，请查看日志");
-           logger.error("bindingWeChat error:{}", e);
+            logger.error("bindingWeChat error:{}", e);
             return result;
         }
         result.put("status", 0);

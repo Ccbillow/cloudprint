@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -125,7 +126,6 @@ public class PrintFileWebContriller {
 
             logger.info("uploadFile the file:{}", pf);
 
-<<<<<<< HEAD
             try {
                 //把文件存入阿里云，得到路径
                 logger.info("uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
@@ -142,15 +142,7 @@ public class PrintFileWebContriller {
             }
             result = printFileService.addPrintFile(pf, loginUser);
         } catch (Exception e) {
-=======
-        try {
-            //把文件存入阿里云，得到路径
-            logger.info("uploadFile loginUser:{}, 开始将文件存入阿里云", loginUser);
-            path = CPHelps.uploadFileToOSS(loginUser.getWeixin(), file);
-            logger.info("uploadFile, 文件存入阿里云结束 path:{}", path);
-            pf.setPath(path);
-        } catch (IOException e) {
->>>>>>> ccedd2604068e43e090b5816ec60541cb22a204d
+
             result.put("status", 1);
             result.put("message", "上传文件出错");
             logger.error("uploadFile, 上传文件出错  出错信息 e:{}", e);

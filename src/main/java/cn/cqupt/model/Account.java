@@ -1,12 +1,11 @@
 package cn.cqupt.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * Created by Cbillow on 15/11/27.
  */
-public class Account implements Serializable{
+public class Account implements Serializable {
 
     private int id;
     private String totalPrice;

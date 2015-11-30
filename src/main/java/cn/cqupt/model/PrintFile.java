@@ -1,12 +1,11 @@
 package cn.cqupt.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * Created by Cbillow on 15/10/28.
  */
-public class PrintFile implements Serializable{
+public class PrintFile implements Serializable {
 
     private int id;
     private String filename;    //文件名

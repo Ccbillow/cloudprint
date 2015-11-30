@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Cbillow on 15/10/27.
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private int id;
     private String mobile;
@@ -17,7 +17,7 @@ public class User implements Serializable{
 
     /**
      * 是否支付，0为已经支付，1为未支付（默认为0）
-     *
+     * <p/>
      * 打印之前需要判断是否已经支付
      * 如果为否1，则不能打印
      * 支付完后后需要将isPay设置为0
