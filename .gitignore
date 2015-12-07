@@ -1,4 +1,8 @@
 .idea/workspace.xml
 target/classes
 cloudprint.iml
-
+target/
+.idea
+*.class
+.project
+.classpath
