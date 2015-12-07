@@ -3,6 +3,7 @@ package cn.cqupt.util;
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
+import cn.cqupt.model.request.ClientReq;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -326,30 +327,30 @@ public class CPHelps {
     /**
      * 发送消息给客户端
      *
-     * @param bytes
+     * @param req
      * @param md5Code
      * @return
      */
-    public static CommonRes<String> writeByteToClient(byte[] bytes, String md5Code) {
-        OutputStream os = null;
+    public static CommonRes<String> writeByteToClient(ClientReq req, String md5Code) {
+        ObjectOutputStream oos= null;
         CommonRes<String> response = new CommonRes<String>();
         response.setSuccess(false);
         try {
-            os = CPConstant.CLIENTS.get(md5Code).getOs();
-            if (os == null) {
+            oos = new ObjectOutputStream(CPConstant.CLIENTS.get(md5Code).getOs());
+            if (oos == null) {
                 logger.error("printing file writeByteToClient the md5Code:{} is not connection. can't get OutputStream", md5Code);
                 response.setErrorMsg("这个Ip没有连接到服务端，请检查");
                 return response;
             }
 
-            os.write(bytes);
+            oos.writeObject(req);
         } catch (IOException e) {
             logger.error("printing file writeByteToClient error:{}", e.getMessage());
             response.setErrorMsg("向客户端写入出错，请查看日志" + e);
             return response;
         } finally {
             try {
-                os.flush();
+                oos.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

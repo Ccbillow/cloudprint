@@ -2,16 +2,14 @@ package cn.cqupt.task;
 
 import cn.cqupt.model.request.CPClient;
 import cn.cqupt.util.CPConstant;
-import cn.cqupt.util.CPHelps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Cbillow on 15/11/24.
@@ -23,7 +21,7 @@ public class CPServerTask implements Runnable {
     private boolean isCheckHeartbeat;
     ServerSocket serverSocket = null;
 
-    public CPServerTask(){
+    public CPServerTask() {
         isCheckHeartbeat = true;
         /**
          * 对客户端断开做心跳监测
@@ -85,23 +83,23 @@ public class CPServerTask implements Runnable {
         }
     }
 
-    public void destroyClients(){
+    public void destroyClients() {
         logger.info("全部客户端连接清空：");
         isCheckHeartbeat = false;
-        ConcurrentHashMap<String,CPClient> clients = CPConstant.CLIENTS;
+        ConcurrentHashMap<String, CPClient> clients = CPConstant.CLIENTS;
         Set<String> md5Codes = clients.keySet();
-        for(String md5Code:md5Codes){
+        for (String md5Code : md5Codes) {
             logger.info("依次对每个客户端清空，客户端连接清空 md5Code:{}", md5Code);
             destroyClient(md5Code);
         }
 
     }
 
-    public void destroyClient(CPClient client){
+    public void destroyClient(CPClient client) {
         destroyClient(client.getMd5Code());
     }
 
-    private void destroyClient(String md5Code){
+    private void destroyClient(String md5Code) {
         CPConstant.CLIENTS.get(md5Code).close();
         CPConstant.CLIENTS.remove(md5Code);
     }
@@ -110,20 +108,20 @@ public class CPServerTask implements Runnable {
      * 心跳监测
      * 每隔5分钟检测一次，接收不到数据，则断开连接
      */
-    class CheckHeartbeat implements Runnable{
+    class CheckHeartbeat implements Runnable {
         public void run() {
-            while(isCheckHeartbeat){
+            while (isCheckHeartbeat) {
                 CPClient client;
                 logger.info("开始对客户端做心跳监测，如果连接的客户端没有接收到数据，则将这个连接断开");
-                ConcurrentHashMap<String,CPClient> clients = CPConstant.CLIENTS;
+                ConcurrentHashMap<String, CPClient> clients = CPConstant.CLIENTS;
                 Set<String> md5Codes = clients.keySet();
                 logger.info("心跳监测：依次对以下IP进行检测。 md5Codes:{}", md5Codes);
-                for(String md5Code:md5Codes){
+                for (String md5Code : md5Codes) {
                     client = clients.get(md5Code);
                     try {
                         client.getOs().write("0".getBytes());
                     } catch (IOException e) {
-                        logger.info("客户端断开连接，Disconnect the connection from IP:{}",client.getIp());
+                        logger.info("客户端断开连接，Disconnect the connection from IP:{}", client.getIp());
                         destroyClient(client);
                     }
                 }

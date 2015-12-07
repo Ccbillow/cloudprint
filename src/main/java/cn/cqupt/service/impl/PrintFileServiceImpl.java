@@ -351,13 +351,13 @@ public class PrintFileServiceImpl implements PrintFileService {
             /**
              * 添加账单
              */
-            account = new Account();
+            /*account = new Account();
             account.setUid(tuser.getId());
             account.setTotalPrice(CPHelps.calculateTotalPrice(files));
             account.setDate(DateUtils.getNowTime());
             account.setPrinterID(state);
             accountDao.addAccount(account);
-            logger.info("printfiles addAccount account:{}", account);
+            logger.info("printfiles addAccount account:{}", account);*/
 
             ClientReq clientReq = new ClientReq();
             clientReq.setUser(tuser);
@@ -365,8 +365,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             clientReq.setFiles(files);
             logger.info("printfiles is ready to client. clientReq:{}", clientReq);
 
-            byte[] bytes = CPHelps.parseObjectToByte(clientReq);
-            CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
+//            byte[] bytes = CPHelps.parseObjectToByte(clientReq);
+            CommonRes<String> toClient = CPHelps.writeByteToClient(clientReq, state);
             logger.info("printfiles The file writeByteToClient success");
             if (!toClient.isSuccess()) {
                 result.put("status", 1);
@@ -381,7 +381,6 @@ public class PrintFileServiceImpl implements PrintFileService {
             return result;
         }
 
-        result.put("account", account);
         result.put("status", 0);
         result.put("message", "文件传输成功，请进行支付");
         logger.info("print success!!! result:{}", result);

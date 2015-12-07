@@ -38,7 +38,6 @@ public class CPServerHandle implements Runnable {
 
     public void run() {
         ObjectInputStream ois = null;
-        ObjectOutputStream oos = null;
         try {
             ois = new ObjectInputStream(new BufferedInputStream(client.getIs()));
 
@@ -51,6 +50,7 @@ public class CPServerHandle implements Runnable {
                  */
                 if (req.getMd5Code().trim().equalsIgnoreCase("!over")) {
                     logger.error("客户端与服务器断开连接，接收到 !over, Disconnect the connection from IP:{}", client.getIp());
+                    ois.close();
                     cpServerTask.destroyClient(client);
                     return;
                 }
@@ -60,18 +60,12 @@ public class CPServerHandle implements Runnable {
                  */
                 CPConstant.CLIENTS.put(req.getMd5Code(), client);
                 client.setMd5Code(req.getMd5Code());
-                Iterator<Map.Entry<String, CPClient>> iterator = CPConstant.CLIENTS.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry<String, CPClient> entry = iterator.next();
-                    String key = entry.getKey();
-                    System.out.println(key);
-                }
 
                 logger.info("读取到客户端发送来的数据 data:{}", req.getMd5Code());
                 System.out.println("读取到客户端发送的来数据：" + req.getMd5Code());
 
 
-                User user = new User();
+               /* User user = new User();
                 user.setWeixin("3123123");
                 PrintFile file1 = new PrintFile();
                 file1.setFilename("dasda");
@@ -85,21 +79,16 @@ public class CPServerHandle implements Runnable {
                 response.setUser(user);
                 response.setFiles(files);
                 oos = new ObjectOutputStream(client.getOs());
-                oos.writeObject(response);
-                oos.flush();
+                for (int i = 0; i < 2; i++) {
+                    oos.writeObject(response);
+                    Thread.sleep(1000);
+                }
+                oos.flush();*/
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                ois.close();
-                oos.close();
-                cpServerTask.destroyClient(client);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
