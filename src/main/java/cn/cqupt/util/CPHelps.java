@@ -307,21 +307,37 @@ public class CPHelps {
         return obj;
     }
 
+    public static byte[] getReqData(InputStream is) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try{
+            int iR = is.read();
+            while(iR != -1){
+                baos.write(iR);
+                iR = is.read();
+            }
+        }catch(Exception e){
+            return null;
+        } finally {
+            baos.close();
+        }
+        return baos.toByteArray();
+    }
+
     /**
      * 发送消息给客户端
      *
      * @param bytes
-     * @param ip
+     * @param md5Code
      * @return
      */
-    public static CommonRes<String> writeByteToClient(byte[] bytes, String ip) {
+    public static CommonRes<String> writeByteToClient(byte[] bytes, String md5Code) {
         OutputStream os = null;
         CommonRes<String> response = new CommonRes<String>();
         response.setSuccess(false);
         try {
-            os = CPConstant.CLIENTS.get(ip).getOs();
+            os = CPConstant.CLIENTS.get(md5Code).getOs();
             if (os == null) {
-                logger.error("printing file writeByteToClient the Ip:{} is not connection. can't get OutputStream", ip);
+                logger.error("printing file writeByteToClient the md5Code:{} is not connection. can't get OutputStream", md5Code);
                 response.setErrorMsg("这个Ip没有连接到服务端，请检查");
                 return response;
             }
@@ -329,7 +345,7 @@ public class CPHelps {
             os.write(bytes);
         } catch (IOException e) {
             logger.error("printing file writeByteToClient error:{}", e.getMessage());
-            response.setErrorMsg("向客户端写入出错，请查看日志");
+            response.setErrorMsg("向客户端写入出错，请查看日志" + e);
             return response;
         } finally {
             try {
@@ -338,7 +354,7 @@ public class CPHelps {
                 e.printStackTrace();
             }
         }
-        logger.info("printing file writeByteToClient success, Ip:{}", ip);
+        logger.info("printing file writeByteToClient success, md5Code:{}", md5Code);
         response.setSuccess(true);
         return response;
     }

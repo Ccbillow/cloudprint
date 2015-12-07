@@ -1,0 +1,199 @@
+2015-12-07 15:14:10.615 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:14:14.495 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.500 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.598 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.616 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.616 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.619 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.623 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.623 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.625 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.629 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.630 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.635 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.637 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.637 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.639 [Thread-4] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.642 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.642 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.643 [Thread-5] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.646 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.647 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.647 [Thread-6] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.650 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.650 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.652 [Thread-7] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.657 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.657 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.658 [Thread-8] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:14:14.664 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:14:14.664 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:14:14.665 [Thread-9] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:29.136 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:17:30.740 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.746 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.846 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.860 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.860 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.861 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.863 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.863 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.864 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.865 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.866 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.867 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.868 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.868 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.869 [Thread-4] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.871 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.871 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.872 [Thread-5] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.874 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.874 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.875 [Thread-6] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.877 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.877 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.878 [Thread-7] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.880 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.880 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.881 [Thread-8] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:17:30.883 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:17:30.883 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:17:30.884 [Thread-9] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:12313
+2015-12-07 15:18:36.020 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:18:40.932 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:18:40.939 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:18:40.992 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:18:41.003 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:18:41.003 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:18:41.004 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:19:38.469 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:19:38.470 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:19:38.498 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:19:38.502 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:19:38.502 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:19:38.503 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:22:29.178 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:22:30.247 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:22:30.252 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:22:30.309 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:22:30.355 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:22:30.355 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:22:30.358 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:23:14.515 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:23:14.516 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:23:14.545 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:23:14.549 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:23:14.549 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:23:14.551 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:23:22.069 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:23:36.492 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:23:38.689 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:23:40.682 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:23:42.165 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:23:47.226 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:23:53.189 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:24:09.628 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:24:09.629 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:24:09.630 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:24:09.633 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:24:09.633 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:24:09.634 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:24:55.706 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:24:55.706 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:24:55.739 [Thread-4] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:24:55.744 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:24:55.744 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:24:55.745 [Thread-5] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:25:05.431 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:25:08.048 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:25:08.053 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:26:16.478 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:26:18.523 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:26:18.523 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:27:34.253 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:27:39.208 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:27:43.585 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:27:44.661 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:27:44.667 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:28:31.488 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:28:31.494 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:28:31.494 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:28:31.976 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:29:16.035 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:29:18.914 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:29:18.919 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:29:28.033 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:29:28.040 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:29:28.040 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:29:28.041 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:30:04.786 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:30:06.264 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:30:06.272 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:30:25.635 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:30:25.643 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:30:25.644 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:30:49.019 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:33:31.022 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:33:32.316 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:33:32.321 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:33:32.373 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:33:32.409 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:33:32.409 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:33:32.410 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:35:20.843 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:35:20.844 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:35:20.875 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:35:20.879 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:35:20.879 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:35:20.880 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:35:20.882 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:35:20.882 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:35:20.883 [Thread-4] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123132
+2015-12-07 15:35:20.885 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:35:20.885 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:35:20.886 [Thread-5] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123133
+2015-12-07 15:35:20.888 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:35:20.888 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:35:20.889 [Thread-6] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123134
+2015-12-07 15:36:30.539 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:36:33.054 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:36:33.059 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:36:33.106 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:36:33.116 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:36:33.116 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:36:33.117 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123131
+2015-12-07 15:36:33.119 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:36:33.120 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:36:33.121 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123132
+2015-12-07 15:36:33.123 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:36:33.123 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:36:33.124 [Thread-3] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123133
+2015-12-07 15:36:33.128 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:36:33.129 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:36:33.130 [Thread-4] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123134
+2015-12-07 15:37:40.096 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:37:40.097 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:37:40.137 [Thread-5] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:38:43.869 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:38:43.871 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:38:43.904 [Thread-6] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123130
+2015-12-07 15:57:05.699 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:57:09.402 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:57:09.407 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:57:09.414 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:57:09.414 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:58:09.224 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:58:11.747 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:58:11.750 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:58:11.756 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:58:11.756 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:58:11.794 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123123
+2015-12-07 15:58:11.794 [Thread-1] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123123
+2015-12-07 15:59:04.210 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:59:04.210 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:59:04.237 [Thread-2] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123123
+2015-12-07 15:59:17.928 [main] INFO  cn.cqupt.task.CPServerTask - 服务器启动, 等待客户端连接，监听本机4347端口
+2015-12-07 15:59:19.704 [main] INFO  cn.cqupt.task.CPServerTask - client connection success! IP:127.0.0.1
+2015-12-07 15:59:19.707 [main] INFO  cn.cqupt.task.CPServerHandle - 用户127.0.0.1接入
+2015-12-07 15:59:19.743 [Thread-0] INFO  cn.cqupt.task.CPServerHandle - 读取到客户端发送来的数据 data:123123

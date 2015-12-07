@@ -7,6 +7,7 @@ import cn.cqupt.model.Account;
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
+import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.service.PrintFileService;
 import cn.cqupt.util.CPConstant;
 import cn.cqupt.util.CPHelps;
@@ -334,7 +335,6 @@ public class PrintFileServiceImpl implements PrintFileService {
             params.put("offset", 100);
             logger.info("print params:{}", params);
             List<PrintFile> files = printFileDao.findPrintFiles(params);
-            logger.info("print files:{}", files);
             if (files.size() <= 0) {
                 result.put("status", 1);
                 result.put("message", "没有待打印文件，请确认");
@@ -347,7 +347,6 @@ public class PrintFileServiceImpl implements PrintFileService {
              */
             tuser.setIsPay(1);
             userDao.updateUser(tuser);
-            logger.info("printfiles updateUser user:{}", tuser);
 
             /**
              * 添加账单
@@ -360,8 +359,13 @@ public class PrintFileServiceImpl implements PrintFileService {
             accountDao.addAccount(account);
             logger.info("printfiles addAccount account:{}", account);
 
-            //TODO ClientReq，需要将封装的对象序列化传过去
-            byte[] bytes = CPHelps.parseObjectToByte(files);
+            ClientReq clientReq = new ClientReq();
+            clientReq.setUser(tuser);
+            clientReq.setMd5Code(state);
+            clientReq.setFiles(files);
+            logger.info("printfiles is ready to client. clientReq:{}", clientReq);
+
+            byte[] bytes = CPHelps.parseObjectToByte(clientReq);
             CommonRes<String> toClient = CPHelps.writeByteToClient(bytes, state);
             logger.info("printfiles The file writeByteToClient success");
             if (!toClient.isSuccess()) {

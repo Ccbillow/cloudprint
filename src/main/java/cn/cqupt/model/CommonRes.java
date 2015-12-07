@@ -41,4 +41,14 @@ public class CommonRes<T> {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    @Override
+    public String toString() {
+        return "CommonRes{" +
+                "data=" + data +
+                ", success=" + success +
+                ", errorCode=" + errorCode +
+                ", errorMsg='" + errorMsg + '\'' +
+                '}';
+    }
 }

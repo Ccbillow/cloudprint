@@ -14,6 +14,7 @@ public class CPClient {
     private InputStream is;
     private OutputStream os;
     private String ip;
+    private String md5Code;
 
     public CPClient(Socket socket){
         this.socket = socket;
@@ -56,6 +57,14 @@ public class CPClient {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getMd5Code() {
+        return md5Code;
+    }
+
+    public void setMd5Code(String md5Code) {
+        this.md5Code = md5Code;
     }
 
     public void close(){

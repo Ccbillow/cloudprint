@@ -166,7 +166,7 @@ public class OSSUtils {
     /**
      *  下载文件
      *
-     * @param client  OSSClient对象 
+     * @param client  OSSClient对象
      * @param bucketName  Bucket名
      * @param Objectkey  上传到OSS起的名
      * @param filename 文件下载到本地保存的路径
