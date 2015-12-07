@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="cloudprint:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="cloudprint.war">
-      <element id="artifact" artifact-name="cloudprint:war exploded" />
-    </root>
-  </artifact>
-</component>
