@@ -77,7 +77,7 @@ public class CPServerHandle implements Runnable {
                  */
                 Thread.sleep(3000);
 
-                ClientReq request = new ClientReq();
+                /*ClientReq request = new ClientReq();
                 User user = new User();
                 user.setNickname("谢谢谢谢谢谢谢、");
                 user.setWeixin("oFVKgjn3AuOnMhjaq9ud1QtQUYCI");
@@ -108,7 +108,7 @@ public class CPServerHandle implements Runnable {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(commonRes);
+                System.out.println(commonRes);*/
             }
         } catch (EOFException ie) {
             System.out.println("客户端关闭连接 e:" + ie.getMessage());

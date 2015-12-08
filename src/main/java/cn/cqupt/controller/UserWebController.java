@@ -297,8 +297,7 @@ public class UserWebController {
      * @param req
      * @return
      */
-    @RequestMapping(value = "/bindingwechat", produces = "application/json;charset=UTF-8")
-    @ResponseBody
+    @RequestMapping(value = "/bindingwechat")
     public String bindingWeChat(String code, HttpServletRequest req) {
         logger.info("bindingWeChat start... code:{}", code);
 
@@ -318,7 +317,7 @@ public class UserWebController {
                 result.put("status", 1);
                 result.put("message", "微信登陆失败，无法获取到微信号");
                 logger.error("UserWebController bindingWeChat code is wrong e:{}", content);
-                return JSON.toJSONString(result);
+                return "banding_fail";
             } else if (content.contains("openid")) {
                 WeChatAccessTokenRes wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
 
@@ -332,7 +331,7 @@ public class UserWebController {
                     result.put("status", 1);
                     result.put("message", "微信登陆失败，获取用户信息失败");
                     logger.error("UserWebController bindingWeChat code is wrong e:{}", userinfo);
-                    return JSON.toJSONString(result);
+                    return "banding_fail";
                 } else if (userinfo.contains("nickname")) {
                     res = JacksonUtil.deSerialize(userinfo, WeChatUserInfoRes.class);
                 }
@@ -345,14 +344,13 @@ public class UserWebController {
             result.put("status", 1);
             result.put("message", "绑定微信失败，无法获取到微信号");
             logger.error("UserWebController bindingWeChat accessTokenURL error:{}", e);
-            return JSON.toJSONString(result);
+            return "banding_fail";
         } catch (Exception ie) {
             result.put("status", 1);
             result.put("message", "绑定微信失败，详情请查看日志");
             logger.error("UserWebController bindingWeChat error:{}", ie);
-            return JSON.toJSONString(result);
+            return "banding_fail";
         }
-        return JSON.toJSONString(result);
+        return "banding_success";
     }
-
 }
