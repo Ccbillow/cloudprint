@@ -3,14 +3,13 @@ package cn.cqupt.service.impl;
 import cn.cqupt.dao.AccountDao;
 import cn.cqupt.dao.PrintFileDao;
 import cn.cqupt.dao.UserDao;
-import cn.cqupt.model.Account;
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
 import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.service.PrintFileService;
+import cn.cqupt.task.CPServerHandle;
 import cn.cqupt.util.CPConstant;
-import cn.cqupt.util.CPHelps;
 import cn.cqupt.util.DateUtils;
 import cn.cqupt.util.OSSUtils;
 import com.google.common.base.Strings;
@@ -307,7 +306,7 @@ public class PrintFileServiceImpl implements PrintFileService {
     public HashMap<String, Object> print(String openid, String state) {
         HashMap<String, Object> result = Maps.newHashMap();
         HashMap<String, Object> params = Maps.newHashMap();
-        Account account;
+        List<PrintFile> files;
         logger.info("print openid:{}, state:{} ", openid, state);
 
         try {
@@ -321,12 +320,12 @@ public class PrintFileServiceImpl implements PrintFileService {
             }
 
             logger.info(" print checkout the loginUser:{}, isPay:{}", tuser, tuser.getIsPay());
-            if (tuser.getIsPay() == 1) {
-                result.put("status", 1);
-                result.put("message", "用户还没有打印，请支付上一次账单后进行打印");
-                logger.error("print error, user has not paid, please pay the last account");
-                return result;
-            }
+//            if (tuser.getIsPay() == 1) {
+//                result.put("status", 1);
+//                result.put("message", "用户还没有打印，请支付上一次账单后进行打印");
+//                logger.error("print error, user has not paid, please pay the last account");
+//                return result;
+//            }
 
             //如果绑定，通过uid查找到所有待打印文件
             params.put("uid", tuser.getId());
@@ -334,44 +333,33 @@ public class PrintFileServiceImpl implements PrintFileService {
             params.put("rows", 0);
             params.put("offset", 100);
             logger.info("print params:{}", params);
-            List<PrintFile> files = printFileDao.findPrintFiles(params);
+            files = printFileDao.findPrintFiles(params);
             if (files.size() <= 0) {
                 result.put("status", 1);
                 result.put("message", "没有待打印文件，请确认");
-                logger.error("printfiles There are no files being ready to printed");
+                logger.error("print There are no files being ready to printed");
                 return result;
             }
 
             /**
              * 文件查找成功，将用户设置为未支付
              */
-            tuser.setIsPay(1);
-            userDao.updateUser(tuser);
-
-            /**
-             * 添加账单
-             */
-            /*account = new Account();
-            account.setUid(tuser.getId());
-            account.setTotalPrice(CPHelps.calculateTotalPrice(files));
-            account.setDate(DateUtils.getNowTime());
-            account.setPrinterID(state);
-            accountDao.addAccount(account);
-            logger.info("printfiles addAccount account:{}", account);*/
+//            tuser.setIsPay(1);
+//            userDao.updateUser(tuser);
 
             ClientReq clientReq = new ClientReq();
             clientReq.setUser(tuser);
             clientReq.setMd5Code(state);
             clientReq.setFiles(files);
-            logger.info("printfiles is ready to client. clientReq:{}", clientReq);
+            clientReq.setSuccess(true);
+            logger.info("print is ready to client. clientReq:{}", clientReq);
 
-//            byte[] bytes = CPHelps.parseObjectToByte(clientReq);
-            CommonRes<String> toClient = CPHelps.writeByteToClient(clientReq, state);
-            logger.info("printfiles The file writeByteToClient success");
+            CommonRes<String> toClient = CPServerHandle.writeObjectToClient(clientReq, state);
+            logger.info("print The file writeObjectToClient success");
             if (!toClient.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", toClient.getErrorMsg());
-                logger.error("printfiles go to client, e:{}", toClient.getErrorMsg());
+                logger.error("print CPServerHandle fail, e:{}", toClient.getErrorMsg());
                 return result;
             }
         } catch (Exception e) {
@@ -381,8 +369,12 @@ public class PrintFileServiceImpl implements PrintFileService {
             return result;
         }
 
+        for (PrintFile pf : files) {
+            pf.setStatus(2);
+            printFileDao.updatePrintFile(pf);
+        }
         result.put("status", 0);
-        result.put("message", "文件传输成功，请进行支付");
+        result.put("message", "文件传输成功，正在进行打印，请进行支付");
         logger.info("print success!!! result:{}", result);
         return result;
     }

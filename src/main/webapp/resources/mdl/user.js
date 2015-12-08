@@ -9,7 +9,7 @@ define(function(require, exports, module){
     var loginUrl = '/cloudprint/user/login',
         regUrl = '/cloudprint/user/register',
         logoutUrl = '/cloudprint/user/logout',
-        infoUrl = '/cloudprint/user/getUserMessage',
+        infoUrl = '/cloudprint/user/getusermessage',
         codeUrl = '/cloudprint/user/getValidateCode';
 
     User.login = function(mobile, password) {

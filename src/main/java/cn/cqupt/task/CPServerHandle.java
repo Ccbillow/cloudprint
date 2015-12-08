@@ -1,5 +1,6 @@
 package cn.cqupt.task;
 
+import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
 import cn.cqupt.model.request.CPClient;
@@ -8,13 +9,9 @@ import cn.cqupt.util.CPConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by LiuMian on 2015/11/25.
@@ -24,73 +21,135 @@ import java.util.Map;
  */
 public class CPServerHandle implements Runnable {
 
-
     private static final Logger logger = LoggerFactory.getLogger(CPServerHandle.class);
-
     private CPClient client;
     private CPServerTask cpServerTask;
+    private static ObjectOutputStream oos;
 
     public CPServerHandle(CPClient client, CPServerTask cpServerTask) {
         this.client = client;
         this.cpServerTask = cpServerTask;
-        logger.info("用户" + client.getIp() + "接入");
+        logger.info("用户：" + client.getIp() + "接入");
     }
 
     public void run() {
-        ObjectInputStream ois = null;
+        Object obj;
+        ObjectInputStream ois;
+        ClientReq req = null;
         try {
             ois = new ObjectInputStream(new BufferedInputStream(client.getIs()));
+            oos = new ObjectOutputStream(new BufferedOutputStream(client.getOs()));
 
-            Object obj = ois.readObject();
-            if (obj != null) {
-                ClientReq req = (ClientReq) obj;
-
+            while (true) {
                 /**
-                 * 如果传过来md5Code为over，就断开客户端连接
+                 * 等待从客户端传来数据
                  */
-                if (req.getMd5Code().trim().equalsIgnoreCase("!over")) {
-                    logger.error("客户端与服务器断开连接，接收到 !over, Disconnect the connection from IP:{}", client.getIp());
-                    ois.close();
-                    cpServerTask.destroyClient(client);
-                    return;
+                obj = ois.readObject();
+                if (obj != null) {
+                    req = (ClientReq) obj;
+
+                    /**
+                     * 当且仅当 errcode=4且errmsg为 "!over"时关闭这个客户端的连接
+                     */
+                    if (req.getErrCode() == 4 && req.getErrMsg().trim().equalsIgnoreCase("!over")) {
+                        logger.error("客户端与服务器断开连接，接收到 !over, Disconnect the connection from IP:{}", client.getIp());
+                        System.out.println("接收到关闭消息 !over ,关闭客户端");
+                        ois.close();
+                        /**
+                         * 关闭客户端后，需要将连接重置
+                         */
+                        oos.reset();
+                        cpServerTask.destroyClient(client);
+                        return;
+                    }
+
+                    /**
+                     * 当data为md5Code时，将md5Code放入全局hashmap中
+                     */
+                    CPConstant.CLIENTS.put(req.getMd5Code(), client);
+                    client.setMd5Code(req.getMd5Code());
+                    logger.info("读取到客户端发送来的数据 data:{}, client:{}", req.getMd5Code(), client);
+                    System.out.println("读取到客户端发送来的数据 md5:" + req.getMd5Code());
                 }
 
                 /**
-                 * 当data为md5Code时，将md5Code放入全局hashmap中
+                 * 休眠3秒
                  */
-                CPConstant.CLIENTS.put(req.getMd5Code(), client);
-                client.setMd5Code(req.getMd5Code());
+                Thread.sleep(3000);
 
-                logger.info("读取到客户端发送来的数据 data:{}", req.getMd5Code());
-                System.out.println("读取到客户端发送的来数据：" + req.getMd5Code());
-
-
-               /* User user = new User();
-                user.setWeixin("3123123");
-                PrintFile file1 = new PrintFile();
-                file1.setFilename("dasda");
-                file1.setPath("www.badiu.com");
-                PrintFile file2 = new PrintFile();
-                file2.setFilename("21312");
-                file2.setPath("www.dasda.com");
+                ClientReq request = new ClientReq();
+                User user = new User();
+                user.setNickname("谢谢谢谢谢谢谢、");
+                user.setWeixin("oFVKgjn3AuOnMhjaq9ud1QtQUYCI");
+                PrintFile pf1 = new PrintFile();
+                pf1.setFilename("云打印协议.docx");
+                pf1.setPath("http://cquptcloudprint.oss-cn-hangzhou.aliyuncs.com/oFVKgjn3AuOnMhjaq9ud1QtQUYCI/个人简历-李鑫其.doc");
+                pf1.setIsColorful(0);
+                pf1.setNumber(2);
+                PrintFile pf2 = new PrintFile();
+                pf2.setFilename("Baby.docx");
+                pf2.setPath("http://cquptcloudprint.oss-cn-hangzhou.aliyuncs.com/oFVKgjn3AuOnMhjaq9ud1QtQUYCI/Baby.docx");
+                pf2.setIsColorful(0);
+                pf2.setNumber(2);
                 ArrayList<PrintFile> files = new ArrayList<PrintFile>();
-
-                ClientReq response = new ClientReq();
-                response.setUser(user);
-                response.setFiles(files);
-                oos = new ObjectOutputStream(client.getOs());
+                files.add(pf1);
+                files.add(pf2);
+                request.setFiles(files);
+                request.setUser(user);
+                request.setSuccess(true);
+                request.setMd5Code(req.getMd5Code());
+                System.out.println("-------发送数据---------");
+                CommonRes<String> commonRes=null;
                 for (int i = 0; i < 2; i++) {
-                    oos.writeObject(response);
-                    Thread.sleep(1000);
+                    commonRes = writeObjectToClient(request, request.getMd5Code());
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                oos.flush();*/
+                System.out.println(commonRes);
             }
-        } catch (IOException e) {
+        } catch (EOFException ie) {
+            System.out.println("客户端关闭连接 e:" + ie.getMessage());
+            cpServerTask.destroyClient(client);
+        } catch (SocketException ee) {
+            System.out.println("客户端关闭连接 e:" + ee.getMessage());
+            cpServerTask.destroyClient(client);
+        }catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            cpServerTask.destroyClient(client);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
+    /**
+     * 发送消息给客户端
+     *
+     * @param req
+     * @param md5Code
+     * @return
+     */
+    public static CommonRes<String> writeObjectToClient(ClientReq req, String md5Code) {
+        CommonRes<String> response = new CommonRes<String>();
+        response.setSuccess(false);
+        try {
+            if (oos == null) {
+                oos = new ObjectOutputStream(CPConstant.CLIENTS.get(md5Code).getOs());
+            }
+            logger.info("发送对象给客户端 ClientReq:{}", req);
+            oos.writeObject(req);
+            oos.flush();
+        } catch (IOException e) {
+            logger.error("printing file writeObjectToClient error:{}", e.getMessage());
+            response.setErrorMsg("向客户端写入出错，请查看日志，错误信息:：" + e);
+            return response;
+        }
+        logger.info("printing file writeObjectToClient success, md5Code:{}", md5Code);
+        response.setSuccess(true);
+        return response;
+    }
 
 }

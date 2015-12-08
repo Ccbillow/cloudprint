@@ -3,10 +3,10 @@ define(function(require, exports, module) {
 
     var File = module.exports = {};
 
-    var upUrl = '/cloudprint/printFile/upload',
-        delUrl = '/cloudprint/printFile/delete/{}',
-        udUrl = '/cloudprint/printFile/update/{}',
-        loadUrl = '/cloudprint/printFile/findByStatus';
+    var upUrl = '/cloudprint/printfile/upload',
+        delUrl = '/cloudprint/printfile/delete/{}',
+        udUrl = '/cloudprint/printfile/update/{}',
+        loadUrl = '/cloudprint/printfile/findbystatus';
 
     function getRealUrl(url, pid) {
         return url.replace('{}', pid)

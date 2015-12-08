@@ -33,7 +33,7 @@ public class CPServerListener {
     }
 
     public void close() {
-        logger.info("关闭客户端和服务端, contextDestroyed");
+        logger.info("移除所有客户端，关闭服务端, contextDestroyed");
         serverTask.destroyClients();
         serverTask.destroyServer();
     }

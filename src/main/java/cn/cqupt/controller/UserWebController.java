@@ -116,7 +116,7 @@ public class UserWebController {
     }
 
     private String getUserCookie(HttpServletRequest req) {
-        String openid="";
+        String openid = "";
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (int i = 0; i < cookies.length; i++) {
@@ -257,14 +257,14 @@ public class UserWebController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/getQRCode")
+    @RequestMapping(value = "/getqrcode")
     public void getQRCode(HttpServletResponse response) {
         InputStream is = null;
         String bindingURL;
         BufferedImage image;
         try {
             bindingURL = CPHelps.getBingdingURL();
-            logger.info("getQRCode binding url : " + bindingURL);
+            logger.info("getqrcode binding url : " + bindingURL);
             image = QRCodeUtil.createImage(bindingURL, null, true);
 
             OutputStream out = response.getOutputStream();
@@ -274,11 +274,11 @@ public class UserWebController {
             byte[] b = new byte[is.available()];
             is.read(b);
             out.write(b);
-            logger.info("getQRCode image writing success");
+            logger.info("getqrcode image writing success");
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("UserWebController getQRCode error : {}", e);
+            logger.error("getqrcode error : {}", e);
         } finally {
             if (is != null) {
                 try {
@@ -297,7 +297,7 @@ public class UserWebController {
      * @param req
      * @return
      */
-    @RequestMapping(value = "/bindingWeChat", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/bindingwechat", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String bindingWeChat(String code, HttpServletRequest req) {
         logger.info("bindingWeChat start... code:{}", code);

@@ -10,13 +10,13 @@ import java.util.List;
  * Created by Cbillow on 15/11/27.
  */
 public class ClientReq implements Serializable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private boolean success;
 
-    private int errCode;
+    private int errCode;    //4为关闭
 
-    private String errMsg;
+    private String errMsg;  // "!over" 为关闭
 
     private List<PrintFile> files;
 

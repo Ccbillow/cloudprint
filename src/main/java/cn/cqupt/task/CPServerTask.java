@@ -26,11 +26,11 @@ public class CPServerTask implements Runnable {
         /**
          * 对客户端断开做心跳监测
          */
-//        new Thread(new CheckHeartbeat()).start();
+        new Thread(new CheckHeartbeat()).start();
     }
 
     public void run() {
-        logger.info("服务器启动, 等待客户端连接，监听本机" + CPConstant.PORT + "端口");
+        logger.info("服务器启动, 等待客户端连接，监听本机:{} 端口", CPConstant.PORT);
         System.out.println("服务器端启动，监听4347端口");
 
         try {
@@ -54,19 +54,25 @@ public class CPServerTask implements Runnable {
                  * 开始对客户端监听
                  * 每个客户端起一个线程
                  */
-//                logger.info("client connection success! start listen to the client.");
+                logger.info("client connection success! start CPServerHandle to the client.");
                 new Thread(new CPServerHandle(client, this)).start();
-
             }
         } catch (Exception e) {
             if (e.getMessage().equalsIgnoreCase("Socket closed")) {
                 logger.info("服务器已经关闭，请重新开启服务器");
                 return;
             }
+//            System.out.println("服务器已经关闭，请重新开启服务器");
             logger.info("服务器出现异常，server is e:{}", e);
-        } finally {
             try {
-                logger.info("服务端等待客户端连接出现异常，将服务关闭");
+                serverSocket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+//            System.out.println("服务端等待客户端连接出现异常，将服务关闭");
+            logger.info("服务端等待客户端连接出现异常，将服务关闭");
+            try {
                 serverSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -74,6 +80,9 @@ public class CPServerTask implements Runnable {
         }
     }
 
+    /**
+     * 关闭服务端
+     */
     public void destroyServer() {
         try {
             logger.info("服务端关闭连接");
@@ -83,25 +92,30 @@ public class CPServerTask implements Runnable {
         }
     }
 
+    /**
+     * 关闭所有客户端
+     */
     public void destroyClients() {
-        logger.info("全部客户端连接清空：");
+        logger.info("全部客户端连接清空");
         isCheckHeartbeat = false;
         ConcurrentHashMap<String, CPClient> clients = CPConstant.CLIENTS;
         Set<String> md5Codes = clients.keySet();
         for (String md5Code : md5Codes) {
-            logger.info("依次对每个客户端清空，客户端连接清空 md5Code:{}", md5Code);
-            destroyClient(md5Code);
+            logger.info("依次对每个客户端清空，客户端连接清空，并从全局hashmap中清除。 md5Code:{}", md5Code);
+            destroyClient(clients.get(md5Code));
         }
 
     }
 
+    /**
+     * 关闭某个客户端连接
+     * 并从全局hashmap中移除
+     *
+     * @param client
+     */
     public void destroyClient(CPClient client) {
-        destroyClient(client.getMd5Code());
-    }
-
-    private void destroyClient(String md5Code) {
-        CPConstant.CLIENTS.get(md5Code).close();
-        CPConstant.CLIENTS.remove(md5Code);
+        CPConstant.CLIENTS.get(client.getMd5Code()).close();
+        CPConstant.CLIENTS.remove(client.getMd5Code());
     }
 
     /**

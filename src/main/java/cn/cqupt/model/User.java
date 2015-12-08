@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Cbillow on 15/10/27.
  */
-public class User implements Serializable {
+public class User implements Serializable{
 
     private int id;
     private String mobile;

@@ -17,7 +17,7 @@
     <div style="display: none;" class="login">
         <div class="holder">
             <div class="with-line">使用微信扫描登陆</div>
-            <img src="/cloudprint/user/getQRCode" alt="dimension" width="220" class="wechat">
+            <img src="/cloudprint/user/getqrcode" alt="dimension" width="220" class="wechat">
             <p id="wechat-status">微信扫描登陆</p>
         </div>
     </div>
@@ -104,11 +104,8 @@
 
 
 <div class="upload boundIn" id="upload">
-<<<<<<< HEAD
-    <form action="/printfile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
-=======
-    <form action="/cloudprint/printFile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
->>>>>>> ccedd2604068e43e090b5816ec60541cb22a204d
+
+    <form action="/cloudprint/printfile/upload" target="upframe" method="post" enctype="multipart/form-data" id="upload-box">
         <input type="hidden" name="id" value=""/>
         <div class="upload-content">
             <div class="upload-content-title">
