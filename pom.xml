@@ -142,9 +142,7 @@
       <artifactId>logback-classic</artifactId>
       <version>1.1.2</version>
     </dependency>
-
-
-    <!--<dependency>
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-access</artifactId>
       <version>1.1.2</version>
@@ -153,7 +151,7 @@
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>1.8.1</version>
-    </dependency>-->
+    </dependency>
 
 
 

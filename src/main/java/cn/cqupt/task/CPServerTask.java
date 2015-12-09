@@ -26,12 +26,11 @@ public class CPServerTask implements Runnable {
         /**
          * 对客户端断开做心跳监测
          */
-        new Thread(new CheckHeartbeat()).start();
+//        new Thread(new CheckHeartbeat()).start();
     }
 
     public void run() {
         logger.info("服务器启动, 等待客户端连接，监听本机:{} 端口", CPConstant.PORT);
-        System.out.println("服务器端启动，监听4347端口");
 
         try {
             serverSocket = new ServerSocket(CPConstant.PORT);
@@ -48,7 +47,6 @@ public class CPServerTask implements Runnable {
                  */
                 CPClient client = new CPClient(accept);
                 logger.info("client connection success! IP:{}", client.getIp());
-                System.out.println("客户端连接成功! IP : " + client.getIp());
 
                 /**
                  * 开始对客户端监听
@@ -62,7 +60,6 @@ public class CPServerTask implements Runnable {
                 logger.info("服务器已经关闭，请重新开启服务器");
                 return;
             }
-//            System.out.println("服务器已经关闭，请重新开启服务器");
             logger.info("服务器出现异常，server is e:{}", e);
             try {
                 serverSocket.close();
@@ -70,7 +67,6 @@ public class CPServerTask implements Runnable {
                 e1.printStackTrace();
             }
         } finally {
-//            System.out.println("服务端等待客户端连接出现异常，将服务关闭");
             logger.info("服务端等待客户端连接出现异常，将服务关闭");
             try {
                 serverSocket.close();

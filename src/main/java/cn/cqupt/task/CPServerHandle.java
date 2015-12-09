@@ -1,8 +1,6 @@
 package cn.cqupt.task;
 
 import cn.cqupt.model.CommonRes;
-import cn.cqupt.model.PrintFile;
-import cn.cqupt.model.User;
 import cn.cqupt.model.request.CPClient;
 import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.util.CPConstant;
@@ -11,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.SocketException;
-import java.util.ArrayList;
 
 /**
  * Created by LiuMian on 2015/11/25.
@@ -68,8 +65,7 @@ public class CPServerHandle implements Runnable {
                      */
                     CPConstant.CLIENTS.put(req.getMd5Code(), client);
                     client.setMd5Code(req.getMd5Code());
-                    logger.info("读取到客户端发送来的数据 data:{}, client:{}", req.getMd5Code(), client);
-                    System.out.println("读取到客户端发送来的数据 md5:" + req.getMd5Code());
+                    logger.info("读取到客户端发送来的数据 Md5Code:{}, client:{}", req.getMd5Code(), client.getIp());
                 }
 
                 /**
@@ -112,11 +108,13 @@ public class CPServerHandle implements Runnable {
             }
         } catch (EOFException ie) {
             System.out.println("客户端关闭连接 e:" + ie.getMessage());
+            logger.error("客户端关闭连接 e:{}" + ie);
             cpServerTask.destroyClient(client);
         } catch (SocketException ee) {
+            logger.error("客户端关闭连接 e:{}" + ee);
             System.out.println("客户端关闭连接 e:" + ee.getMessage());
             cpServerTask.destroyClient(client);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             cpServerTask.destroyClient(client);
         } catch (Exception e) {
