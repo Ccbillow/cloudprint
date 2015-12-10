@@ -52,39 +52,51 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     public HashMap<String, Object> addPrintFile(PrintFile file, User loginUser) {
         HashMap<String, Object> result = Maps.newHashMap();
-        Map<String, Integer> params = Maps.newHashMap();
+        Map<String, Object> params = Maps.newHashMap();
 
-        logger.info("addPrintFile the file SHA1:{} ", file.getSha1());
+        logger.info("addPrintFile the file:{} ", file);
         try {
+//            params.put("uid", loginUser.getId());
+//            //根据唯一标识查找文件
+//            PrintFile tempFile = printFileDao.loadPrintFileBySHA1(file.getSha1());
+//            // 如果没有，则加入文件
+//            if (tempFile == null) {
+//                //先添加文件到数据库
+//                printFileDao.addPrintFile(file);
+//                PrintFile fileBySHA1 = printFileDao.loadPrintFileBySHA1(file.getSha1());
+//                params.put("pid", fileBySHA1.getId());
+//                logger.info("addPrintFile the file is not existed, add the file success");
+//                //如果有，则多个用户同用一个文件
+//            } else {
+//                /**
+//                 * 如果根据sha1找到了文件，
+//                 * 就根据登陆用户去找到这个文件的id，如果此id已经存在，则返回，如果不存在则添加关联
+//                 */
+//                params.put("pid", tempFile.getId());
+//                String pidByUid = printFileDao.loadPidByUid(params);
+//                if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
+//                    result.put("status", 1);
+//                    result.put("message", "文件内容不能相同");
+//                    logger.error("addPrintFile, with the same openId, file is not allowed to repeated");
+//                    return result;
+//                }
+//                logger.info("addPrintFile the file is existed, only add the Relationship");
+//            }
+//            //向中间表添加关联
+//            printFileDao.addTUP(params);
+//            logger.info("addPrintFile the Relationship:{}", params);
+
             params.put("uid", loginUser.getId());
-            //根据唯一标识查找文件
-            PrintFile tempFile = printFileDao.loadPrintFileBySHA1(file.getSha1());
-            // 如果没有，则加入文件
-            if (tempFile == null) {
-                //先添加文件到数据库
+            params.put("filename", file.getFilename());
+            PrintFile printFile = printFileDao.loadPrintFileBy(params);
+            if (printFile == null || printFile.getStatus() == 2) {
                 printFileDao.addPrintFile(file);
-                PrintFile fileBySHA1 = printFileDao.loadPrintFileBySHA1(file.getSha1());
-                params.put("pid", fileBySHA1.getId());
-                logger.info("addPrintFile the file is not existed, add the file success");
-                //如果有，则多个用户同用一个文件
             } else {
-                /**
-                 * 如果根据sha1找到了文件，
-                 * 就根据登陆用户去找到这个文件的id，如果此id已经存在，则返回，如果不存在则添加关联
-                 */
-                params.put("pid", tempFile.getId());
-                String pidByUid = printFileDao.loadPidByUid(params);
-                if (!Strings.isNullOrEmpty(pidByUid) && (Integer.parseInt(pidByUid) == tempFile.getId())) {
-                    result.put("status", 1);
-                    result.put("message", "文件内容不能相同");
-                    logger.error("addPrintFile, with the same openId, file is not allowed to repeated");
-                    return result;
-                }
-                logger.info("addPrintFile the file is existed, only add the Relationship");
+                result.put("status", 1);
+                result.put("message", "文件不能重复添加，请检查");
+                logger.error("添加文件失败，文件不能重复添加，通过用户和文件名判断");
+                return result;
             }
-            //向中间表添加关联
-            printFileDao.addTUP(params);
-            logger.info("addPrintFile the Relationship:{}", params);
         } catch (Exception e) {
             OSSUtils.deleteObject(OSSUtils.getOSSClient(), file.getPath().substring(CPConstant.OSS_URL.length()));
             result.put("status", 1);
@@ -107,7 +119,6 @@ public class PrintFileServiceImpl implements PrintFileService {
      */
     public HashMap<String, Object> deletePrintFile(int uid, int pid) {
         HashMap<String, Object> result = Maps.newHashMap();
-        Map<String, Integer> params = Maps.newHashMap();
         logger.info("deletePrintFile uid:{}, pid:{} ", uid, pid);
 
         PrintFile printFile = printFileDao.loadPrintFile(pid);
@@ -119,23 +130,25 @@ public class PrintFileServiceImpl implements PrintFileService {
         }
 
         try {
-            logger.info("deletePrintFile delete from aliyun file:{}", printFile.getPath().substring(CPConstant.OSS_URL.length()));
+            logger.info("deletePrintFile delete from aliyun filePath:{}", printFile.getPath().substring(CPConstant.OSS_URL.length()));
             //需要从阿里云上删除文件
             OSSUtils.deleteObject(OSSUtils.getOSSClient(), printFile.getPath().substring(CPConstant.OSS_URL.length()));
 
-            params.put("uid", uid);
-            params.put("pid", pid);
-            List<String> uids = printFileDao.loadUidsByPid(pid);
-            //同一个文件被多人使用，则只删除关联
-            if (uids.size() > 1) {
-                printFileDao.deleteTUP(params);
-                logger.info("deletePrintFile uids:{}, the file is used by not one people, only delete the Relationship");
-            } else {
-                //当且仅当文件只有一个人，才删除文件
-                printFileDao.deleteTUP(params);
-                printFileDao.deletePrintFile(pid);
-                logger.info("deletePrintFile uids:{}, the file is used by one people, delete file and Relationship");
-            }
+//            params.put("uid", uid);
+//            params.put("pid", pid);
+//            List<String> uids = printFileDao.loadUidsByPid(pid);
+//            //同一个文件被多人使用，则只删除关联
+//            if (uids.size() > 1) {
+//                printFileDao.deleteTUP(params);
+//                logger.info("deletePrintFile uids:{}, the file is used by not one people, only delete the Relationship");
+//            } else {
+//                //当且仅当文件只有一个人，才删除文件
+//                printFileDao.deleteTUP(params);
+//                printFileDao.deletePrintFile(pid);
+//                logger.info("deletePrintFile uids:{}, the file is used by one people, delete file and Relationship");
+//            }
+            logger.info("deletePrintFile delete file:{}", printFile);
+            printFileDao.deletePrintFile(pid);
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "删除文件失败，详情请看日志");
@@ -263,8 +276,6 @@ public class PrintFileServiceImpl implements PrintFileService {
                 //先删除阿里云上的文件
                 OSSUtils.deleteObject(OSSUtils.getOSSClient(), temp.getPath().substring(CPConstant.OSS_URL.length()));
 
-                //在删该文件下所有用户关联
-                printFileDao.deleteUidsByPid(pidsBy3Days.get(i));
                 //删数据
                 printFileDao.deletePrintFile(pidsBy3Days.get(i));
             }

@@ -68,7 +68,8 @@ public class PrintFileWebContriller {
              * 暂时只支持WORD和PDF
              */
             String filename = file.getOriginalFilename();
-            if (filename.endsWith(".doc") || filename.endsWith(".docx")) {
+            if (filename.endsWith(".doc") || filename.endsWith(".docx")
+                    || filename.endsWith(".xls") || filename.endsWith(".xlsx")) {
                 type = "0";
             } else if (filename.endsWith(".pdf")) {
                 type = "1";
@@ -89,7 +90,7 @@ public class PrintFileWebContriller {
             }
 
             //SHA1生成文件\唯一标识
-            pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
+//            pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
             //所有文件保存3天
             pf.setOverdueTime(DateUtils.unixTimestampToDate(new Date().getTime() + CPConstant.THREE_DAYS));
 
