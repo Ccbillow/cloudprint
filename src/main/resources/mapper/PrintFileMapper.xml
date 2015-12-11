@@ -46,15 +46,18 @@
         select * from t_printfile where id=#{pid}
     </select>
     <select id="loadPrintFileBy" parameterType="java.util.Map" resultType="PrintFile">
-        SELECT t1.id, t1.nickname, t2.u_id, t2.p_id, t3.filename
+        SELECT t1.id as 'u_p_id', t1.nickname, t2.u_id, t2.p_id, t3.*
             from t_user t1
             left join t_user_printfile t2 on t2.u_id=t1.id
             left join t_printfile t3  on t3.id=t2.p_id
-            where t2.u_id=#{uid} and t3.filename=#{filename}
+            <where>
+                <if test="uid != 0">t2.u_id=#{uid}</if>
+                <if test="filename != null"> and t3.filename=#{filename}</if>
+            </where>
     </select>
     <!--根据sha1查找文件，确保一个文件只有一个-->
-    <select id="loadPrintFileBySHA1" resultType="PrintFile">
-        select * from t_printfile where sha1=#{sha1}
+    <select id="loadPrintFileBySha1" resultType="PrintFile">
+        select * from t_printfile where filename=#{filename} and sha1=#{sha1}
     </select>
 
     <!--根据uid和pid查找pid，如果存在则不添加关联-->

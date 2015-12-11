@@ -5,24 +5,26 @@ import cn.cqupt.model.PrintType;
 import cn.cqupt.model.User;
 import cn.cqupt.model.response.WeChatAccessTokenRes;
 import cn.cqupt.service.PrintFileService;
-import cn.cqupt.util.*;
+import cn.cqupt.util.CPConstant;
+import cn.cqupt.util.CPHelps;
+import cn.cqupt.util.DateUtils;
+import cn.cqupt.util.JacksonUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,7 +92,7 @@ public class PrintFileWebContriller {
             }
 
             //SHA1生成文件\唯一标识
-//            pf.setSha1(EncoderHandler.encodeBySHA1(file.getBytes()));
+            pf.setSha1(String.valueOf(loginUser.getId()));
             //所有文件保存3天
             pf.setOverdueTime(DateUtils.unixTimestampToDate(new Date().getTime() + CPConstant.THREE_DAYS));
 
@@ -122,7 +124,7 @@ public class PrintFileWebContriller {
              * 计算打印价格，并设置
              */
             pf.setNumber(Integer.parseInt(number));
-            pf.setPrice(CPHelps.calculatePrice(pf.getNumber(), pf.getIsColorful()));
+//            pf.setPrice(CPHelps.calculatePrice(pf.getNumber(), pf.getIsColorful()));
 
             logger.info("uploadFile the file:{}", pf);
 
@@ -212,7 +214,7 @@ public class PrintFileWebContriller {
         if (!Strings.isNullOrEmpty(number)) {
             file.setNumber(Integer.parseInt(number));
         }
-        file.setPrice(CPHelps.calculatePrice(file.getNumber(), file.getIsColorful()));
+//        file.setPrice(CPHelps.calculatePrice(file.getNumber(), file.getIsColorful()));
 
         logger.error("updateFile new file:{}", file);
         result = printFileService.updatePrintFile(file);
@@ -234,7 +236,7 @@ public class PrintFileWebContriller {
 
         HashMap<String, Object> map = printFileService.loadPrintFile(Integer.parseInt(pid));
         PrintFile file = (PrintFile) map.get("file");
-        logger.error("updateFile old file:{}", file);
+        logger.error("updateFile 旧文件:{}", file);
 
         //默认不勾选，放入待打印
         if (Strings.isNullOrEmpty(status)) {
@@ -243,7 +245,7 @@ public class PrintFileWebContriller {
         } else if ("on".equalsIgnoreCase(status)) {
             file.setStatus(1);
         }
-        logger.error("updateFile new file:{}", file);
+        logger.error("updateFile 更新后的文件:{}", file);
         result = printFileService.updatePrintFile(file);
         return JSON.toJSONString(result);
     }
@@ -318,15 +320,15 @@ public class PrintFileWebContriller {
      * 此时state是打印机ip
      *
      * @param code  通过code得到access_token,通过access_token得到用户openid
-     * @param state 打印机ip
+     * @param state MD5CODE
      * @return
      */
     @RequestMapping(value = "/print", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String print(String code, String state) {
-        logger.info("print start... code:{}, state:{} ", code, state);
-
+    public String print(String code, String state, RedirectAttributes attr) throws UnsupportedEncodingException {
+        logger.info("print start... Weixin code:{}, MD5CODE state:{} ", code, state);
         HashMap<String, Object> result = Maps.newHashMap();
+        WeChatAccessTokenRes wc = null;
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         logger.info("bindingWeChat getAccessTokenURL:{}", accessTokenURL);
@@ -335,25 +337,64 @@ public class PrintFileWebContriller {
             content = CPHelps.HttpGet(accessTokenURL);
             logger.info("bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
-                result.put("status", 1);
-                result.put("message", "微信扫码，Code无效错误");
-                logger.error("UserController print weixin code is wrong");
-                return JSON.toJSONString(result);
+                attr.addAttribute("status", 1);
+                attr.addAttribute("message", URLEncoder.encode("打印失败，微信扫码CODE无效", "UTF-8"));
+                logger.error("打印文件失败，微信扫码 code无效");
+                return "redirect:confirmprint";
             } else if (content.contains("openid")) {
-                WeChatAccessTokenRes wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
+                wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
                 result = printFileService.print(wc.getOpenid(), state);
             }
         } catch (IOException e) {
-            result.put("status", 1);
-            result.put("message", "访问" + accessTokenURL + "出错");
-            logger.error("print accessTokenURL error:{}", e);
-            return JSON.toJSONString(result);
+            attr.addAttribute("status", 1);
+            attr.addAttribute("message", URLEncoder.encode("打印失败，微信获取TOKEN失败", "UTF-8"));
+            logger.error("打印失败，微信获取TOKEN失败, e:", e);
+            return "redirect:confirmprint";
         } catch (Exception ie) {
-            result.put("status", 1);
-            result.put("message", "打印失败，详情请查看日志");
-            logger.error("print error:{}", ie);
-            return JSON.toJSONString(result);
+            attr.addAttribute("status", 1);
+            attr.addAttribute("message", URLEncoder.encode("打印失败，请重新扫码", "UTF-8"));
+            logger.error("打印失败, e:{}", ie);
+            return "redirect:confirmprint";
         }
-        return JSON.toJSONString(result);
+
+        Integer status = (Integer) result.get("status");
+        if (status == 1) {
+            attr.addAttribute("status", status);
+            attr.addAttribute("message", URLEncoder.encode((String) result.get("message"), "UTF-8"));
+            logger.error("打印文件失败，错误信息：", result.get("message"));
+            return "redirect:confirmprint";
+        }
+
+        attr.addAttribute("openid", wc.getOpenid());
+        attr.addAttribute("md5code", state);
+        attr.addAttribute("status", status);
+        attr.addAttribute("message", URLEncoder.encode((String) result.get("message"), "UTF-8"));
+        logger.error("打印文件成功，", result.get("message"));
+        return "redirect:confirmprint";
+    }
+
+    @RequestMapping(value = "/confirmprint", method = RequestMethod.GET)
+    public String confirmPrint(String openid, String md5code) {
+        HashMap<String, Object> result = Maps.newHashMap();
+        logger.info("用户:{} 向客户端:{} 确认打印", openid, md5code);
+
+        result = printFileService.confirmPrint(openid, md5code);
+        Integer status = (Integer) result.get("status");
+        if (status == 1) {
+            //TODO 确定如何返回
+        }
+        return "redirect:printresult";
+    }
+
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect(RedirectAttributes attr) {
+        attr.addAttribute("param", "hello world");
+        return "redirect:finalPage";
+    }
+
+    @RequestMapping(value = "/finalPage", method = RequestMethod.GET)
+    public String finalPage(String param) {
+        System.out.println(param);
+        return "error";
     }
 }

@@ -1,9 +1,7 @@
 package cn.cqupt.util;
 
-import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
-import cn.cqupt.model.request.ClientReq;
 import com.aliyun.openservices.oss.OSSClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -135,9 +133,10 @@ public class CPHelps {
         OSSClient client = OSSUtils.getOSSClient();
         OSSUtils.downloadFile(client, CPConstant.BUCKET_NAME, objectKey, "D:/cloudprint/" + user.getNickname() + "/" + pf.getFilename());
     }
+
     /**
      * 从阿里云上下载文件
-     *
+     * <p/>
      * 默认保存在D盘---cloudprint----该用户目录下
      *
      * @param pf
@@ -154,7 +153,7 @@ public class CPHelps {
         get.setHeader("Content-Disposition", "attachment;filename=" + pf.getFilename());
         try {
             HttpResponse response = httpClient.execute(get);
-            file = new File("D:/cloudprint/" + user.getNickname() + "/"+ pf.getFilename());
+            file = new File("D:/cloudprint/" + user.getNickname() + "/" + pf.getFilename());
             is = response.getEntity().getContent();
             fos = new FileOutputStream(file);
 
@@ -179,12 +178,12 @@ public class CPHelps {
      *
      * @return
      */
-    public static String getBingdingURL() throws UnsupportedEncodingException {
+    public static String getBingdingURL(String md5) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         sb.append(CPConstant.WEIXIN_BINDING_URL).append("?appid=")
                 .append(CPConstant.APP_ID).append("&redirect_uri=")
                 .append(URLEncoder.encode(CPConstant.BINDING_REDIRECT_URL, "UTF-8"))
-                .append("&response_type=code&scope=snsapi_userinfo#wechat_redirect");
+                .append("&response_type=code&scope=snsapi_userinfo&state=" + md5 + "#wechat_redirect");
         return sb.toString();
     }
 
@@ -287,6 +286,4 @@ public class CPHelps {
         }
         return price.toString();
     }
-
-
 }

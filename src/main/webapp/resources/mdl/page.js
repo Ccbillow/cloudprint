@@ -120,12 +120,18 @@ define(function(require, exports, module){
                 })
             }
         });
+        $.log = function() {
+            if(console) {
+                console.log(arguments)
+            }
+        }
     })(jQuery);
 
 
     // 页面初始化入口
     function init() {
-        var $uname = $("#user-name").on('click', showLogin).html('登陆');
+        $.ajaxSetup({cache: false});
+        var $uname = $("#user-name");//.on('click', showLogin).html('登陆');
 
         /**
          * @param {id, status, message}
@@ -133,7 +139,7 @@ define(function(require, exports, module){
          */
         var addReady = window.addReady = function(data) {
             if(!data.id) {
-                console.log("服务器异常");
+                $.log("服务器异常");
             }
             if(data.status == 0) {
                 // 上传文件成功
@@ -214,15 +220,6 @@ define(function(require, exports, module){
             //console.log(id)
 
             $this.parents("li").remove();
-            /*if(!id) $this.parents("li").remove();
-            else {
-                $this.siblings('span').html('<img src="./resources/imgs/5-121204193R7.gif" alt="loading"/>');
-                /!*mdlFile.del(id).done(function(data) {
-                    var pid = $this.parents('li').fadeOut().data("pid");
-                    $content.find('[data-pid="'+pid+'"]').fadeOut();
-                })*!/
-            }*/
-
         });
 
         $(".menu-list", ".top").hover(function() {
@@ -534,9 +531,7 @@ define(function(require, exports, module){
                 '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
-                    <a href="#"><i class="fa fa-trash"></i></a> \
-                    '
+                '<a href="#" class="oper-del" data-oid="'+id+'><i class="fa fa-trash"></i></a>'
             ];
 
             // todo
@@ -627,7 +622,8 @@ define(function(require, exports, module){
                     compilder: [getContentFiles],
                     fail: function(data, params) {
                         if(data.message == '请登录后操作'){
-                            showLogin()
+                            alert('请登陆后操作');
+                            window.location.reload();
                         }
                         $content.html(nofiles)
                     }

@@ -12,6 +12,9 @@ import java.util.List;
 public class ClientReq implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private boolean isPrint;  // true立即打印 false不打印
+
     private boolean success;
 
     private int errCode;    //4为关闭
@@ -23,6 +26,29 @@ public class ClientReq implements Serializable {
     private User user;
 
     private String md5Code;
+
+    private String storeName;
+
+    private int downloadState;
+
+    private int connState;
+
+
+    public int getConnState() {
+        return connState;
+    }
+
+    public void setConnState(int connState) {
+        this.connState = connState;
+    }
+
+    public int getDownloadState() {
+        return downloadState;
+    }
+
+    public void setDownloadState(int downloadState) {
+        this.downloadState = downloadState;
+    }
 
     public int getErrCode() {
         return errCode;
@@ -56,6 +82,14 @@ public class ClientReq implements Serializable {
         this.md5Code = md5Code;
     }
 
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
     public boolean isSuccess() {
         return success;
     }
@@ -72,15 +106,27 @@ public class ClientReq implements Serializable {
         this.user = user;
     }
 
+    public boolean isPrint() {
+        return isPrint;
+    }
+
+    public void setIsPrint(boolean isPrint) {
+        this.isPrint = isPrint;
+    }
+
     @Override
     public String toString() {
         return "ClientReq{" +
-                "errCode=" + errCode +
+                "connState=" + connState +
+                ", isPrint=" + isPrint +
                 ", success=" + success +
+                ", errCode=" + errCode +
                 ", errMsg='" + errMsg + '\'' +
                 ", files=" + files +
                 ", user=" + user +
                 ", md5Code='" + md5Code + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", downloadState=" + downloadState +
                 '}';
     }
 }

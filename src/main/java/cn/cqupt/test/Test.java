@@ -81,5 +81,24 @@ public class Test {
 //        User user1 = userDao.loadUserByMobile(user);
 //        System.out.println(user1.toString());
 
+        HashMap<String, Object> param = Maps.newHashMap();
+        param.put("uid", 3);
+        param.put("filename", "1.pdf");
+        PrintFile file = printFileDao.loadPrintFileBy(param);
+        System.out.println(file);
+
+//        User user = new User();
+//        user.setId(4);
+//        PrintFile pf = new PrintFile();
+//        pf.setFilename("1.pdf");
+//        pf.setId(16);
+//        pf.setType(0);
+//        pf.setNumber(1);
+//        pf.setPath("http%3A%2F%2Fcquptcloudprint.oss-cn-hangzhou.aliyuncs.com%2FoFVKgjn3AuOnMhjaq9ud1QtQUYCI%2F1.xls");
+//        pf.setOverdueTime("2015-12-14 09:45:34");
+//        pf.setStatus(0);
+//        pf.setIsColorful(0);
+//        pf.setIsDelete(1);
+//        printService.addPrintFile(pf, user);
     }
 }

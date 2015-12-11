@@ -13,6 +13,8 @@ public interface PrintFileDao {
 
     void addPrintFile(PrintFile file);
 
+    void addTUP(Map<String, Object> params);      //添加关联
+
     void deletePrintFile(int pid);   //删除文件
 
     void deleteTUP(Map<String, Integer> params);   //删除关联
@@ -25,7 +27,7 @@ public interface PrintFileDao {
 
     PrintFile loadPrintFileBy(Map<String, Object> params);
 
-    PrintFile loadPrintFileBySHA1(String sha1); //根据sha1查找文件
+    PrintFile loadPrintFileBySha1(Map<String, Object> params); //根据sha1查找文件
 
     List<String> loadUidsByPid(int pid);
 

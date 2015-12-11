@@ -21,7 +21,7 @@
             <p id="wechat-status">微信扫描登陆</p>
         </div>
     </div>
-    <div class="close"><a href="#">x</a></div>
+    <div class="close"><a href="#"></a></div>
 </div>
 <!--<div id="login_frame" style="margin-top: -215px;" class="boundIn">
     <img src="./imgs/logo.png" height="46" class="logo">

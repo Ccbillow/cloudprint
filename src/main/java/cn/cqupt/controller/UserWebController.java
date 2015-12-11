@@ -6,6 +6,7 @@ import cn.cqupt.model.response.WeChatUserInfoRes;
 import cn.cqupt.service.UserService;
 import cn.cqupt.util.CPHelps;
 import cn.cqupt.util.JacksonUtil;
+import cn.cqupt.util.MD5Util;
 import cn.cqupt.util.QRCodeUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by Cbillow on 15/10/27.
@@ -53,7 +55,8 @@ public class UserWebController {
         HttpSession session = req.getSession();
 
         /**
-         * 先从cookie里去拿user，如果存在，则不用扫码，直接登录
+         * 先从cookie里去拿user
+         * 如果存在，则不用扫码，直接登录
          */
         String openid = getUserCookie(req);
         User userByOpenid = userService.loadUserByOpenid(openid);
@@ -67,17 +70,25 @@ public class UserWebController {
             result.put("status", 0);
             result.put("loginUser", userByOpenid);
             result.put("message", "用户已经登录，得到用户信息");
-            logger.info("getUserMessage success! get user from cookie, result:{}", result);
+            logger.info("getUserMessage success! 从cookie中拿到openid，通过openid直接登录, result:{}", result);
             return JSON.toJSONString(result);
         }
 
-        User loginUser = (User) context.getAttribute("loginUser");
+        /**
+         * 从application里面拿
+         * 扫码绑定后 通过md5标识
+         */
+        String md5 = getMD5Cookie(req);
+        User loginUser = (User) context.getAttribute(md5);
         if (loginUser == null) {
+            /**
+             * 从session里面拿
+             */
             User userFromSession = (User) session.getAttribute("loginUser");
             if (userFromSession == null) {
                 result.put("status", 1);
                 result.put("message", "请登录后操作");
-                logger.error("UserWebController user do not login");
+                logger.error("用户没有登陆");
                 return JSON.toJSONString(result);
             }
             /**
@@ -88,7 +99,7 @@ public class UserWebController {
             result.put("status", 0);
             result.put("loginUser", userFromSession);
             result.put("message", "用户已经登录，得到用户信息");
-            logger.info("getUserMessage success! get user from session, result:{}", result);
+            logger.info("getUserMessage success! 从session中拿到登陆用户, result:{}", result);
             return JSON.toJSONString(result);
         }
 
@@ -99,11 +110,12 @@ public class UserWebController {
         context.removeAttribute("loginUser");
         session.setAttribute("loginUser", loginUser);
         setUserCookie(loginUser.getWeixin(), res);
+        removeCookie("md5", req, res);
 
         result.put("status", 0);
         result.put("loginUser", loginUser);
         result.put("message", "用户已经登录，得到用户信息");
-        logger.info("getUserMessage success! get user from application, result:{}", result);
+        logger.info("getUserMessage success! 从md5中拿到用户，将openid放入cookie中，将用户放入session, result:{}", result);
         return JSON.toJSONString(result);
     }
 
@@ -143,7 +155,6 @@ public class UserWebController {
         logger.info("getValidateCode saving valiteCode to session " + validateCode);
         return JSON.toJSONString(result);
     }
-
 
     @RequestMapping(value = "/register", produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -197,17 +208,7 @@ public class UserWebController {
         HashMap<String, Object> result = Maps.newHashMap();
         try {
             req.getSession().removeAttribute("loginUser");
-            Cookie[] cookies = req.getCookies();
-            for (int i = 0; i < cookies.length; i++) {
-                Cookie cookie = cookies[i];
-                if (cookie.getName().equalsIgnoreCase("openid")) {
-                    cookie.setPath("/");
-                    cookie.setMaxAge(0);
-                    res.addCookie(cookie);
-                    logger.info("logout remove cookie:{}", cookies[i].getName());
-                }
-            }
-
+            removeCookie("openid", req, res);
         } catch (Exception e) {
             result.put("status", 1);
             result.put("message", "注销失败");
@@ -257,15 +258,61 @@ public class UserWebController {
         return JSON.toJSONString(result);
     }
 
+    private void setMD5Cookie(String md5, HttpServletResponse res) {
+        Cookie cookie = new Cookie("md5", md5);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        res.addCookie(cookie);
+        logger.info("getqrcode setMD5Cookie md5:{}", md5);
+    }
+
+    private String getMD5Cookie(HttpServletRequest req) {
+        String md5 = "";
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                Cookie temp = cookies[i];
+                if (temp.getName().equalsIgnoreCase("md5")) {
+                    md5 = temp.getValue();
+                }
+            }
+        }
+        logger.info("getQRCode getMD5Cookie md5:{}", md5);
+        return md5;
+    }
+
+    private void removeCookie(String key, HttpServletRequest req, HttpServletResponse res) {
+        Cookie[] cookies = req.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+            Cookie cookie = cookies[i];
+            if (cookie.getName().equalsIgnoreCase(key)) {
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                res.addCookie(cookie);
+                logger.info("logout remove cookie:{}", cookies[i].getName());
+            }
+        }
+        logger.info("getQRCode removeCookie cookie:{}", key);
+    }
+
     @RequestMapping(value = "/getqrcode")
     public void getQRCode(HttpServletResponse response) {
         InputStream is = null;
         String bindingURL;
         BufferedImage image;
+        String md5;
         try {
-            bindingURL = CPHelps.getBingdingURL();
-            logger.info("getqrcode binding url : " + bindingURL);
-            image = QRCodeUtil.createImage(bindingURL, null, true);
+            md5 = MD5Util.string2MD5(String.valueOf(new Random().nextInt()));
+            setMD5Cookie(md5, response);
+            logger.info("设置md5 cookie，用于验证唯一性 md5:{}", md5);
+            bindingURL = CPHelps.getBingdingURL(md5);
+            logger.info("得到绑定微信的url:{} ", bindingURL);
+            /**
+             * 通过微信绑定url生成标准二维码
+             *
+             * 标准二维码250*250
+             */
+            image = QRCodeUtil.generate(bindingURL, 250, 250);
 
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -298,7 +345,7 @@ public class UserWebController {
      * @return
      */
     @RequestMapping(value = "/bindingwechat")
-    public String bindingWeChat(String code, HttpServletRequest req) {
+    public String bindingWeChat(String code, String state, HttpServletRequest req) {
         logger.info("bindingWeChat start... code:{}", code);
 
         HashMap<String, Object> result = Maps.newHashMap();
@@ -336,9 +383,9 @@ public class UserWebController {
                     res = JacksonUtil.deSerialize(userinfo, WeChatUserInfoRes.class);
                 }
                 result = userService.bindingWeChat(wc.getOpenid(), res.getNickname(), res.getHeadimgurl());
-                //放入session
+                //application
                 User user = (User) result.get("loginUser");
-                application.setAttribute("loginUser", user);
+                application.setAttribute(state, user);
             }
         } catch (IOException e) {
             result.put("status", 1);

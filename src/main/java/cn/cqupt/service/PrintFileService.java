@@ -24,4 +24,6 @@ public interface PrintFileService {
 
     HashMap<String, Object> print(String openid, String printerId);
 
+    HashMap<String, Object> confirmPrint(String openid, String md5code);
+
 }

@@ -184,8 +184,7 @@ body {
   right: 0;
 }
 #login_frame .wechat {
-  width: 220px;
-  margin-top: 20px;
+  width: 250px;
 }
 #login_frame .with-line:before {
   content: "";
@@ -595,7 +594,7 @@ body {
 }
 .container .bottom ul {
   height: 280px;
-  overflow: hidden;
+  overflow: auto;
   list-style-type: none;
   padding: 0;
   margin: 0;
