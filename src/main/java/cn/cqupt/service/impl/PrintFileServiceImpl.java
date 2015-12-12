@@ -340,7 +340,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             clientReq.setSuccess(true);
             logger.info("print 文件信息准备传送到客户端. 文件信息：clientReq:{}", clientReq);
             CPClient client = CPConstant.CLIENTS.get(state);
-            response = CPServerHandle.writeObjectToClient(clientReq, client);
+            CPServerHandle handle = new CPServerHandle(client);
+            response = handle.writeObjectToClient(clientReq, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());
@@ -354,7 +355,7 @@ public class PrintFileServiceImpl implements PrintFileService {
             return result;
         }
 
-        logger.info("文件信息已经成功发送给客户端");
+        logger.info("文件信息已经成功发送给客户端，现在开始更改文件状态...");
         /**
          * 如果打印文件信息传送到客户端成功了
          * 就将文件状态设置成2
@@ -366,7 +367,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         }
         result.put("status", 0);
         result.put("message", "文件传输成功，请确认是否立即打印");
-        logger.info("print success!!! result:{}", result);
+        logger.info("文件状态修改成功 此次传输打印信息结果:{}", result);
         return result;
     }
 
@@ -389,7 +390,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             request.setMd5Code(md5code);
             logger.info("获得User:{}, 现在向客户端:{} 确认打印请求...", user, md5code);
             CPClient client = CPConstant.CLIENTS.get(md5code);
-            response = CPServerHandle.writeObjectToClient(request, client);
+            CPServerHandle handle = new CPServerHandle(client);
+            response = handle.writeObjectToClient(request, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());

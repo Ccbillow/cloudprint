@@ -53,7 +53,7 @@ public class CPServerTask implements Runnable {
                  * 每个客户端起一个线程
                  */
                 logger.info("client connection success! start CPServerHandle to the client.");
-                new Thread(new CPServerHandle(client, this)).start();
+                new Thread(new CPServerHandle(client)).start();
             }
         } catch (Exception e) {
             if (e.getMessage().equalsIgnoreCase("Socket closed")) {

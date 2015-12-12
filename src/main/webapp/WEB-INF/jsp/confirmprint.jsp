@@ -25,6 +25,8 @@
 <div class="container">
     <img class="icon" src="<%=request.getContextPath() %>/resources/imgs/logo.png">
     <p class="status">扫码成功</p>
+    <p>md5code:${param.md5code}</p>
+    <p>openid:${param.openid}</p>
 </div>
 <a href="#" id="confirm">确认打印</a>
 </body>
@@ -33,13 +35,14 @@
     //openid, status, message, md5code
     $(function() {
         var url = window.location.href;
-
+        alert(${param.md5code});
+        alert('${param.openid}');
         $("#confirm").on("click", function() {
-            $.getJSON("/printfile/confirm", {
+            $.get("/printfile/confirm", {
                 md5code: '${param.md5code}',
                 openid: '${param.openid}'
             }, function(data) {
-                alert(JSON.stringify(data));
+                alert(data);
             })
         })
     })

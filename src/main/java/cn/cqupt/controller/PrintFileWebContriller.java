@@ -341,7 +341,7 @@ public class PrintFileWebContriller {
                 result.put("status", 1);
                 result.put("message", "打印失败，微信扫码CODE无效");
                 mav.addObject(result);
-                logger.error("打印文件失败，微信扫码 code无效");
+                logger.error("传送打印信息失败，微信扫码 code无效");
                 return mav;
             } else if (content.contains("openid")) {
                 wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
@@ -349,15 +349,21 @@ public class PrintFileWebContriller {
             }
         } catch (IOException e) {
             result.put("status", 1);
-            result.put("message", "打印失败，微信获取TOKEN失败");
+            result.put("message", "传送打印信息失败，微信获取TOKEN失败");
             mav.addObject(result);
-            logger.error("打印失败，微信获取TOKEN失败, e:", e);
+            logger.error("传送打印信息失败，微信获取TOKEN失败, e:", e);
             return mav;
         } catch (Exception ie) {
             result.put("status", 1);
-            result.put("message", "打印失败，请重新扫码");
+            result.put("message", "传送打印信息失败，请重新扫码");
             mav.addObject(result);
-            logger.error("打印失败, e:{}", ie);
+            logger.error("传送打印信息失败, e:{}", ie);
+            return mav;
+        }
+
+        Integer status = (Integer) result.get("state");
+        if (status == 1) {
+            mav.addObject(result);
             return mav;
         }
         /**
@@ -369,7 +375,7 @@ public class PrintFileWebContriller {
         result.put("openid", wc.getOpenid());
         result.put("md5code", state);
         mav.addObject(result);
-        logger.error("打印文件成功，", result.get("message"));
+        logger.info("传输文件信息成功，", result);
         return mav;
     }
 
@@ -379,6 +385,7 @@ public class PrintFileWebContriller {
         logger.info("用户:{} 向客户端:{} 确认打印", openid, md5code);
 
         result = printFileService.confirmPrint(openid, md5code);
+        logger.info("确认打印结果:{}", result);
         return JSON.toJSONString(result);
     }
 

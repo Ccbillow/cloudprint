@@ -6,6 +6,7 @@ import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.util.CPConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.Cleaner;
 
 import java.io.*;
 import java.net.SocketException;
@@ -20,12 +21,10 @@ public class CPServerHandle implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CPServerHandle.class);
     private CPClient client;
-    private CPServerTask cpServerTask;
-    private static ObjectOutputStream oos;
+    private ObjectOutputStream oos;
 
-    public CPServerHandle(CPClient client, CPServerTask cpServerTask) {
+    public CPServerHandle(CPClient client) {
         this.client = client;
-        this.cpServerTask = cpServerTask;
         logger.info("用户：" + client.getIp() + "接入");
     }
 
@@ -56,7 +55,6 @@ public class CPServerHandle implements Runnable {
                          * 关闭客户端后，需要将连接重置
                          */
                         oos.reset();
-                        cpServerTask.destroyClient(client);
                         return;
                     }
 
@@ -66,6 +64,7 @@ public class CPServerHandle implements Runnable {
                     CPConstant.CLIENTS.put(req.getMd5Code(), client);
                     client.setMd5Code(req.getMd5Code());
                     logger.info("读取到客户端发送来的数据 Md5Code:{}, client:{}", req.getMd5Code(), client.getIp());
+//                    System.out.println("当data为md5Code时，将md5Code放入全局hashmap中");
                 }
 
                 /**
@@ -107,16 +106,17 @@ public class CPServerHandle implements Runnable {
                 System.out.println(commonRes);*/
             }
         } catch (EOFException ie) {
-            System.out.println("客户端关闭连接 e:" + ie.getMessage());
             logger.error("客户端关闭连接 e:{}" + ie);
-            cpServerTask.destroyClient(client);
+//            System.out.println("客户端关闭连接 e:" + ie.getMessage());
+            client.close();
+            CPConstant.CLIENTS.remove(client.getMd5Code());
         } catch (SocketException ee) {
             logger.error("客户端关闭连接 e:{}" + ee);
-            System.out.println("客户端关闭连接 e:" + ee.getMessage());
-            cpServerTask.destroyClient(client);
+//            System.out.println("客户端关闭连接 e:" + ee.getMessage());
+            client.close();
+            CPConstant.CLIENTS.remove(client.getMd5Code());
         } catch (IOException e) {
             e.printStackTrace();
-            cpServerTask.destroyClient(client);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,8 +129,9 @@ public class CPServerHandle implements Runnable {
      * @param req
      * @return
      */
-    public static CommonRes<String> writeObjectToClient(ClientReq req, CPClient client) {
+    public CommonRes<String> writeObjectToClient(ClientReq req, CPClient client) {
         CommonRes<String> response = new CommonRes<String>();
+        response.setSuccess(false);
         try {
             if (oos == null) {
                 oos = new ObjectOutputStream(client.getOs());
