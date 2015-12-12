@@ -6,6 +6,7 @@ import cn.cqupt.dao.UserDao;
 import cn.cqupt.model.CommonRes;
 import cn.cqupt.model.PrintFile;
 import cn.cqupt.model.User;
+import cn.cqupt.model.request.CPClient;
 import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.service.PrintFileService;
 import cn.cqupt.task.CPServerHandle;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -337,7 +339,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             clientReq.setFiles(files);
             clientReq.setSuccess(true);
             logger.info("print 文件信息准备传送到客户端. 文件信息：clientReq:{}", clientReq);
-            response = CPServerHandle.writeObjectToClient(clientReq, state);
+            CPClient client = CPConstant.CLIENTS.get(state);
+            response = CPServerHandle.writeObjectToClient(clientReq, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());
@@ -385,7 +388,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             request.setUser(user);
             request.setMd5Code(md5code);
             logger.info("获得User:{}, 现在向客户端:{} 确认打印请求...", user, md5code);
-            response = CPServerHandle.writeObjectToClient(request, md5code);
+            CPClient client = CPConstant.CLIENTS.get(md5code);
+            response = CPServerHandle.writeObjectToClient(request, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());

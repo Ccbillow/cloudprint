@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -324,11 +325,11 @@ public class PrintFileWebContriller {
      * @return
      */
     @RequestMapping(value = "/print", produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public String print(String code, String state, RedirectAttributes attr) throws UnsupportedEncodingException {
-        logger.info("print start... Weixin code:{}, MD5CODE state:{} ", code, state);
+    public ModelAndView print(String code, String state) throws UnsupportedEncodingException {
         HashMap<String, Object> result = Maps.newHashMap();
+        ModelAndView mav = new ModelAndView("/confirmprint");
         WeChatAccessTokenRes wc = null;
+        logger.info("print start... Weixin code:{}, MD5CODE state:{} ", code, state);
 
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         logger.info("bindingWeChat getAccessTokenURL:{}", accessTokenURL);
@@ -337,59 +338,62 @@ public class PrintFileWebContriller {
             content = CPHelps.HttpGet(accessTokenURL);
             logger.info("bindingWeChat accessTokenURL return content:{}", content);
             if (content.contains("errcode") && content.contains("errmsg")) {
-                attr.addAttribute("status", 1);
-                attr.addAttribute("message", URLEncoder.encode("打印失败，微信扫码CODE无效", "UTF-8"));
+                result.put("status", 1);
+                result.put("message", "打印失败，微信扫码CODE无效");
+                mav.addObject(result);
                 logger.error("打印文件失败，微信扫码 code无效");
-                return "redirect:confirmprint";
+                return mav;
             } else if (content.contains("openid")) {
                 wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
                 result = printFileService.print(wc.getOpenid(), state);
             }
         } catch (IOException e) {
-            attr.addAttribute("status", 1);
-            attr.addAttribute("message", URLEncoder.encode("打印失败，微信获取TOKEN失败", "UTF-8"));
+            result.put("status", 1);
+            result.put("message", "打印失败，微信获取TOKEN失败");
+            mav.addObject(result);
             logger.error("打印失败，微信获取TOKEN失败, e:", e);
-            return "redirect:confirmprint";
+            return mav;
         } catch (Exception ie) {
-            attr.addAttribute("status", 1);
-            attr.addAttribute("message", URLEncoder.encode("打印失败，请重新扫码", "UTF-8"));
+            result.put("status", 1);
+            result.put("message", "打印失败，请重新扫码");
+            mav.addObject(result);
             logger.error("打印失败, e:{}", ie);
-            return "redirect:confirmprint";
+            return mav;
         }
-
-        Integer status = (Integer) result.get("status");
-        if (status == 1) {
-            attr.addAttribute("status", status);
-            attr.addAttribute("message", URLEncoder.encode((String) result.get("message"), "UTF-8"));
-            logger.error("打印文件失败，错误信息：", result.get("message"));
-            return "redirect:confirmprint";
-        }
-
-        attr.addAttribute("openid", wc.getOpenid());
-        attr.addAttribute("md5code", state);
-        attr.addAttribute("status", status);
-        attr.addAttribute("message", URLEncoder.encode((String) result.get("message"), "UTF-8"));
+        /**
+         * 传送打印信息成功
+         *
+         * 添加openid和md5code
+         * 用于确认立即打印
+         */
+        result.put("openid", wc.getOpenid());
+        result.put("md5code", state);
+        mav.addObject(result);
         logger.error("打印文件成功，", result.get("message"));
-        return "redirect:confirmprint";
+        return mav;
     }
 
-    @RequestMapping(value = "/confirmprint", method = RequestMethod.GET)
+    @RequestMapping(value = "/confirm", produces = "application/json;charset=UTF-8")
     public String confirmPrint(String openid, String md5code) {
-        HashMap<String, Object> result = Maps.newHashMap();
+        HashMap<String, Object> result;
         logger.info("用户:{} 向客户端:{} 确认打印", openid, md5code);
 
         result = printFileService.confirmPrint(openid, md5code);
-        Integer status = (Integer) result.get("status");
-        if (status == 1) {
-            //TODO 确定如何返回
-        }
-        return "redirect:printresult";
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
-    public String redirect(RedirectAttributes attr) {
-        attr.addAttribute("param", "hello world");
-        return "redirect:finalPage";
+    public ModelAndView redirect(String status, String message, String openid, String md5code) {
+        ModelAndView mav = new ModelAndView("/confirmprint");
+        HashMap<String, Object> result = Maps.newHashMap();
+        result.put("status", status);
+        result.put("message", message);
+        result.put("openid", openid);
+        result.put("md5code", md5code);
+        System.out.println(status);
+        System.out.println(message);
+        mav.addObject(result);
+        return mav;
     }
 
     @RequestMapping(value = "/finalPage", method = RequestMethod.GET)

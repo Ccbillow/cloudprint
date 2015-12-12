@@ -127,16 +127,15 @@ public class CPServerHandle implements Runnable {
      * 发送消息给客户端
      *
      * @param req
-     * @param md5Code
      * @return
      */
-    public static CommonRes<String> writeObjectToClient(ClientReq req, String md5Code) {
+    public static CommonRes<String> writeObjectToClient(ClientReq req, CPClient client) {
         CommonRes<String> response = new CommonRes<String>();
         try {
             if (oos == null) {
-                oos = new ObjectOutputStream(CPConstant.CLIENTS.get(md5Code).getOs());
+                oos = new ObjectOutputStream(client.getOs());
             }
-            logger.info("发送对象给客户端:{}, 发送的信息:ClientReq:{}", CPConstant.CLIENTS.get(md5Code), req);
+            logger.info("发送对象给客户端:{},  发送的信息:ClientReq:{}", client.getIp(),  req);
             oos.writeObject(req);
             oos.flush();
         } catch (IOException e) {
@@ -144,7 +143,7 @@ public class CPServerHandle implements Runnable {
             response.setErrorMsg("向客户端写入出错-----" + e.getMessage());
             return response;
         }
-        logger.info("printing file writeObjectToClient success, md5Code:{}", md5Code);
+        logger.info("printing file writeObjectToClient success, client:{}", client.getIp());
         response.setSuccess(true);
         return response;
     }
