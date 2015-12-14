@@ -326,7 +326,6 @@ public class PrintFileWebContriller {
      */
     @RequestMapping(value = "/print", produces = "application/json;charset=UTF-8")
     public ModelAndView print(String code, String state) throws UnsupportedEncodingException {
-        HashMap<String, Object> result = Maps.newHashMap();
         ModelAndView mav = new ModelAndView("/confirmprint");
         WeChatAccessTokenRes wc = null;
         logger.info("print start... Weixin code:{}, MD5CODE state:{} ", code, state);
@@ -334,6 +333,7 @@ public class PrintFileWebContriller {
         String accessTokenURL = CPHelps.getAccessTokenURL(code);
         logger.info("bindingWeChat getAccessTokenURL:{}", accessTokenURL);
         String content;
+        HashMap<String, Object> result = Maps.newHashMap();
         try {
             content = CPHelps.HttpGet(accessTokenURL);
             logger.info("bindingWeChat accessTokenURL return content:{}", content);
@@ -346,6 +346,13 @@ public class PrintFileWebContriller {
             } else if (content.contains("openid")) {
                 wc = JacksonUtil.deSerialize(content, WeChatAccessTokenRes.class);
                 result = printFileService.print(wc.getOpenid(), state);
+
+                Integer status = (Integer) result.get("status");
+                if (status == 1) {
+                    mav.addObject(result);
+                    logger.info("PrintFileService执行失败，直接返回");
+                    return mav;
+                }
             }
         } catch (IOException e) {
             result.put("status", 1);
@@ -360,12 +367,6 @@ public class PrintFileWebContriller {
             logger.error("传送打印信息失败, e:{}", ie);
             return mav;
         }
-
-        Integer status = (Integer) result.get("state");
-        if (status == 1) {
-            mav.addObject(result);
-            return mav;
-        }
         /**
          * 传送打印信息成功
          *
@@ -375,7 +376,7 @@ public class PrintFileWebContriller {
         result.put("openid", wc.getOpenid());
         result.put("md5code", state);
         mav.addObject(result);
-        logger.info("传输文件信息成功，", result);
+        logger.info("传输文件信息成功，返回信息包含openid和md5code:{}", result);
         return mav;
     }
 
@@ -397,8 +398,6 @@ public class PrintFileWebContriller {
         result.put("message", message);
         result.put("openid", openid);
         result.put("md5code", md5code);
-        System.out.println(status);
-        System.out.println(message);
         mav.addObject(result);
         return mav;
     }
