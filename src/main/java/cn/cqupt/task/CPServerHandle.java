@@ -6,7 +6,6 @@ import cn.cqupt.model.request.ClientReq;
 import cn.cqupt.util.CPConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.Cleaner;
 
 import java.io.*;
 import java.net.SocketException;
@@ -21,7 +20,8 @@ public class CPServerHandle implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(CPServerHandle.class);
     private CPClient client;
-    private ObjectOutputStream oos;
+    private static ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     public CPServerHandle(CPClient client) {
         this.client = client;
@@ -30,7 +30,6 @@ public class CPServerHandle implements Runnable {
 
     public void run() {
         Object obj;
-        ObjectInputStream ois;
         ClientReq req = null;
         try {
             ois = new ObjectInputStream(new BufferedInputStream(client.getIs()));
@@ -71,39 +70,6 @@ public class CPServerHandle implements Runnable {
                  * 休眠3秒
                  */
                 Thread.sleep(3000);
-
-                /*ClientReq request = new ClientReq();
-                User user = new User();
-                user.setNickname("谢谢谢谢谢谢谢、");
-                user.setWeixin("oFVKgjn3AuOnMhjaq9ud1QtQUYCI");
-                PrintFile pf1 = new PrintFile();
-                pf1.setFilename("云打印协议.docx");
-                pf1.setPath("http://cquptcloudprint.oss-cn-hangzhou.aliyuncs.com/oFVKgjn3AuOnMhjaq9ud1QtQUYCI/个人简历-李鑫其.doc");
-                pf1.setIsColorful(0);
-                pf1.setNumber(2);
-                PrintFile pf2 = new PrintFile();
-                pf2.setFilename("Baby.docx");
-                pf2.setPath("http://cquptcloudprint.oss-cn-hangzhou.aliyuncs.com/oFVKgjn3AuOnMhjaq9ud1QtQUYCI/Baby.docx");
-                pf2.setIsColorful(0);
-                pf2.setNumber(2);
-                ArrayList<PrintFile> files = new ArrayList<PrintFile>();
-                files.add(pf1);
-                files.add(pf2);
-                request.setFiles(files);
-                request.setUser(user);
-                request.setSuccess(true);
-                request.setMd5Code(req.getMd5Code());
-                System.out.println("-------发送数据---------");
-                CommonRes<String> commonRes=null;
-                for (int i = 0; i < 2; i++) {
-                    commonRes = writeObjectToClient(request, request.getMd5Code());
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println(commonRes);*/
             }
         } catch (EOFException ie) {
             logger.error("客户端关闭连接 e:{}" + ie);
@@ -129,12 +95,12 @@ public class CPServerHandle implements Runnable {
      * @param req
      * @return
      */
-    public CommonRes<String> writeObjectToClient(ClientReq req, CPClient client) {
+    public static CommonRes<String> writeObjectToClient(ClientReq req, CPClient client) {
         CommonRes<String> response = new CommonRes<String>();
         response.setSuccess(false);
         try {
             if (oos == null) {
-                oos = new ObjectOutputStream(client.getOs());
+                oos = new ObjectOutputStream(new BufferedOutputStream(client.getOs()));
             }
             logger.info("发送对象给客户端:{},  发送的信息:ClientReq:{}", client.getIp(),  req);
             oos.writeObject(req);

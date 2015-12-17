@@ -13,6 +13,7 @@ import cn.cqupt.task.CPServerHandle;
 import cn.cqupt.util.CPConstant;
 import cn.cqupt.util.DateUtils;
 import cn.cqupt.util.OSSUtils;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -340,8 +341,8 @@ public class PrintFileServiceImpl implements PrintFileService {
             clientReq.setSuccess(true);
             logger.info("print 文件信息准备传送到客户端. 文件信息：clientReq:{}", clientReq);
             CPClient client = CPConstant.CLIENTS.get(state);
-            CPServerHandle handle = new CPServerHandle(client);
-            response = handle.writeObjectToClient(clientReq, client);
+            new Thread(new CPServerHandle(client)).start();
+            response = CPServerHandle.writeObjectToClient(clientReq, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());
@@ -367,6 +368,7 @@ public class PrintFileServiceImpl implements PrintFileService {
         }
         result.put("status", 0);
         result.put("message", "文件传输成功，请确认是否立即打印");
+        result.put("files", JSON.toJSONString(files));
         logger.info("文件状态修改成功 此次传输打印信息结果:{}", result);
         return result;
     }
@@ -386,12 +388,13 @@ public class PrintFileServiceImpl implements PrintFileService {
                 return result;
             }
 
+            request.setIsPrint(true);
             request.setUser(user);
             request.setMd5Code(md5code);
             logger.info("获得User:{}, 现在向客户端:{} 确认打印请求...", user, md5code);
             CPClient client = CPConstant.CLIENTS.get(md5code);
-            CPServerHandle handle = new CPServerHandle(client);
-            response = handle.writeObjectToClient(request, client);
+            new Thread(new CPServerHandle(client)).start();
+            response = CPServerHandle.writeObjectToClient(request, client);
             if (!response.isSuccess()) {
                 result.put("status", 1);
                 result.put("message", response.getErrorMsg());

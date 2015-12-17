@@ -155,7 +155,7 @@ define(function(require, exports, module){
                 }], 0))*/
             }else{
                 // 文件上传失败
-                $("#" + data.id + " .right span").addClass('warn').html("上传失败：" + data.message);
+                $("#" + data.id + " .right span").addClass('warn').html("上传失败:" + data.message);
             }
         }
 
@@ -255,31 +255,23 @@ define(function(require, exports, module){
                 uid = 'upbox' + upbox++;
 
             if((filename = $upBox.find('[name="file"]').val()) == "") return alert('请选择上传的文件');
-            if(!/^.*\.pdf$/.test(filename) && !/^.*\.doc$/.test(filename) && !/^.*\.docx$/.test(filename) && !/^.*\.xls$/.test(filename)) {
-                alert('上传的文件不是标准的word/excel文件，请确认');
+            if(!/^.*\.pdf$/.test(filename) && !/^.*\.doc$/.test(filename) && !/^.*\.docx$/.test(filename) && !/^.*\.xls$/.test(filename) && !/^.*\.xlsx$/.test(filename)) {
+                alert('上传的文件不是标准的word/excel/pdf文件，请重试');
+            }else{
+                $upBox.find('[type="hidden"]').val(uid).end().submit();
+
+                showReady();
+                $mask.hide();
+                $upload.hide();
+                // 正在准备打印列表
+                $bottom.find("ul").append(filsReady({
+                    filename: filename.substring(filename.lastIndexOf("\\") + 1),
+                    uid: uid
+                }));
+
+                $upBox.find("form").reset();
             }
-
-            $upBox.find('[type="hidden"]').val(uid).end().submit();
-
-            showReady();
-            $mask.hide();
-            $upload.hide();
-            // 正在准备打印列表
-            $bottom.find("ul").append(filsReady({
-                filename: filename.substring(filename.lastIndexOf("\\") + 1),
-                uid: uid
-            }));
-
-
-            //.submit()
         })
-
-
-
-        /*$("!body").on("click", function() {
-         $("#login_frame").show();
-         $mask.show();
-         });*/
 
 
         $("#login_frame").on("click", ".close", function() {
@@ -288,26 +280,6 @@ define(function(require, exports, module){
             return false
         });
 
-
-        /*$("#to-login,#to-login2").on("click", function() {
-         $login_frame.find(".login").show();
-         $login_frame.find(".reset").hide()
-         $login_frame.find(".sign-up").hide();
-         })
-
-         $("#to-reg").on("click", function() {
-         $login_frame.find(".login").hide();
-         $login_frame.find(".reset").hide()
-         $login_frame.find(".sign-up").show();
-         })
-
-         $("#to-password").on("click", function() {
-         $login_frame.find(".login").hide();
-         $login_frame.find(".reset").show()
-         $login_frame.find(".sign-up").hide();
-         })*/
-
-        //userBind();
         $("#logout").on("click", function() {
             mdlUser
                 .logout()
@@ -322,138 +294,6 @@ define(function(require, exports, module){
 
         });
     }
-
-
-    /*function userBind() {
-     /!**
-     * 用户注册按钮
-     *!/
-     $("#register").on("click", function() {
-     var reg,
-     message;
-
-     var regForm = $("#register-form");
-
-     regForm.find("input").forEach(function() {
-     var _this = $(this);
-     if(reg = _this.data('reg') && (message = _this.data('info'))) {
-     if(!new RegExp(reg).test(_this.val())) {
-     alert(_this.data('info'));
-     return false;
-     }
-     }
-     });
-
-     if(regForm.find("[name='re-password']").val() != regForm.find("[name='password']").val()) {
-     return alert('两次密码输入一致');
-     }
-
-     mdlUser.register(
-     regForm.find('[name="mobile"]'),
-     regForm.find('[name="password"]'),
-     regForm.find('[name="VCode"]')
-     ).done(function(data) {
-     if(!data) return;
-     if(data.status == 0) {
-     window.location.reload();
-     }else{
-     alert(data.message)
-     }
-     })
-     });
-
-     $("#getCode-find, #getCode-register").on('click', function() {
-     var $this = $(this);
-     $this.addClass('btn-light');
-
-     var curr = total = 60, code = -1;
-     function last($dom, time) {
-     $dom.html(curr + '秒后再试');
-     if(curr-- > 0) {
-     setTimeout(function(){
-     last($dom, time);
-     }, time)
-     }else{
-     curr = total;
-     $dom.removeClass('btn-light').data('stop', '0').html('获取验证码')
-     }
-     }
-
-     code = $this.siblings("[name='code']").val();
-
-     if($this.data('stop') != 1 && !!code) {
-     $this = $(this).data('stop', '1');
-     mdlUser.resetPw().getVcode(code).done(function() {
-     setTimeout(function(){
-     last($this, 1000);
-     }, 1000)
-     })
-     }
-     })
-
-     /!**
-     * 使用手机号码登陆
-     *!/
-     $("#login").on("click", function() {
-     var logForm = $("#login-form");
-
-     mdlUser.login(
-     logForm.find("mobile"),
-     logForm.find("password")
-     ).done(function(data) {
-     if(!data) return;
-     if(data.status == 0) {
-     window.location.reload()
-     }else{
-     alert(data.message)
-     }
-     })
-
-     });
-
-
-     $("#logout").on("click", function() {
-
-     mdlUser
-     .logout()
-     .done(function(data) {
-     if(!$.isPlainObject(data)) return;
-     if(data.status == 0) {
-     window.location.reload()
-     }else{
-     alert(data.message)
-     }
-     })
-
-     });
-
-
-     /!**
-     * 找回密码
-     *!/
-     $("#reset-get-code").on("click", function() {
-     var $this = $(this),
-     time = 60,
-     indexTime = 60;
-
-     function last() {
-     $this.find('.text').html(indexTime + 's后再次获取')
-     setTimeout(function() {
-     if(--indexTime >= 0) {last()}
-     else {indexTime = time; $(this).data('click', 'true')}
-     }, 1000)
-     }
-
-     if($this.data('click') === 'true') {
-     mdlUser.resetPw().getVcode().done(function() {
-     $(this).data('canclick', 'false')
-     })
-     }
-
-     })
-     }*/
-
-
     function filsReady (data) {
         function template(data) {
             return '<li id="'+data.uid+'"> \
@@ -526,9 +366,9 @@ define(function(require, exports, module){
         function getIcons(status, id, path) {
             // todo
             var icons = [
-                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
+                '<a href="'+ dlPath(path) +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="'+ path +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="'+ dlPath(path) +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
                 '<a href="#" class="oper-del" data-oid="'+id+'><i class="fa fa-trash"></i></a>'
@@ -541,19 +381,12 @@ define(function(require, exports, module){
         return html == '' ? nofiles : html
     }
 
+    function dlPath(path) {
+        return path.replace("%3A", ":").replace(/%2F/gim, "/");
+    }
+
 
     function fileBind() {
-
-
-        /**
-         * 得到文件列表的html代码
-         */
-
-
-        /**
-         * 得到正准备打印的列表的html代码
-         *
-         */
         function getReadyFiles() {
             var status = 1, page = 0;
             load()

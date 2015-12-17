@@ -381,6 +381,7 @@ public class PrintFileWebContriller {
     }
 
     @RequestMapping(value = "/confirm", produces = "application/json;charset=UTF-8")
+    @ResponseBody
     public String confirmPrint(String openid, String md5code) {
         HashMap<String, Object> result;
         logger.info("用户:{} 向客户端:{} 确认打印", openid, md5code);
