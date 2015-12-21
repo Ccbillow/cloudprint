@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -391,21 +390,4 @@ public class PrintFileWebContriller {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
-    public ModelAndView redirect(String status, String message, String openid, String md5code) {
-        ModelAndView mav = new ModelAndView("/confirmprint");
-        HashMap<String, Object> result = Maps.newHashMap();
-        result.put("status", status);
-        result.put("message", message);
-        result.put("openid", openid);
-        result.put("md5code", md5code);
-        mav.addObject(result);
-        return mav;
-    }
-
-    @RequestMapping(value = "/finalPage", method = RequestMethod.GET)
-    public String finalPage(String param) {
-        System.out.println(param);
-        return "error";
-    }
 }
