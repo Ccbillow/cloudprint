@@ -9,8 +9,10 @@ define(function(require, exports, module){
     var $mask = $("#mask"),
         $upload = $("#upload"),
         $bottom = $("#bottom"),
-        $content = $(".content-main"),
+        $content = $(".inner-main"),
+        $content_outer = $(".content-main"),
         $login_frame = $("#login_frame"),
+        $tabs = $(".content-tab"),
         $printControl = $("#print-up");
 
     (function($){
@@ -155,7 +157,7 @@ define(function(require, exports, module){
                 }], 0))*/
             }else{
                 // 文件上传失败
-                $("#" + data.id + " .right span").addClass('warn').html("上传失败:" + data.message);
+                $("#" + data.id + " .right span").addClass('warn').html("上传失败：" + data.message);
             }
         }
 
@@ -178,7 +180,6 @@ define(function(require, exports, module){
                     setTimeout(tryGetInfo, 3000)
                 }
             });
-
         }
 
         tryGetInfo()
@@ -214,6 +215,11 @@ define(function(require, exports, module){
     }
 
     function events() {
+        $("#iknow-ready, #iknow-already").on('click', function() {
+            $(this).parents(".tips-ready").hide();
+        });
+
+
         $bottom.on('click', '.del', function() {
             var $this = $(this),
                 id = $this.data('uid');
@@ -241,17 +247,17 @@ define(function(require, exports, module){
         $("#print-up").alternate(showReady, hideReady);
 
 
-        $(".content-main").on("mouseenter", "i", function() {
+        $content.on("mouseenter", "i", function() {
             $(this).addClass("shake")
         });
-        $(".content-main").on("mouseleave", "i", function() {
+        $content.on("mouseleave", "i", function() {
             $(this).removeClass("shake")
         });
 
         $("#upload-btn-ok").on('click', function() {
             var $upBox = $("#upload-box"),
-                number = parseInt($upBox.find("[name='number']").val());
-            filename = '',
+                number = parseInt($upBox.find("[name='number']").val()),
+                filename = '',
                 uid = 'upbox' + upbox++;
 
             if((filename = $upBox.find('[name="file"]').val()) == "") return alert('请选择上传的文件');
@@ -269,7 +275,7 @@ define(function(require, exports, module){
                     uid: uid
                 }));
 
-                $upBox.find("form").reset();
+                $upBox[0].reset();
             }
         })
 
@@ -366,12 +372,12 @@ define(function(require, exports, module){
         function getIcons(status, id, path) {
             // todo
             var icons = [
-                '<a href="'+ dlPath(path) +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-del" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
+                '<a href="'+ dlPath(path) +'" target="_blank" title="下载"><i class="fa fa-download"></i></a><a href="#" class="oper-del" title="删除" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="'+ dlPath(path) +'" target="_blank"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                '<a href="'+ dlPath(path) +'" target="_blank" title="下载"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" title="删除" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
                     <a href="#"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="#" class="oper-del" data-oid="'+id+'><i class="fa fa-trash"></i></a>'
+                '<a href="#" class="oper-del" title="删除" data-oid="'+id+'><i class="fa fa-trash"></i></a>'
             ];
 
             // todo
@@ -404,7 +410,6 @@ define(function(require, exports, module){
          */
         function load(params) {
             mdlFile.load(params.status, params.page).done(function(data) {
-                console.log(data)
                 if(!$.isPlainObject(data)) return;
                 if(data.status == 1) {
                     /*if(data.message == '请登录后操作'){
@@ -422,15 +427,43 @@ define(function(require, exports, module){
             });
         }
 
-        $(".content-tab").on("click", ".content-tab-btn", function() {
-            var status = $(this).parents("ul")
+        $tabs.on("mouseenter", ".content-tab-btn", function() {
+            var $li = $(this).parents("li");
+            var know = $li.data('know');
+            if(know) {
+                var $know = $(know).stop().fadeIn();
+                var knowHandler = null;
+            }
+        }).on("mouseleave", ".content-tab-btn", function() {
+            var $li = $(this).parents("li");
+            var know = $li.data('know');
+            if(know) {
+                var $know = $(know).stop().fadeOut();
+                var knowHandler = null;
+            }
+        });
+
+        $content_outer.on("mouseenter", ".tips-ready", function() {
+            $(this).stop().show();
+        }).on("mouseleave", ".tips-ready", function() {
+            $(this).fadeOut();
+        });
+
+        $tabs.on("click", ".content-tab-btn", function() {
+            var $li = $(this).parents("ul")
                 .find('.active')
                 .removeClass("active")
                 .end()
                 .end()
                 .parent()
-                .addClass('active')
-                .data('status');
+                .addClass('active');
+
+            var status = $li.data('status');
+
+
+            $("#pages").hide();
+            //$content.parents('.content-main').find(".tips-ready").hide();
+
 
 
             // 显示等待界面
@@ -445,11 +478,13 @@ define(function(require, exports, module){
                     $loadTo: [$content],
                     done: function(data) {
                         if(!!callback) {
-                            data.totalPage && $("#pages").createPage({
-                                pageCount: data.totalPage,
-                                current: data.nextPageNum,
-                                backFn: callback
-                            });
+                            if(data.totalPage) {
+                                $("#pages").show().createPage({
+                                    pageCount: data.totalPage,
+                                    current: data.nextPageNum,
+                                    backFn: callback
+                                });
+                            }
                         }
                     },
                     compilder: [getContentFiles],

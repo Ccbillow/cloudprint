@@ -31,7 +31,7 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 上面配置是固定的，下面是配置上传文件的最大大小 -->
-        <property name="maxUploadSize" value="1000000"/>
+        <property name="maxUploadSize" value="20971520"/>
     </bean>
 
     <!-- 全局异常配置 start -->

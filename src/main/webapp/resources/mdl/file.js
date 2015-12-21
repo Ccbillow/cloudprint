@@ -5,7 +5,8 @@ define(function(require, exports, module) {
 
     var upUrl = '/printfile/upload',
         delUrl = '/printfile/delete/{}',
-        udUrl = '/printfile/update/{}',
+        modiUrl = '/printfile/update/{}',
+        udStaUrl = '/printfile/updatestatus/{}',
         loadUrl = '/printfile/findbystatus';
 
     function getRealUrl(url, pid) {
@@ -16,18 +17,18 @@ define(function(require, exports, module) {
     File.del = function(pid) {
         return $.get(getRealUrl(delUrl, pid), '')
     }
-    File.update = function(pid, status, number, isColorful) {
-        if(status === undefined) {
-            return $.get(getRealUrl(udUrl, pid), {
-                number: number,
-                isColorful: isColorful
-            })
-        }else{
-            return $.get(getRealUrl(udUrl, pid), {
-                status: status
-            })
-        }
-
+    //修改文件状态
+    File.update = function(pid, status) {
+        return $.get(getRealUrl(udStaUrl, pid), {
+            status: status
+        })
+    }
+    //修改文件信息
+    File.modify = function(pid, number, isColorful) {
+        return $.get(getRealUrl(modiUrl, pid), {
+            number: number,
+            isColorful: isColorful
+        })
     }
     File.load = function(status, page) {
         return $.get(loadUrl, {

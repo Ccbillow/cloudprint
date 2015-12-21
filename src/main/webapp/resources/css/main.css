@@ -202,6 +202,9 @@ body {
 }
 #wechat-status {
   color: #777;
+  font-size: 13px;
+  text-decoration: underline;
+  display: block;
 }
 .rbtn {
   display: block;
@@ -281,11 +284,16 @@ body {
   font-size: 24px;
   color: #696969;
 }
-.upload .upload-content .upload-content-title span {
+.upload .upload-content .upload-content-title .close {
   float: right;
-  font-size: 24px;
+  font-size: 19px;
   color: #b1b1b1;
   cursor: pointer;
+}
+.upload .upload-content .upload-content-title .sub-title {
+  color: #a1a5ac;
+  font-size: 14px;
+  text-decoration: underline;
 }
 .upload .upload-content .upload-content-sets .upload-content-set p {
   font-size: 18px;
@@ -391,7 +399,7 @@ body {
 }
 .container .top .menu {
   position: absolute;
-  z-index: 2110;
+  z-index: 100;
   width: 192px;
   height: 149px;
   list-style-type: none;
@@ -483,6 +491,8 @@ body {
   float: left;
 }
 .container .content-tab ul li.active {
+  position: relative;
+  z-index: 100;
   border: 1px solid #c4c4c4;
   border-bottom-width: 0;
 }
@@ -506,10 +516,41 @@ body {
   margin-top: -4px;
 }
 .container .content-main {
+  position: relative;
   border-top: 1px solid #c4c4c4;
   color: #c0c0c0;
   font-size: 16px;
   font-family: "Microsoft YaHei";
+}
+.container .content-main .tips-ready {
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 246px;
+  padding: 10px;
+  background: #1e232b;
+  opacity: .82;
+  filter: alpha(opacity=82);
+  z-index: 101;
+  display: none;
+}
+.container .content-main .tips-ready a {
+  color: #fff;
+  text-decoration: underline;
+  margin-right: 15px;
+}
+.container .content-main .tips-ready .tips-oper {
+  margin-top: 10px;
+}
+.container .content-main .tri-up {
+  position: absolute;
+  left: 17px;
+  top: -14px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 14px solid #1e232b;
 }
 .container .content-main .content-text {
   height: 18px;
@@ -564,9 +605,9 @@ body {
   box-shadow: 0 0 50px #8c8c8c;
   transition: height .2s;
   background: #fff;
+  z-index: 999;
 }
 .container .bottom .bottom-title {
-  border-bottom: 1px solid #f1f1f1;
   height: 25px;
   line-height: 25px;
   padding-top: 15px;
@@ -615,6 +656,9 @@ body {
 }
 .container .bottom ul li .right i {
   padding-left: 10px;
+}
+.container .bottom ul li a {
+  color: #777;
 }
 .container .bottom ul img {
   vertical-align: middle;
