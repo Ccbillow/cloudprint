@@ -492,7 +492,7 @@ body {
 }
 .container .content-tab ul li.active {
   position: relative;
-  z-index: 100;
+  z-index: 99;
   border: 1px solid #c4c4c4;
   border-bottom-width: 0;
 }

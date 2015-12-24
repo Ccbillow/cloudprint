@@ -18,7 +18,7 @@
         <div class="holder">
             <div class="with-line">使用微信扫描登陆</div>
             <img src="/user/getqrcode" alt="dimension" width="220" class="wechat">
-            <a href="instruction.html" id="wechat-status" target="_blank">第一次玩？点我2分钟搞懂</a>
+            <a href="<%=request.getContextPath() %>/resources/instruction/instruction.html" id="wechat-status" target="_blank">第一次玩？点我2分钟搞懂</a>
         </div>
     </div>
     <div class="close"><a href="#"></a></div>
@@ -110,11 +110,11 @@
     <div class="top">
         <div class="title menu-list">
             <span class="btn">重邮云打印<i class="ml5 fa fa-angle-down"></i></span>
-             <ul id="menu-main" class="menu animate fadeIn">
-                 <li><a href="###">使用说明</a></li>
-                 <li class="sep"></li>
-                 <li><a href="###">版本介绍</a></li>
-             </ul>
+                <ul id="menu-main" class="menu animate fadeIn">
+                    <li><a href="<%=request.getContextPath() %>/resources/instruction/instruction.html" target="_blank">使用说明</a></li>
+                    <li class="sep"></li>
+                    <li><a href="mailto:474751252@qq.com">联系我们</a></li>
+                </ul>
         </div>
         <div class="user menu-list" id="user">
             <img src="<%=request.getContextPath() %>/resources/imgs/user.png" title="img" class="pull-right">
@@ -139,16 +139,14 @@
                 <span class="tri-up"></span>
                 <span>待打印中的文件，在打印店电脑上微信扫描之后会自动下载，并可在手机端控制其打印。</span>
                 <div class="tips-oper">
-                    <a href="instruction.html" target="_blank">查看详情</a>
-                    <a href="#" id="iknow-ready">我知道了</a>
+                    <a href="<%=request.getContextPath() %>/resources/instruction/instruction.html" target="_blank">查看详情</a>
                 </div>
             </div>
             <div class="tips-ready" style="left: 87px" id="tips-already">
                 <span class="tri-up"></span>
                 <span>已上传的文件，不会立即打印，但可以点击功能按钮手动下载或者移入待打印</span>
                 <div class="tips-oper">
-                    <a href="instruction.html" target="_blank">查看详情</a>
-                    <a href="#" id="iknow-already">我知道了</a>
+                    <a href="<%=request.getContextPath() %>/resources/instruction/instruction.html" target="_blank">查看详情</a>
                 </div>
             </div>
             <div class="inner-main">

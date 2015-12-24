@@ -159,7 +159,7 @@ define(function(require, exports, module){
                 // 文件上传失败
                 $("#" + data.id + " .right span").addClass('warn').html("上传失败：" + data.message);
             }
-        }
+        };
 
         function tryGetInfo() {
             mdlUser.getInfo().done(function(data) {
@@ -215,10 +215,6 @@ define(function(require, exports, module){
     }
 
     function events() {
-        $("#iknow-ready, #iknow-already").on('click', function() {
-            $(this).parents(".tips-ready").hide();
-        });
-
 
         $bottom.on('click', '.del', function() {
             var $this = $(this),
@@ -370,16 +366,18 @@ define(function(require, exports, module){
         });
 
         function getIcons(status, id, path) {
+            console.log(status);
             // todo
             var icons = [
                 '<a href="'+ dlPath(path) +'" target="_blank" title="下载"><i class="fa fa-download"></i></a><a href="#" class="oper-del" title="删除" data-oid="'+id+'"><i class="fa fa-trash"></i></a> \
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="'+ dlPath(path) +'" target="_blank" title="下载"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" title="删除" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
-                    <a href="#"><i class="fa fa-trash"></i></a> \
+                '<a href="'+ dlPath(path) +'" target="_blank" title="下载"><i class="fa fa-download"></i></a><a href="#" class="oper-to-ready" title="移到待打印列表" data-oid="'+id+'"><i class="fa fa-print"></i></a> \
+                    <a href="#" title="删除"><i class="fa fa-trash"></i></a>\
                     <!--<a href="#"><i class="fa fa-share-square-o"></i></a>-->',
-                '<a href="#" class="oper-del" title="删除" data-oid="'+id+'><i class="fa fa-trash"></i></a>'
+                '<a href="#" class="oper-del" title="删除" data-oid="'+id+'"><i class="fa fa-trash"></i></a>'
             ];
 
+            console.log(icons[status]);
             // todo
             return icons[status]
         }
