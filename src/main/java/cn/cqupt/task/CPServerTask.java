@@ -137,7 +137,7 @@ public class CPServerTask implements Runnable {
                 }
                 try {
                     //每分钟进行一次心跳检测
-                    Thread.sleep(60 * 1000);
+                    Thread.sleep(5 * 60 * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -162,6 +162,7 @@ public class PrintFileWebContriller {
             out.println("<script language='javascript'>");
             out.println("top.addReady(" + JSON.toJSONString(result) + ")");
             out.println("</script>");
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
